@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\janpr\\Desktop\\UNI\\3r\\VJ\\Joc2D\\2DGame\\01-TBE\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{5BE6CA2A-E5A8-40CC-9015-047CE0C78036}|01-TBE\\01-TBE.vcxproj|C:\\Users\\janpr\\Desktop\\UNI\\3r\\VJ\\Joc2D\\2DGame\\01-TBE\\01-TBE\\Scene.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5BE6CA2A-E5A8-40CC-9015-047CE0C78036}|01-TBE\\01-TBE.vcxproj|solutionrelative:01-TBE\\Scene.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Scene.cpp",
+              "DocumentMoniker": "C:\\Users\\janpr\\Desktop\\UNI\\3r\\VJ\\Joc2D\\2DGame\\01-TBE\\01-TBE\\Scene.cpp",
+              "RelativeDocumentMoniker": "01-TBE\\Scene.cpp",
+              "ToolTip": "C:\\Users\\janpr\\Desktop\\UNI\\3r\\VJ\\Joc2D\\2DGame\\01-TBE\\01-TBE\\Scene.cpp",
+              "RelativeToolTip": "01-TBE\\Scene.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-03-08T13:17:28.258Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

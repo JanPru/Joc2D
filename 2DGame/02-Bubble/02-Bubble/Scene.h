@@ -25,6 +25,7 @@ public:
 
 private:
 	void initShaders();
+	void modifcam();
 
 private:
 	TileMap *map;
@@ -32,6 +33,10 @@ private:
 	ShaderProgram texProgram;
 	float currentTime;
 	glm::mat4 projection;
+	float l, r, b, t;
+	float zoom;
+	glm::vec2 mapsize;
+	float tilesize;
 
 };
 
