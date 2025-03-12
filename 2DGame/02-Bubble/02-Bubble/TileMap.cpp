@@ -83,8 +83,7 @@ bool TileMap::loadLevel(const string &levelFile)
 		for(int i=0; i<mapSize.x; i++)
 		{
 			fin.get(tile);
-			if(tile == ' ')
-				map[j*mapSize.x+i] = 0;
+			if (tile == ',') {}
 			else
 				map[j*mapSize.x+i] = tile - int('0');
 		}
@@ -96,6 +95,74 @@ bool TileMap::loadLevel(const string &levelFile)
 	fin.close();
 	
 	return true;
+}
+
+void TileMap::definirCoordTile(glm::vec2 (&texCoordTile)[2], int tile) {
+	if (tile == 1) {
+		texCoordTile[0] = glm::vec2(0,0.5);
+		texCoordTile[1] = texCoordTile[0] + tileTexSize;
+	}
+	if (tile == 2) {
+		texCoordTile[0] = glm::vec2(0.125, 0.5);
+		texCoordTile[1] = texCoordTile[0] + tileTexSize;
+	}
+	if (tile == 3) {
+		texCoordTile[0] = glm::vec2(0, 0);
+		texCoordTile[1] = texCoordTile[0] + tileTexSize;
+	}
+	if (tile == 4) {
+		texCoordTile[0] = glm::vec2(0.125, 0);
+		texCoordTile[1] = texCoordTile[0] + tileTexSize;
+	}
+	if (tile == 5) {
+		texCoordTile[0] = glm::vec2(0.25, 0);
+		texCoordTile[1] = texCoordTile[0] + tileTexSize;
+	}
+	if (tile == 6) {
+		texCoordTile[0] = glm::vec2(0.375, 0);
+		texCoordTile[1] = texCoordTile[0] + tileTexSize;
+	}
+	if (tile == 7) {
+		texCoordTile[0] = glm::vec2(0.5, 0);
+		texCoordTile[1] = texCoordTile[0] + tileTexSize;
+	}
+	if (tile == 8) {
+		texCoordTile[0] = glm::vec2(0.625, 0);
+		texCoordTile[1] = texCoordTile[0] + tileTexSize;
+	}
+	if (tile == 9) {
+		texCoordTile[0] = glm::vec2(0.75, 0);
+		texCoordTile[1] = texCoordTile[0] + tileTexSize;
+	}
+	if (tile == 10) {
+		texCoordTile[0] = glm::vec2(0.875, 0);
+		texCoordTile[1] = texCoordTile[0] + tileTexSize;
+	}
+	if (tile == 11) {
+		texCoordTile[0] = glm::vec2(0.25, 0.5);
+		texCoordTile[1] = texCoordTile[0] + tileTexSize;
+	}
+	if (tile == 17) {
+		texCoordTile[0] = glm::vec2(0.375, 0.5);
+		texCoordTile[1] = texCoordTile[0] + tileTexSize;
+	}
+	if (tile == 18) {
+		texCoordTile[0] = glm::vec2(0.5, 0.5);
+		texCoordTile[1] = texCoordTile[0] + tileTexSize;
+	}
+	if (tile == 19) {
+		texCoordTile[0] = glm::vec2(0.625, 0.5);
+		texCoordTile[1] = texCoordTile[0] + tileTexSize;
+	}
+	if (tile == 20) {
+		texCoordTile[0] = glm::vec2(0.75, 0.5);
+		texCoordTile[1] = texCoordTile[0] + tileTexSize;
+	}
+	if (tile == 21) {
+		texCoordTile[0] = glm::vec2(0.875, 0.5);
+		texCoordTile[1] = texCoordTile[0] + tileTexSize;
+	}
+
 }
 
 void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program)
@@ -116,8 +183,9 @@ void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program)
 				// Non-empty tile
 				nTiles++;
 				posTile = glm::vec2(minCoords.x + i * tileSize, minCoords.y + j * tileSize);
-				texCoordTile[0] = glm::vec2(float((tile-1)%tilesheetSize.x) / tilesheetSize.x, float((tile-1)/tilesheetSize.x) / tilesheetSize.y);
-				texCoordTile[1] = texCoordTile[0] + tileTexSize;
+				definirCoordTile(texCoordTile, tile);
+				/*texCoordTile[0] = glm::vec2(float((tile - 1) % tilesheetSize.x) / tilesheetSize.x, float((tile - 1) / tilesheetSize.x) / tilesheetSize.y);
+				texCoordTile[1] = texCoordTile[0] + tileTexSize;*/
 				//texCoordTile[0] += halfTexel;
 				texCoordTile[1] -= halfTexel;
 				// First triangle
