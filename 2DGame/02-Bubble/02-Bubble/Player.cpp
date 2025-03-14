@@ -24,7 +24,7 @@ void Player::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
 	sprite->setNumberAnimations(4);
 	
 		sprite->setAnimationSpeed(STAND_LEFT, 8);
-		sprite->addKeyframe(STAND_LEFT, glm::vec2(0.f, 0.f));
+		sprite->addKeyframe(STAND_LEFT, glm::vec2(0.f, 0.25/4));
 		
 		sprite->setAnimationSpeed(STAND_RIGHT, 8);
 		sprite->addKeyframe(STAND_RIGHT, glm::vec2(0.25f, 0.f));
@@ -34,10 +34,10 @@ void Player::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
 		sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, 0.25f));
 		sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, 0.5f));
 		
-		sprite->setAnimationSpeed(MOVE_RIGHT, 8);
-		sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.25, 0.f));
-		sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.25, 0.25f));
-		sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.25, 0.5f));
+		sprite->setAnimationSpeed(MOVE_RIGHT, 12);
+		sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.25, 0.25/4));
+		sprite->addKeyframe(MOVE_RIGHT, glm::vec2(2 * 0.25, 0.25/4));
+		sprite->addKeyframe(MOVE_RIGHT, glm::vec2(3 * 0.25, 0.25/4));
 		
 	sprite->changeAnimation(0);
 	tileMapDispl = tileMapPos;
@@ -50,14 +50,15 @@ void Player::update(int deltaTime)
 	sprite->update(deltaTime);
 	if(Game::instance().getKey(GLFW_KEY_LEFT))
 	{
-		if(sprite->animation() != MOVE_LEFT)
-			sprite->changeAnimation(MOVE_LEFT);
+		if(sprite->animation() != MOVE_RIGHT)
+			sprite->changeAnimation(MOVE_RIGHT);
 		posPlayer.x -= 2;
 		if(map->collisionMoveLeft(posPlayer, glm::ivec2(32, 32)))
 		{
 			posPlayer.x += 2;
-			sprite->changeAnimation(STAND_LEFT);
+			sprite->changeAnimation(STAND_RIGHT);
 		}
+		sprite->canviaflip(true);
 	}
 	else if(Game::instance().getKey(GLFW_KEY_RIGHT))
 	{
@@ -69,6 +70,7 @@ void Player::update(int deltaTime)
 			posPlayer.x -= 2;
 			sprite->changeAnimation(STAND_RIGHT);
 		}
+		sprite->canviaflip(false);
 	}
 	else
 	{
