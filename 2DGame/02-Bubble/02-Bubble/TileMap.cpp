@@ -255,6 +255,8 @@ bool TileMap::collisionMoveRight(const glm::ivec2 &pos, const glm::ivec2 &size) 
 bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY) const
 {
 	int x0, x1, y;
+
+	//std::cout << "POS X " << pos.x << "POS Y " << pos.y << "SIZE X , Y " << size.x << size.y << "POS_YYYY " << *posY << std::endl;
 	
 	x0 = pos.x / tileSize;
 	x1 = (pos.x + size.x - 1) / tileSize;

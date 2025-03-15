@@ -1,10 +1,7 @@
-﻿  Game.cpp
-  Player.cpp
-  Scene.cpp
-C:\Users\berna\OneDrive\Escritorio\Joc2D\2DGame\02-Bubble\02-Bubble\Scene.cpp(42,29): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-  Sprite.cpp
-  TileMap.cpp
-C:\Users\berna\OneDrive\Escritorio\Joc2D\2DGame\02-Bubble\02-Bubble\TileMap.cpp(53,7): warning C4101: 'tile': unreferenced local variable
-  main.cpp
-  Generating Code...
-  02-Bubble.vcxproj -> C:\Users\berna\OneDrive\Escritorio\Joc2D\2DGame\02-Bubble\Debug\02-Bubble.exe
+﻿  Player.cpp
+LINK : warning LNK4098: la biblioteca predeterminada'MSVCRT' entra en conflicto con otras bibliotecas; use la biblioteca /NODEFAULTLIB:biblioteca
+SOIL.lib(image_DXT.obj) : warning LNK4099: no se encontró PDB '' con 'SOIL.lib(image_DXT.obj)' o en ''; se vinculará el objeto sin tener en cuenta información de depuración
+SOIL.lib(image_helper.obj) : warning LNK4099: no se encontró PDB '' con 'SOIL.lib(image_helper.obj)' o en ''; se vinculará el objeto sin tener en cuenta información de depuración
+SOIL.lib(SOIL.obj) : warning LNK4099: no se encontró PDB '' con 'SOIL.lib(SOIL.obj)' o en ''; se vinculará el objeto sin tener en cuenta información de depuración
+SOIL.lib(stb_image_aug.obj) : warning LNK4099: no se encontró PDB '' con 'SOIL.lib(stb_image_aug.obj)' o en ''; se vinculará el objeto sin tener en cuenta información de depuración
+  02-Bubble.vcxproj -> C:\Users\janpr\Desktop\UNI\3r\VJ\Joc2D\2DGame\02-Bubble\Debug\02-Bubble.exe
