@@ -31,7 +31,9 @@ public:
 	void setAnimationSpeed(int animId, int keyframesPerSec);
 	void addKeyframe(int animId, const glm::vec2 &frame);
 	void changeAnimation(int animId);
+	void changeAnimationKey(int animId, int key);
 	int animation() const;
+	int keyframe() const;
 	
 	void setPosition(const glm::vec2 &pos);
 	void canviaflip(bool b);

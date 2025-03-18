@@ -105,10 +105,27 @@ void Sprite::changeAnimation(int animId)
 	}
 }
 
+void Sprite::changeAnimationKey(int animId, int k)
+{
+	if (animId < int(animations.size()))
+	{
+		currentAnimation = animId;
+		currentKeyframe = k;
+		timeAnimation = 0.f;
+		texCoordDispl = animations[animId].keyframeDispl[0];
+	}
+}
+
 int Sprite::animation() const
 {
 	return currentAnimation;
 }
+
+int Sprite::keyframe() const
+{
+	return currentKeyframe;
+}
+
 
 void Sprite::setPosition(const glm::vec2 &pos)
 {

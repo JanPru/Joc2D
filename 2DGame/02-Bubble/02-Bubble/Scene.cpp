@@ -51,8 +51,8 @@ void Scene::init()
 	t = camY - (float(SCREEN_HEIGHT) / (2.0f * zoom));
 
 
-	std::cout << "camx " << camX << " camy " << camY <<std::endl;
-	std::cout << "l " << l << " r " << r << " b " << b << " t " << t <<std::endl;
+	//std::cout << "camx " << camX << " camy " << camY <<std::endl;
+	//std::cout << "l " << l << " r " << r << " b " << b << " t " << t <<std::endl;
 
 	//std::cout << "Map Size: " << mapsize.x << "x" << mapsize.y << " pixels" << std::endl;
 	//std::cout << "Tile Size: " << tilesize << " pixels" << std::endl;
