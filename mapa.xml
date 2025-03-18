@@ -2,7 +2,6 @@
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="144" height="75" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="1">
  <editorsettings>
   <chunksize width="9999" height="9999"/>
-  <export target="mapa.xml" format="tmx"/>
  </editorsettings>
  <tileset firstgid="1" source="tilemap.tsx"/>
  <layer id="1" name="Capa de patrones 1" width="144" height="75">
