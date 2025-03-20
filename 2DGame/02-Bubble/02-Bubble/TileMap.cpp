@@ -229,7 +229,17 @@ glm::vec2 TileMap::getMapSize() const {
 	return mapSize;
 }
 
-
+void TileMap::canviTiles(const glm::vec2& minCoords, ShaderProgram& program) {
+	for (int i = 0; i < mapSize.x; ++i) {
+		for (int j = 0; j < mapSize.y; ++j) {
+			int currentPos = j * mapSize.x + i;
+			int currentID = map[j * mapSize.x + i];
+			if (currentID > 18 && currentID < 47) map[j * mapSize.x + i] = currentID + 48;
+			else if (currentID > 66) map[j * mapSize.x + i] = currentID - 48;
+		}
+	}
+	prepareArrays(minCoords, program);
+}
 
 
 

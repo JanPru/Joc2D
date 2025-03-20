@@ -27,7 +27,7 @@ public:
 
 	void render() const;
 	void free();
-	void definirCoordTile(glm::vec2(&texCoordTile)[2], int tile);
+	void canviTiles(const glm::vec2& minCoords, ShaderProgram& program);
 	
 	int getTileSize() const { return tileSize; }
 

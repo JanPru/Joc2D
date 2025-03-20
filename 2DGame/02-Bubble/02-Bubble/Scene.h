@@ -34,6 +34,7 @@ private:
 	float currentTime;
 	glm::mat4 projection;
 	float l, r, b, t;
+	float segCanviTiles;
 	float zoom;
 	glm::vec2 mapsize;
 	float tilesize;
