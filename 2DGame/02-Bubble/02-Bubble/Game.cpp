@@ -52,5 +52,7 @@ bool Game::getKey(int key) const
 	return keys[key];
 }
 
-
+void Game::resize(int width, int height) {
+	scene.resize(width, height);
+}
 

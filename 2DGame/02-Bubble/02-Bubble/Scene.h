@@ -22,6 +22,7 @@ public:
 	void init();
 	void update(int deltaTime);
 	void render();
+	void resize(int width, int height);
 
 private:
 	void initShaders();
@@ -34,6 +35,7 @@ private:
 	float currentTime;
 	glm::mat4 projection;
 	float l, r, b, t;
+	float camX, camY;
 	float segCanviTiles;
 	float zoom;
 	glm::vec2 mapsize;

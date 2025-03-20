@@ -85,8 +85,8 @@ void Scene::render()
 }
 
 void Scene::modifcam() {
-	float camX = player->getPosition().x;
-	float camY = player->getPosition().y;
+	camX = player->getPosition().x;
+	camY = player->getPosition().y;
 	
 	const float MAP_LEFT = tilesize * 2;
 	const float MAP_RIGHT = tilesize*(mapsize.x + 2);
@@ -138,5 +138,24 @@ void Scene::initShaders()
 	fShader.free();
 }
 
+void Scene::resize(int width, int height) {
+	float ratio = float(width) / float(height);
+	int camWidth = (r - l);
+	int camHeight = (t - b);
+	float ratioOriginal = float(camWidth) / float(camHeight);
 
+	if (ratio > ratioOriginal) {
+		float newHeight = camHeight * ratio;
+		float dif = (newHeight - camHeight) / 2.f;
+		projection = glm::ortho(camX - dif, camX + camWidth + dif, camY + camHeight + dif, camY - dif);
+	}
+
+	else {
+		float newHeight = camHeight / ratio;
+		float dif = (newHeight - camHeight) / 2.f;
+		projection = glm::ortho(camX, camX + camWidth, camY + camHeight + dif, camY - dif);	
+	}
+
+	modifcam();
+}
 

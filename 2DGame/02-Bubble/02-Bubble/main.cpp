@@ -27,6 +27,10 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 		Game::instance().mouseRelease(button);
 }
 
+void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+	glViewport(0, 0, width, height);
+	Game::instance().resize(width, height);
+}
 
 int main(void)
 {
@@ -44,6 +48,8 @@ int main(void)
 		glfwTerminate();
 		return -1;
 	}
+
+	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 	/* Set window initial position */
 	glfwSetWindowPos(window, 100, 100);
