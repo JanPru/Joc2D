@@ -87,6 +87,7 @@ void Scene::render()
 void Scene::modifcam() {
 	camX = player->getPosition().x;
 	camY = player->getPosition().y;
+	std::cout << "camx " << camX << " camy " << camY << std::endl;
 	
 	const float MAP_LEFT = tilesize * 2;
 	const float MAP_RIGHT = tilesize*(mapsize.x + 2);
@@ -96,8 +97,22 @@ void Scene::modifcam() {
 	float camHalfWidth = (float(SCREEN_WIDTH) / (2.0f * zoom));
 	float camHalfHeight = (float(SCREEN_HEIGHT) / (2.0f * zoom));
 
-	camX = glm::clamp(camX, MAP_LEFT + camHalfWidth, MAP_RIGHT - camHalfWidth);
-	camY = glm::clamp(camY, MAP_BOTTOM + camHalfHeight, MAP_TOP - camHalfHeight);
+	if (camX >= 29 * tilesize && camX < 129 * tilesize && camY >= 400 && camY < 668) {  // ZONA 1: Solo movimiento horizontal
+		camX = glm::clamp(camX, 34 * tilesize + camHalfWidth, 130 * tilesize - camHalfWidth); // LIMIT CANVI CAMERA
+		camY = 616;  // Bloquear verticalmente
+	}
+	else if (camY >= 400 && camY < 1168 && camX >= 129 * tilesize) {
+		camX = 146 * tilesize - camHalfWidth; // Bloquear horizontalmente
+		camY = glm::clamp(camY, float(616), MAP_TOP - camHalfHeight);
+	}
+	else if (camX >= 16 * tilesize && camX < 129 * tilesize && camY >= 900 && camY < 1200) {  // ZONA 1: Solo movimiento horizontal
+		camX = glm::clamp(camX, 18 * tilesize + camHalfWidth, 129 * tilesize - camHalfWidth);
+		camY = MAP_TOP - camHalfHeight;  // Bloquear verticalmente
+	}
+
+
+	//camX = glm::clamp(camX, MAP_LEFT + camHalfWidth, MAP_RIGHT - camHalfWidth);
+	//camY = glm::clamp(camY, MAP_BOTTOM + camHalfHeight, MAP_TOP - camHalfHeight);
 
 	float l = camX - camHalfWidth;
 	float r = camX + camHalfWidth;
