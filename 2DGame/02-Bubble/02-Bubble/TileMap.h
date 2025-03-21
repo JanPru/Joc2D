@@ -35,6 +35,7 @@ public:
 	bool collisionMoveRight(const glm::ivec2 &pos, const glm::ivec2 &size) const;
 	bool collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY) const;
 	glm::vec2 getMapSize() const;
+	glm::vec2* getPosPlantes();
 	
 private:
 	bool loadLevel(const string &levelFile);
@@ -50,7 +51,7 @@ private:
 	Texture tilesheet;
 	glm::vec2 tileTexSize;
 	int *map;
-
+	glm::vec2* posPlantes;
 };
 
 

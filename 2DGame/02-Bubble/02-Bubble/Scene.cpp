@@ -26,11 +26,20 @@ Scene::~Scene()
 		delete player;
 }
 
+void Scene::definirProjectils() {
+	projectils.resize(5);
+	glm::vec2* posPlantes = map->getPosPlantes();
+
+	for (int i = 0; i < 5; ++i) {
+		projectils[i] = Projectil(posPlantes[i], texProgram);
+	}
+}
 
 void Scene::init()
 {
 	initShaders();
 	map = TileMap::createTileMap("levels/mapa2.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
+	definirProjectils();
 	player = new Player();
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
@@ -45,6 +54,7 @@ void Scene::init()
 	float camY = player->getPosition().y;
 	zoom = 2.0f;
 	segCanviTiles = 500;
+	segProjectil = 2000;
 
 	l = 32;
 	r = camX + (float(SCREEN_WIDTH) / (2.0f * zoom));
@@ -63,9 +73,19 @@ void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
 	player->update(deltaTime);
+	for (int i = 0; i < 5; ++i) {
+		projectils[i].update(deltaTime);
+	}
 	if (currentTime >= segCanviTiles) {
 		map->canviTiles(glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
 		segCanviTiles += 500;
+	}
+	if (currentTime >= segProjectil) {
+		for (int i = 0; i < 5; ++i) {
+			if (!projectils[i].isActive()) {
+				projectils[i].activate();
+			}
+		}
 	}
 }
 

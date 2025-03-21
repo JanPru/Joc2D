@@ -6,6 +6,7 @@
 #include "ShaderProgram.h"
 #include "TileMap.h"
 #include "Player.h"
+#include "Projectil.h"
 
 
 // Scene contains all the entities of our game.
@@ -27,6 +28,7 @@ public:
 private:
 	void initShaders();
 	void modifcam();
+	void definirProjectils();
 
 private:
 	TileMap *map;
@@ -37,10 +39,11 @@ private:
 	float l, r, b, t;
 	float camX, camY;
 	float segCanviTiles;
+	float segProjectil;
 	float zoom;
 	glm::vec2 mapsize;
 	float tilesize;
-
+	vector<Projectil> projectils;
 };
 
 

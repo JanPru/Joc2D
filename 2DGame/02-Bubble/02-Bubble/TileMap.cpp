@@ -79,6 +79,7 @@ bool TileMap::loadLevel(const string &levelFile)
 	tileTexSize = glm::vec2(1.f / tilesheetSize.x, 1.f / tilesheetSize.y);
 	
 	map = new int[mapSize.x * mapSize.y];
+	posPlantes = new glm::vec2[5];
 
 	/*for (int j = 0; j<mapSize.y; j++)
 	{
@@ -97,6 +98,7 @@ bool TileMap::loadLevel(const string &levelFile)
 	}*/
 
 	int j = 0;
+	int actPlant = 0;
 	while (getline(fin, line)) {  // Leer línea por línea
 		int i = 0;
 		stringstream ss(line);  // Convierte la línea a un stringstream
@@ -106,8 +108,13 @@ bool TileMap::loadLevel(const string &levelFile)
 		while (getline(ss, tile, ',')) {  // Separar valores por ","
 			if (tile == " ")
 				map[j * mapSize.x + i] = 0;
-			else
+			else {
+				if (stoi(tile) == 21) {
+					posPlantes[actPlant] = glm::vec2(i, j);
+					++actPlant;
+				}
 				map[j * mapSize.x + i] = stoi(tile);
+			}
 			++i;
 		}
 		++j;
@@ -242,7 +249,9 @@ void TileMap::canviTiles(const glm::vec2& minCoords, ShaderProgram& program) {
 	prepareArrays(minCoords, program);
 }
 
-
+glm::vec2* TileMap::getPosPlantes() {
+	return posPlantes;
+}
 
 
 
