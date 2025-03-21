@@ -157,7 +157,7 @@ void Player::update(int deltaTime)
 			spriteTriat = 1;
 			posllança = glm::vec2(-7, -14);
 		}
-		if (Game::instance().getKey(GLFW_KEY_DOWN)) {
+		else if (Game::instance().getKey(GLFW_KEY_DOWN)) {
 			sprite->changeAnimation(FALL_ATTACK);
 			spritellances->changeAnimation(FALL_ATTACKL);
 			spriteTriat = 1;
