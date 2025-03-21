@@ -13,8 +13,12 @@
 enum PlayerAnims
 {
 	STAND_RIGHT, MOVE_RIGHT, JUMP_RIGHT, STAND, CROUCH, ATTACK_RIGHT, ATTACK_MOVE, ATTACK_CROUCH, JUMP_ATTACK, FALL_ATTACK // EL ORDRE IMPORTA, ALHORA DE DEFINIR LES ANIMACIONS SHA
-};																								//DE POSAR EL MATEIX PUTO ORDRE
+};																																			//DE POSAR EL MATEIX PUTO ORDRE
 
+enum LlancesAnims
+{
+	JUMP_ATTACKL, FALL_ATTACKL
+};
 
 void Player::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
 {
@@ -23,7 +27,7 @@ void Player::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
 	float sw = 1 / 6;
 	float sh = 1 / 4;
 	sprite = Sprite::createSprite(glm::ivec2(24, 32), glm::vec2(0.166666666, 0.25), &spritesheet, &shaderProgram);
-	sprite->setNumberAnimations(8);
+	sprite->setNumberAnimations(10);
 		
 		sprite->setAnimationSpeed(STAND_RIGHT, 8);
 		sprite->addKeyframe(STAND_RIGHT, glm::vec2(0.33f, 0.f)); //LO PRIMER ES EL ID(ES UN NUMERO REALMENT), LO SEGON EL DESPLAÇAMENT
@@ -56,33 +60,39 @@ void Player::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
 		sprite->addKeyframe(ATTACK_CROUCH, glm::vec2(0.f, 0.5f));
 		sprite->addKeyframe(ATTACK_CROUCH, glm::vec2(0.f, 0.5f));
 		sprite->addKeyframe(ATTACK_CROUCH, glm::vec2(0.f, 0.5f));
+
+		sprite->setAnimationSpeed(JUMP_ATTACK, 8);
+		sprite->addKeyframe(JUMP_ATTACK, glm::vec2(0.1666666, 0.75f));
+
+		sprite->setAnimationSpeed(FALL_ATTACK, 8);
+		sprite->addKeyframe(FALL_ATTACK, glm::vec2(0.1666666, 0.5f));
 		
 	sprite->changeAnimation(0);
 
-	spriteGrande = Sprite::createSprite(glm::ivec2(24, 32), glm::vec2(0.16666666, 0.5), &spritesheet, &shaderProgram);
-	spriteGrande->setNumberAnimations(2);
+	spritesheetllances.loadFromFile("images/llances.png", TEXTURE_PIXEL_FORMAT_RGBA);
 
-		spriteGrande->setAnimationSpeed(JUMP_ATTACK, 8);
-		spriteGrande->addKeyframe(JUMP_ATTACK, glm::vec2(0.16666f, 0.5f));
+	spritellances = Sprite::createSprite(glm::ivec2(40, 15), glm::vec2(0.5f, 0.25f), &spritesheetllances, &shaderProgram);
+	spritellances->setNumberAnimations(2);
 
-		spriteGrande->setAnimationSpeed(FALL_ATTACK, 8);
-		spriteGrande->addKeyframe(FALL_ATTACK, glm::vec2(0.5f, 0.5f));
+		spritellances->setAnimationSpeed(JUMP_ATTACKL, 8);
+		spritellances->addKeyframe(JUMP_ATTACKL, glm::vec2(0.5f, 0.5f));
 
-	spriteGrande->changeAnimation(5);
+		spritellances->setAnimationSpeed(FALL_ATTACKL, 8);
+		spritellances->addKeyframe(FALL_ATTACKL, glm::vec2(0.f, 0.75f));
 
-
+	spritellances->changeAnimation(0);
 
 	tileMapDispl = tileMapPos;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
-	spriteGrande->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
-	spriteTriat = 1;
+	spritellances->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
+	posllança = glm::vec2(0,0);
 	
 }
 
 void Player::update(int deltaTime)
 {
 	sprite->update(deltaTime);
-	spriteGrande->update(deltaTime);
+	spritellances->update(deltaTime);
 
 	if (Game::instance().getKey(GLFW_KEY_UP)) {
 		sprite->changeAnimation(STAND);
@@ -135,17 +145,25 @@ void Player::update(int deltaTime)
 	}
 	else
 	{
-		if(sprite->animation() == MOVE_RIGHT || sprite->animation() == JUMP_RIGHT || sprite->animation() == STAND || sprite->animation() == CROUCH || sprite->animation() == ATTACK_RIGHT || sprite->animation() == ATTACK_CROUCH)
+		if(sprite->animation() == MOVE_RIGHT || sprite->animation() == JUMP_RIGHT || sprite->animation() == STAND || sprite->animation() == CROUCH || sprite->animation() == ATTACK_RIGHT || sprite->animation() == ATTACK_CROUCH || sprite->animation() == JUMP_ATTACK || sprite->animation() == FALL_ATTACK)
 			sprite->changeAnimation(STAND_RIGHT);
 	}
 	
 	if(bJumping)
 	{
 		if (Game::instance().getKey(GLFW_KEY_UP)) {
-			spriteGrande->changeAnimation(JUMP_ATTACK);
-			spriteTriat = 2;
+			sprite->changeAnimation(JUMP_ATTACK);
+			spritellances->changeAnimation(JUMP_ATTACKL);
+			spriteTriat = 1;
+			posllança = glm::vec2(-7, -14);
 		}
-		else spriteTriat = 1;
+		if (Game::instance().getKey(GLFW_KEY_DOWN)) {
+			sprite->changeAnimation(FALL_ATTACK);
+			spritellances->changeAnimation(FALL_ATTACKL);
+			spriteTriat = 1;
+			posllança = glm::vec2(-4, 32);
+		}
+		else spriteTriat = 0;
 		if (sprite->animation() == MOVE_RIGHT || sprite->animation() == STAND_RIGHT) sprite->changeAnimation(JUMP_RIGHT);
 		jumpAngle += JUMP_ANGLE_STEP;
 		if(jumpAngle == 180)
@@ -162,6 +180,7 @@ void Player::update(int deltaTime)
 	}
 	else
 	{
+		spriteTriat = 0;
 		posPlayer.y += FALL_STEP;
 		if(map->collisionMoveDown(posPlayer, glm::ivec2(24, 32), &posPlayer.y))
 		{
@@ -177,13 +196,14 @@ void Player::update(int deltaTime)
 	}
 
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
-	spriteGrande->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
+	spritellances->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x + posllança.x), float(tileMapDispl.y + posPlayer.y + posllança.y)));
 }
 
 void Player::render()
 {
-	if (spriteTriat == 1)sprite->render();
-	else spriteGrande->render();
+	if (spriteTriat == 1) spritellances->render();
+
+	sprite->render();
 }
 
 void Player::setTileMap(TileMap *tileMap)

@@ -87,7 +87,7 @@ void Scene::render()
 void Scene::modifcam() {
 	camX = player->getPosition().x;
 	camY = player->getPosition().y;
-	std::cout << "camx " << camX << " camy " << camY << std::endl;
+	//std::cout << "camx " << camX << " camy " << camY << std::endl;
 	
 	const float MAP_LEFT = tilesize * 2;
 	const float MAP_RIGHT = tilesize*(mapsize.x + 2);
