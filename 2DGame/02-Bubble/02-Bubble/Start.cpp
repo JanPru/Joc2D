@@ -39,20 +39,49 @@ void Start::init()
 	spritesheetstart.loadFromFile("images/Pantalla_inici.png", TEXTURE_PIXEL_FORMAT_RGBA);
 
 	spritestart = Sprite::createSprite(glm::ivec2(SCREEN_WIDTH, SCREEN_HEIGHT), glm::vec2(0.2f, 0.3333f), &spritesheetstart, &texProgram);
-	spritestart->setNumberAnimations(1);
+	spritestart->setNumberAnimations(3);
 
-		spritestart->setAnimationSpeed(0,2);
+		spritestart->setAnimationSpeed(0, 1.f);
 		spritestart->addKeyframe(0, glm::vec2(0 * 0.2, 0.f));
-		spritestart->addKeyframe(0, glm::vec2(1 * 0.2, 0.f));
-		spritestart->addKeyframe(0, glm::vec2(2 * 0.2, 0.f));
+
+		spritestart->setAnimationSpeed(1, 1.f);
+		spritestart->addKeyframe(1, glm::vec2(1 * 0.2, 0.f));
+		spritestart->addKeyframe(1, glm::vec2(2 * 0.2, 0.f));
+		spritestart->addKeyframe(1, glm::vec2(3 * 0.2, 0.f));
+		spritestart->addKeyframe(1, glm::vec2(4 * 0.2, 0.f));
+		spritestart->addKeyframe(1, glm::vec2(0 * 0.2, 0.33333f));
+		spritestart->addKeyframe(1, glm::vec2(1 * 0.2, 0.33333f));
+		spritestart->addKeyframe(1, glm::vec2(2 * 0.2, 0.33333f));
+
+		spritestart->setAnimationSpeed(2, 1.f);
+		spritestart->addKeyframe(2, glm::vec2(3 * 0.2, 0.333333f));
 
 	spritestart->changeAnimation(0);
+	counter = 6000;
+	counter2 = 7000;
+	enable = true;
+	enable2 = false;
 }
 
 void Start::update(int deltaTime)
 {
 	currentTime += deltaTime;
+	if (enable) counter -= deltaTime;
+	if (enable2) counter2 -= deltaTime;
+	std::cout << currentTime << std::endl;
 	spritestart->update(deltaTime);
+	if (counter <= 0 && enable) {
+		spritestart->changeAnimation(1);
+		enable2 = true;
+		enable = false;
+		
+	}
+	else if (counter2 <= 0 && enable2)
+	{
+		spritestart->changeAnimation(2);
+		enable2 = false;
+	}
+
 	//player->update(deltaTime);
 }
 

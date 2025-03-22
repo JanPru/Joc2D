@@ -17,6 +17,8 @@ struct AnimKeyframes
 {
 	float millisecsPerKeyframe;
 	vector<glm::vec2> keyframeDispl;
+	float cycleDuration = 0.f; // duración total de la animación en ms
+
 };
 
 

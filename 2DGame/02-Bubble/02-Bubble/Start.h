@@ -36,6 +36,8 @@ private:
 	Sprite* spritestart;
 	Texture spritesheetstart;
 	glm::mat4 projection;
+	int counter, counter2;
+	bool enable, enable2;
 };
 
 

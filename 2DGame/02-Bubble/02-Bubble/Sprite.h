@@ -1,7 +1,7 @@
 #ifndef _SPRITE_INCLUDE
 #define _SPRITE_INCLUDE
 
-
+#include <iostream>
 #include <vector>
 #include <glm/glm.hpp>
 #include "Texture.h"
@@ -28,15 +28,15 @@ public:
 	void free();
 
 	void setNumberAnimations(int nAnimations);
-	void setAnimationSpeed(int animId, int keyframesPerSec);
+	void setAnimationSpeed(int animId, float keyframesPerSec);
 	void addKeyframe(int animId, const glm::vec2 &frame);
 	void changeAnimation(int animId);
-	void changeAnimationKey(int animId, int key);
 	int animation() const;
 	int keyframe() const;
 	
 	void setPosition(const glm::vec2 &pos);
 	void canviaflip(bool b);
+	bool animationfinished();
 
 private:
 	Texture *texture;
@@ -50,6 +50,7 @@ private:
 	glm::vec2 texCoordDispl;
 	vector<AnimKeyframes> animations;
 	bool flip;
+	bool finished;
 };
 
 

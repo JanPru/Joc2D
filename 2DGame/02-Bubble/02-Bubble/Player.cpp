@@ -17,7 +17,7 @@ enum PlayerAnims
 
 enum LlancesAnims
 {
-	JUMP_ATTACKL, FALL_ATTACKL
+	JUMP_ATTACKL, FALL_ATTACKL, ATTACK
 };
 
 void Player::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
@@ -72,13 +72,19 @@ void Player::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
 	spritesheetllances.loadFromFile("images/llances.png", TEXTURE_PIXEL_FORMAT_RGBA);
 
 	spritellances = Sprite::createSprite(glm::ivec2(40, 15), glm::vec2(0.5f, 0.25f), &spritesheetllances, &shaderProgram);
-	spritellances->setNumberAnimations(2);
+	spritellances->setNumberAnimations(3);
 
 		spritellances->setAnimationSpeed(JUMP_ATTACKL, 8);
 		spritellances->addKeyframe(JUMP_ATTACKL, glm::vec2(0.5f, 0.5f));
 
 		spritellances->setAnimationSpeed(FALL_ATTACKL, 8);
 		spritellances->addKeyframe(FALL_ATTACKL, glm::vec2(0.f, 0.75f));
+
+		spritellances->setAnimationSpeed(ATTACK, 8);
+		spritellances->addKeyframe(ATTACK, glm::vec2(0.f, 0.5f));
+		spritellances->addKeyframe(ATTACK, glm::vec2(0.5f, 0.25f));
+		spritellances->addKeyframe(ATTACK, glm::vec2(0.f, 0.5f));
+
 
 	spritellances->changeAnimation(0);
 
@@ -142,11 +148,16 @@ void Player::update(int deltaTime)
 	}
 	else if (Game::instance().getKey(GLFW_KEY_X)) {
 		sprite->changeAnimation(ATTACK_RIGHT);
+		spritellances->changeAnimation(ATTACK);
+		spriteTriat = 1;
+		posllança = glm::vec2(24,10);
 	}
 	else
 	{
-		if(sprite->animation() == MOVE_RIGHT || sprite->animation() == JUMP_RIGHT || sprite->animation() == STAND || sprite->animation() == CROUCH || sprite->animation() == ATTACK_RIGHT || sprite->animation() == ATTACK_CROUCH || sprite->animation() == JUMP_ATTACK || sprite->animation() == FALL_ATTACK)
+		if (sprite->animation() == MOVE_RIGHT || sprite->animation() == JUMP_RIGHT || sprite->animation() == STAND || sprite->animation() == CROUCH || sprite->animation() == ATTACK_RIGHT || sprite->animation() == ATTACK_CROUCH || sprite->animation() == JUMP_ATTACK || sprite->animation() == FALL_ATTACK) {
 			sprite->changeAnimation(STAND_RIGHT);
+			spriteTriat = 0;
+		}
 	}
 	
 	if(bJumping)
@@ -180,7 +191,6 @@ void Player::update(int deltaTime)
 	}
 	else
 	{
-		spriteTriat = 0;
 		posPlayer.y += FALL_STEP;
 		if(map->collisionMoveDown(posPlayer, glm::ivec2(24, 32), &posPlayer.y))
 		{
@@ -201,9 +211,8 @@ void Player::update(int deltaTime)
 
 void Player::render()
 {
-	if (spriteTriat == 1) spritellances->render();
-
 	sprite->render();
+	if (spriteTriat == 1) spritellances->render();
 }
 
 void Player::setTileMap(TileMap *tileMap)
