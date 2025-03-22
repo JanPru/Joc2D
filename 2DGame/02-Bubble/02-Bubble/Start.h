@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "Sprite.h"
 #include "Scene.h"
+#include "Boles.h"
 
 
 // Start contains all the entities of our game.
@@ -38,6 +39,7 @@ private:
 	glm::mat4 projection;
 	int counter, counter2;
 	bool enable, enable2;
+	Boles *bola;
 };
 
 

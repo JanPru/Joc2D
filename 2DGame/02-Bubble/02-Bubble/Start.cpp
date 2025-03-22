@@ -61,6 +61,9 @@ void Start::init()
 	counter2 = 7000;
 	enable = true;
 	enable2 = false;
+	bola = new Boles();
+	bola->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	bola->setPosition(glm::vec2(SCREEN_WIDTH/2, -24));
 }
 
 void Start::update(int deltaTime)
@@ -74,13 +77,14 @@ void Start::update(int deltaTime)
 		spritestart->changeAnimation(1);
 		enable2 = true;
 		enable = false;
-		
+
 	}
 	else if (counter2 <= 0 && enable2)
 	{
 		spritestart->changeAnimation(2);
 		enable2 = false;
 	}
+	if(enable) bola->update(deltaTime);
 
 	//player->update(deltaTime);
 }
@@ -98,6 +102,7 @@ void Start::render()
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 
 	spritestart->render();
+	if(enable) bola->render();
 }
 
 
