@@ -23,7 +23,7 @@ private:
 	glm::ivec2 tileMapDispl, posBoles;
 	Texture spritesheet, spritesheetllances;
 	Sprite *sprite1, *spritellances;
-	bool bola1, bola2, primer;
+	bool bola1, bola2, primer, bola3, bola4, bola5, bola6, bola7;
 
 };
 
