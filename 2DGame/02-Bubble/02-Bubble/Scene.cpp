@@ -24,14 +24,18 @@ Scene::~Scene()
 		delete map;
 	if(player != NULL)
 		delete player;
+	if(projectils != NULL)
+		delete[] projectils;
 }
 
 void Scene::definirProjectils() {
-	projectils.resize(5);
+	projectils = new Projectil[5];
 	glm::vec2* posPlantes = map->getPosPlantes();
 
 	for (int i = 0; i < 5; ++i) {
-		projectils[i] = Projectil(posPlantes[i], texProgram);
+		projectils[i].init(glm::ivec2(SCREEN_X,SCREEN_Y), texProgram);
+		glm::vec2 actPos = posPlantes[i];
+		projectils[i].setPosition(glm::vec2(actPos.x * map->getTileSize(), (actPos.y - 1) * map->getTileSize()));
 	}
 }
 
@@ -73,19 +77,21 @@ void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
 	player->update(deltaTime);
-	for (int i = 0; i < 5; ++i) {
-		projectils[i].update(deltaTime);
-	}
+
 	if (currentTime >= segCanviTiles) {
 		map->canviTiles(glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
 		segCanviTiles += 500;
 	}
+
 	if (currentTime >= segProjectil) {
 		for (int i = 0; i < 5; ++i) {
-			if (!projectils[i].isActive()) {
-				projectils[i].activate();
-			}
+			projectils[i].reset();
 		}
+		segProjectil += 2000;
+	}
+
+	else {
+		for (int i = 0; i < 5; ++i) projectils[i].update(deltaTime);
 	}
 }
 
@@ -102,6 +108,9 @@ void Scene::render()
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	map->render();
 	player->render();
+	for (int i = 0; i < 5; ++i) {
+		projectils[i].render();
+	}
 }
 
 void Scene::modifcam() {

@@ -43,7 +43,7 @@ private:
 	float zoom;
 	glm::vec2 mapsize;
 	float tilesize;
-	vector<Projectil> projectils;
+	Projectil* projectils;
 };
 
 

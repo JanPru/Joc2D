@@ -105,12 +105,14 @@ bool TileMap::loadLevel(const string &levelFile)
 		vector<int> row;
 		string tile;
 
-		while (getline(ss, tile, ',')) {  // Separar valores por ","
+		while (getline(ss, tile, ',')) {
+			//cout << i/75 << ", " << i%75 << endl;// Separar valores por ","
 			if (tile == " ")
 				map[j * mapSize.x + i] = 0;
 			else {
 				if (stoi(tile) == 21) {
-					posPlantes[actPlant] = glm::vec2(i, j);
+					cout << "Posicio planta " << actPlant << ": " << i/144 << ", " << i%144 << endl;
+					posPlantes[actPlant] = glm::vec2(i%144, i/144);
 					++actPlant;
 				}
 				map[j * mapSize.x + i] = stoi(tile);
