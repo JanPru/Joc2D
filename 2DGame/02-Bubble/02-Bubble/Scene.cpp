@@ -57,8 +57,8 @@ void Scene::init()
 	float camX = player->getPosition().x;
 	float camY = player->getPosition().y;
 	zoom = 2.0f;
-	segCanviTiles = 500;
-	segProjectil = 2000;
+	segCanviTiles = 250;
+	segProjectil = 1000;
 
 	l = 32;
 	r = camX + (float(SCREEN_WIDTH) / (2.0f * zoom));
@@ -80,14 +80,14 @@ void Scene::update(int deltaTime)
 
 	if (currentTime >= segCanviTiles) {
 		map->canviTiles(glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
-		segCanviTiles += 500;
+		segCanviTiles += 250;
 	}
 
 	if (currentTime >= segProjectil) {
 		for (int i = 0; i < 5; ++i) {
 			projectils[i].reset();
 		}
-		segProjectil += 2000;
+		segProjectil += 1000;
 	}
 
 	else {
