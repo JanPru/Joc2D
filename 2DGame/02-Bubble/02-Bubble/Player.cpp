@@ -92,6 +92,9 @@ void Player::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 	spritellances->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 	posllança = glm::vec2(0,0);
+
+	limit = 600;
+	dreta = false;
 	
 }
 
@@ -123,7 +126,7 @@ void Player::update(int deltaTime)
 		else if(sprite->animation() != MOVE_RIGHT)
 			sprite->changeAnimation(MOVE_RIGHT);
 		posPlayer.x -= 2;
-		if(map->collisionMoveLeft(posPlayer, glm::ivec2(24, 32)))
+		if(map->collisionMoveLeft(posPlayer, glm::ivec2(24, 32)) || (posPlayer.x == limit-16 && dreta))
 		{
 			posPlayer.x += 2;
 			sprite->changeAnimation(STAND_RIGHT);
@@ -139,7 +142,7 @@ void Player::update(int deltaTime)
 		else if(sprite->animation() != MOVE_RIGHT)
 			sprite->changeAnimation(MOVE_RIGHT);
 		posPlayer.x += 2;
-		if(map->collisionMoveRight(posPlayer, glm::ivec2(24, 32)))
+		if(map->collisionMoveRight(posPlayer, glm::ivec2(24, 32)) || (posPlayer.x == limit + 16 && !dreta))
 		{
 			posPlayer.x -= 2;
 			sprite->changeAnimation(STAND_RIGHT);
@@ -230,6 +233,9 @@ glm::vec2 Player::getPosition() const {
 	return posPlayer;
 }
 
-
+void Player::canvialimit(int l, bool b) {
+	limit = l;
+	dreta = b;
+}
 
 

@@ -21,6 +21,7 @@ public:
 	void setTileMap(TileMap *tileMap);
 	void setPosition(const glm::vec2 &pos);
 	glm::vec2 getPosition() const;
+	void canvialimit(int l, bool b); //true es que el limit sera dreta i false que limit sera esquerra
 	
 private:
 	bool bJumping;
@@ -31,6 +32,8 @@ private:
 	TileMap *map;
 	int spriteTriat;
 	glm::vec2 posllança;
+	int limit;
+	bool dreta;
 
 };
 

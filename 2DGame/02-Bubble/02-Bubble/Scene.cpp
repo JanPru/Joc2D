@@ -65,6 +65,7 @@ void Scene::init()
 	b = 464;
 	t = camY - (float(SCREEN_HEIGHT) / (2.0f * zoom));
 
+	fase = FASE1;
 
 	//std::cout << "camx " << camX << " camy " << camY <<std::endl;
 	//std::cout << "l " << l << " r " << r << " b " << b << " t " << t <<std::endl;
