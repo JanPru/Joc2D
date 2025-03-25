@@ -29,12 +29,11 @@ void Start::init()
 	initShaders();
 
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
-	/*
+	
 	player = new Player();
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
-	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
-	player->setTileMap(map);
-	*/
+	player->setPosition(glm::vec2(SCREEN_WIDTH/2, SCREEN_HEIGHT/2));
+	
 	currentTime = 0.0f;
 	spritesheetstart.loadFromFile("images/Pantalla_inici.png", TEXTURE_PIXEL_FORMAT_RGBA);
 
@@ -44,7 +43,7 @@ void Start::init()
 		spritestart->setAnimationSpeed(0, 1.f);
 		spritestart->addKeyframe(0, glm::vec2(0 * 0.2, 0.f));
 
-		spritestart->setAnimationSpeed(1, 4.f);
+		spritestart->setAnimationSpeed(1, 7.f);
 		spritestart->addKeyframe(1, glm::vec2(1 * 0.2, 0.f));
 		spritestart->addKeyframe(1, glm::vec2(2 * 0.2, 0.f));
 		spritestart->addKeyframe(1, glm::vec2(3 * 0.2, 0.f));
@@ -58,7 +57,7 @@ void Start::init()
 
 	spritestart->changeAnimation(0);
 	counter = 7000;
-	counter2 = 1750;
+	counter2 = 1000;
 	enable = true;
 	enable2 = false;
 	bola = new Boles();
@@ -85,8 +84,6 @@ void Start::update(int deltaTime)
 		enable2 = false;
 	}
 	if(enable) bola->update(deltaTime);
-
-	//player->update(deltaTime);
 }
 
 void Start::render()

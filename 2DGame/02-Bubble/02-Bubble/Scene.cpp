@@ -20,11 +20,11 @@ Scene::Scene()
 
 Scene::~Scene()
 {
-	if(map != NULL)
+	if (map != NULL)
 		delete map;
-	if(player != NULL)
+	if (player != NULL)
 		delete player;
-	if(projectils != NULL)
+	if (projectils != NULL)
 		delete[] projectils;
 }
 
@@ -33,7 +33,7 @@ void Scene::definirProjectils() {
 	glm::vec2* posPlantes = map->getPosPlantes();
 
 	for (int i = 0; i < 5; ++i) {
-		projectils[i].init(glm::ivec2(SCREEN_X,SCREEN_Y), texProgram);
+		projectils[i].init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 		glm::vec2 actPos = posPlantes[i];
 		projectils[i].setPosition(glm::vec2(actPos.x * map->getTileSize(), (actPos.y - 1) * map->getTileSize()));
 	}
@@ -57,8 +57,8 @@ void Scene::init()
 	float camX = player->getPosition().x;
 	float camY = player->getPosition().y;
 	zoom = 2.0f;
-	segCanviTiles = 500;
-	segProjectil = 2000;
+	segCanviTiles = 250;
+	segProjectil = 1000;
 
 	l = 32;
 	r = camX + (float(SCREEN_WIDTH) / (2.0f * zoom));
@@ -80,14 +80,14 @@ void Scene::update(int deltaTime)
 
 	if (currentTime >= segCanviTiles) {
 		map->canviTiles(glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
-		segCanviTiles += 500;
+		segCanviTiles += 250;
 	}
 
 	if (currentTime >= segProjectil) {
 		for (int i = 0; i < 5; ++i) {
 			projectils[i].reset();
 		}
-		segProjectil += 2000;
+		segProjectil += 1000;
 	}
 
 	else {
@@ -117,11 +117,11 @@ void Scene::modifcam() {
 	camX = player->getPosition().x;
 	camY = player->getPosition().y;
 	//std::cout << "camx " << camX << " camy " << camY << std::endl;
-	
+
 	const float MAP_LEFT = tilesize * 2;
-	const float MAP_RIGHT = tilesize*(mapsize.x + 2);
+	const float MAP_RIGHT = tilesize * (mapsize.x + 2);
 	const float MAP_BOTTOM = tilesize * 1;
-	const float MAP_TOP = tilesize*(mapsize.y + 1);
+	const float MAP_TOP = tilesize * (mapsize.y + 1);
 
 	float camHalfWidth = (float(SCREEN_WIDTH) / (2.0f * zoom));
 	float camHalfHeight = (float(SCREEN_HEIGHT) / (2.0f * zoom));
@@ -157,13 +157,13 @@ void Scene::initShaders()
 	Shader vShader, fShader;
 
 	vShader.initFromFile(VERTEX_SHADER, "shaders/texture.vert");
-	if(!vShader.isCompiled())
+	if (!vShader.isCompiled())
 	{
 		cout << "Vertex Shader Error" << endl;
 		cout << "" << vShader.log() << endl << endl;
 	}
 	fShader.initFromFile(FRAGMENT_SHADER, "shaders/texture.frag");
-	if(!fShader.isCompiled())
+	if (!fShader.isCompiled())
 	{
 		cout << "Fragment Shader Error" << endl;
 		cout << "" << fShader.log() << endl << endl;
@@ -172,7 +172,7 @@ void Scene::initShaders()
 	texProgram.addShader(vShader);
 	texProgram.addShader(fShader);
 	texProgram.link();
-	if(!texProgram.isLinked())
+	if (!texProgram.isLinked())
 	{
 		cout << "Shader Linking Error" << endl;
 		cout << "" << texProgram.log() << endl << endl;
@@ -197,9 +197,8 @@ void Scene::resize(int width, int height) {
 	else {
 		float newHeight = camHeight / ratio;
 		float dif = (newHeight - camHeight) / 2.f;
-		projection = glm::ortho(camX, camX + camWidth, camY + camHeight + dif, camY - dif);	
+		projection = glm::ortho(camX, camX + camWidth, camY + camHeight + dif, camY - dif);
 	}
 
 	modifcam();
 }
-
