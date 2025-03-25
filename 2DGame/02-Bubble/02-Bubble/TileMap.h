@@ -40,6 +40,9 @@ public:
 private:
 	bool loadLevel(const string &levelFile);
 	void prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program);
+	bool isFloor(int x, int y) const;
+	bool isLava(int x, int y) const;
+	bool isLeaf(int x, int y) const;
 
 private:
 	GLuint vao;

@@ -106,12 +106,10 @@ bool TileMap::loadLevel(const string &levelFile)
 		string tile;
 
 		while (getline(ss, tile, ',')) {
-			//cout << i/75 << ", " << i%75 << endl;// Separar valores por ","
 			if (tile == " ")
 				map[j * mapSize.x + i] = 0;
 			else {
 				if (stoi(tile) == 21) {
-					cout << "Posicio planta " << actPlant << ": " << i/144 << ", " << i%144 << endl;
 					posPlantes[actPlant] = glm::vec2(i%144, i/144);
 					++actPlant;
 				}
@@ -211,6 +209,18 @@ bool TileMap::collisionMoveRight(const glm::ivec2 &pos, const glm::ivec2 &size) 
 	return false;
 }
 
+bool TileMap::isFloor(int x, int y) const {
+	return (map[y * mapSize.x + x] < 16 && map[y * mapSize.x + x] != 0);
+}
+
+bool TileMap::isLava(int x, int y) const {
+	return (map[y * mapSize.x + x] == 19 || map[y * mapSize.x + x] == 67);
+}
+
+bool TileMap::isLeaf(int x, int y) const {
+	return (map[y * mapSize.x + x] > 46 && map[y * mapSize.x + x] < 51);
+}
+
 bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY) const
 {
 	int x0, x1, y;
@@ -222,7 +232,7 @@ bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, i
 	y = (pos.y + size.y - 1) / tileSize;
 	for(int x=x0; x<=x1; x++)
 	{
-		if(map[y * mapSize.x + x] < 16 && map[y * mapSize.x + x] != 0)
+		if(isFloor(x, y) || isLava(x, y) || isLeaf(x, y))
 		{
 			if(*posY - tileSize * y + size.y <= 4)
 			{
@@ -245,7 +255,9 @@ void TileMap::canviTiles(const glm::vec2& minCoords, ShaderProgram& program) {
 			int currentPos = j * mapSize.x + i;
 			int currentID = map[j * mapSize.x + i];
 			if (currentID > 18 && currentID < 47) map[j * mapSize.x + i] = currentID + 48;
-			else if (currentID > 66) map[j * mapSize.x + i] = currentID - 48;
+			else if (currentID > 62 && currentID < 66)  map[j * mapSize.x + i] = currentID + 36;
+			else if (currentID > 66 && currentID < 95) map[j * mapSize.x + i] = currentID - 48;
+			else if (currentID > 98) map[j * mapSize.x + i] = currentID - 36;
 		}
 	}
 	prepareArrays(minCoords, program);
