@@ -39,11 +39,20 @@ void Scene::definirProjectils() {
 	}
 }
 
+void Scene::definirFlorecitas() {
+	florecita = new Florecita[2];
+	florecita[0].init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 1);
+	florecita[0].setPosition(glm::vec2(40 * map->getTileSize(), 33 * map->getTileSize()));
+	florecita[1].init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 1);
+	florecita[1].setPosition(glm::vec2(40 * map->getTileSize(), 30 * map->getTileSize()));
+}
+
 void Scene::init()
 {
 	initShaders();
 	map = TileMap::createTileMap("levels/mapa2.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
 	definirProjectils();
+	definirFlorecitas();
 	player = new Player();
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
@@ -59,6 +68,7 @@ void Scene::init()
 	zoom = 2.0f;
 	segCanviTiles = 250;
 	segProjectil = 1000;
+	segFlorecita = 2000;
 
 	l = 32;
 	r = camX + (float(SCREEN_WIDTH) / (2.0f * zoom));
@@ -94,6 +104,19 @@ void Scene::update(int deltaTime)
 	else {
 		for (int i = 0; i < 5; ++i) projectils[i].update(deltaTime);
 	}
+
+	if (currentTime >= segFlorecita) {
+		for (int i = 0; i < 2; ++i) {
+			florecita[i].reset();
+		}
+		segFlorecita += 3000;
+	}
+
+	else {
+		for (int i = 0; i < 2; ++i) {
+			florecita[i].update(deltaTime);
+		}
+	}
 }
 
 void Scene::render()
@@ -108,10 +131,13 @@ void Scene::render()
 	texProgram.setUniformMatrix4f("modelview", modelview);
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	map->render();
-	player->render();
 	for (int i = 0; i < 5; ++i) {
 		projectils[i].render();
 	}
+	for (int i = 0; i < 2; ++i) {
+		florecita[i].render();
+	}
+	player->render();
 }
 
 void Scene::modifcam() {

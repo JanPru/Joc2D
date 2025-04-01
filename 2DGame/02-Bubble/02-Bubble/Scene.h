@@ -7,6 +7,7 @@
 #include "TileMap.h"
 #include "Player.h"
 #include "Projectil.h"
+#include "Florecita.h"
 #include "GUI.h"
 
 
@@ -31,6 +32,7 @@ private:
 	void initShaders();
 	void modifcam();
 	void definirProjectils();
+	void definirFlorecitas();
 
 private:
 	TileMap *map;
@@ -42,10 +44,12 @@ private:
 	float camX, camY;
 	float segCanviTiles;
 	float segProjectil;
+	float segFlorecita;
 	float zoom;
 	glm::vec2 mapsize;
 	float tilesize;
 	Projectil* projectils;
+	Florecita* florecita;
 	Fase fase;
 };
 
