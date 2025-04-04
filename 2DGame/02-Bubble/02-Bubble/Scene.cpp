@@ -194,6 +194,7 @@ void Scene::modifcam() {
 		}
 		*/
 	if (fase == FASE0) {
+
 		camX = glm::clamp(camX, limitszona[0].y + 32 + camHalfWidth, limitszona[0].x + 48 - camHalfWidth);
 		camY = 616;
 	}

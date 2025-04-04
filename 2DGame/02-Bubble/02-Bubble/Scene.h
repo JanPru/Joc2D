@@ -52,6 +52,7 @@ private:
 	Florecita* florecita;
 	Fase fase;
 	glm::vec2 limitszona[6];
+	GUI *gui;
 };
 
 
