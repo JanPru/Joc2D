@@ -14,7 +14,7 @@
 // Scene contains all the entities of our game.
 // It is responsible for updating and render them.
 enum Fase {
-	FASE1, FASE2, FASE3, FASE4, FASE5, FASE6
+	FASE0, FASE1, FASE2, FASE3, FASE4, FASE5
 };
 class Scene
 {
@@ -51,6 +51,7 @@ private:
 	Projectil* projectils;
 	Florecita* florecita;
 	Fase fase;
+	glm::vec2 limitszona[6];
 };
 
 

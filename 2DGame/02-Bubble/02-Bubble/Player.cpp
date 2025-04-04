@@ -93,8 +93,8 @@ void Player::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
 	spritellances->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 	posllança = glm::vec2(0,0);
 
-	limit = 600;
-	dreta = false;
+	limit = 512;
+	dreta = true;
 	
 }
 
@@ -126,7 +126,7 @@ void Player::update(int deltaTime)
 		else if(sprite->animation() != MOVE_RIGHT)
 			sprite->changeAnimation(MOVE_RIGHT);
 		posPlayer.x -= 2;
-		if(map->collisionMoveLeft(posPlayer, glm::ivec2(24, 32)))
+		if (map->collisionMoveRight(posPlayer, glm::ivec2(24, 32)) || (posPlayer.x == limit + 16 && dreta))
 		{
 			posPlayer.x += 2;
 			sprite->changeAnimation(STAND_RIGHT);
@@ -142,8 +142,7 @@ void Player::update(int deltaTime)
 		else if(sprite->animation() != MOVE_RIGHT)
 			sprite->changeAnimation(MOVE_RIGHT);
 		posPlayer.x += 2;
-		//if(map->collisionMoveRight(posPlayer, glm::ivec2(24, 32)) || (posPlayer.x == limit + 16 && !dreta))
-		if (map->collisionMoveRight(posPlayer, glm::ivec2(24, 32)))
+		if(map->collisionMoveRight(posPlayer, glm::ivec2(24, 32)) || (posPlayer.x == limit + 16 && !dreta))
 		{
 			posPlayer.x -= 2;
 			sprite->changeAnimation(STAND_RIGHT);

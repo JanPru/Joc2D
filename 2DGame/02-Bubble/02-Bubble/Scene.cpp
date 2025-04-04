@@ -75,7 +75,7 @@ void Scene::init()
 	b = 464;
 	t = camY - (float(SCREEN_HEIGHT) / (2.0f * zoom));
 
-	fase = FASE1;
+	fase = FASE0;
 
 	//std::cout << "camx " << camX << " camy " << camY <<std::endl;
 	//std::cout << "l " << l << " r " << r << " b " << b << " t " << t <<std::endl;
@@ -117,6 +117,32 @@ void Scene::update(int deltaTime)
 			florecita[i].update(deltaTime);
 		}
 	}
+
+	// COSES DE LA CAMERA
+	limitszona[0] = glm::vec2(2032, 512);
+	limitszona[1] = glm::vec2(2288, 2032);
+	limitszona[2] = glm::vec2(256, 2032);
+	limitszona[3] = glm::vec2();
+	/*
+	limitszona[4] = glm::vec2();
+	limitszona[5] = glm::vec2();*/
+
+	if (fase == FASE0 && player->getPosition().x >= limitszona[0].x) {
+		player->canvialimit(limitszona[0].x, true);
+		fase = FASE1;
+	}
+	if (fase == FASE1 && player->getPosition().x < limitszona[1].y + 16 && player->getPosition().y > 704) {
+		player->canvialimit(limitszona[1].y - 16, false);
+		fase = FASE2;
+	}
+	if (fase == FASE2 && player->getPosition().x <= limitszona[2].x && player->getPosition().y > 704) {
+		player->canvialimit(limitszona[2].x - 16, false);
+		fase = FASE3;
+	}
+
+	std::cout << "Fase: " << fase << std::endl;
+	std::cout << player->getPosition().x << std::endl;
+
 }
 
 void Scene::render()
@@ -153,16 +179,30 @@ void Scene::modifcam() {
 	float camHalfWidth = (float(SCREEN_WIDTH) / (2.0f * zoom));
 	float camHalfHeight = (float(SCREEN_HEIGHT) / (2.0f * zoom));
 
-	if (camX >= 29 * tilesize && camX < 129 * tilesize && camY >= 400 && camY < 668) {  // ZONA 1: Solo movimiento horizontal
-		camX = glm::clamp(camX, 34 * tilesize + camHalfWidth, 130 * tilesize - camHalfWidth); // LIMIT CANVI CAMERA
-		camY = 616;  // Bloquear verticalmente
+	/*
+		if (camX >= 512 && camX < limitszona[0].x && camY < 704) {  // ZONA 1: Solo movimiento horizontal
+			camX = glm::clamp(camX, 34 * tilesize + camHalfWidth, 130 * tilesize - camHalfWidth); // LIMIT CANVI CAMERA
+			camY = 616;  // Bloquear verticalmente
+		}
+		else if (camY >= 400 && camY < 1168 && camX >= limitszona[0].x) {
+			camX = 146 * tilesize - camHalfWidth; // Bloquear horizontalmente
+			camY = glm::clamp(camY, float(616), MAP_TOP - camHalfHeight);
+		}
+		else if (camX >= 16 * tilesize && camX < 129 * tilesize && camY >= 900 && camY < 1200) {  // ZONA 1: Solo movimiento horizontal
+			camX = glm::clamp(camX, 18 * tilesize + camHalfWidth, 129 * tilesize - camHalfWidth);
+			camY = MAP_TOP - camHalfHeight;  // Bloquear verticalmente
+		}
+		*/
+	if (fase == FASE0) {
+		camX = glm::clamp(camX, limitszona[0].y + 32 + camHalfWidth, limitszona[0].x + 48 - camHalfWidth);
+		camY = 616;
 	}
-	else if (camY >= 400 && camY < 1168 && camX >= 129 * tilesize) {
-		camX = 146 * tilesize - camHalfWidth; // Bloquear horizontalmente
+	if (fase == FASE1) {
+		camX = 146 * tilesize - camHalfWidth;
 		camY = glm::clamp(camY, float(616), MAP_TOP - camHalfHeight);
 	}
-	else if (camX >= 16 * tilesize && camX < 129 * tilesize && camY >= 900 && camY < 1200) {  // ZONA 1: Solo movimiento horizontal
-		camX = glm::clamp(camX, 18 * tilesize + camHalfWidth, 129 * tilesize - camHalfWidth);
+	if (fase == FASE2) {
+		camX = glm::clamp(camX, limitszona[2].x + 32 + camHalfWidth, limitszona[2].y + 48 - camHalfWidth);
 		camY = MAP_TOP - camHalfHeight;  // Bloquear verticalmente
 	}
 
