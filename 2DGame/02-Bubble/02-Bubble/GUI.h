@@ -9,26 +9,26 @@ class GUI
 {
 public:
 
-    void init(ShaderProgram &shaderProgram);
+    void init(ShaderProgram& shaderProgram);
 
     void setPlayer(Player* player);
 
     void update(int deltaTime);
 
-    void render();
+    void render(int vida);
 
 private:
     void setSprite(Sprite* sprite, glm::vec2 displacement);
 
 private:
     Player* player;
-
+    ShaderProgram shaderProgram;
     Texture spritesheet;
 
-    Sprite* cor1, *cor2, *cor3, *cor4;
-	Sprite* llanternes;
-	Sprite* llança;
-	Sprite* foc;
+    Sprite* cor;
+    Sprite* llanternes;
+    Sprite* llança;
+    Sprite* foc;
 
     int ncors;
     int nllanternes;

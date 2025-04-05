@@ -35,8 +35,8 @@ private:
 	void definirFlorecitas();
 
 private:
-	TileMap *map;
-	Player *player;
+	TileMap* map;
+	Player* player;
 	ShaderProgram texProgram;
 	float currentTime;
 	glm::mat4 projection;
@@ -52,7 +52,7 @@ private:
 	Florecita* florecita;
 	Fase fase;
 	glm::vec2 limitszona[6];
-	GUI *gui;
+	GUI* gui;
 };
 
 

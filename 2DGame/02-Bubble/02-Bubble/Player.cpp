@@ -126,7 +126,7 @@ void Player::update(int deltaTime)
 		else if(sprite->animation() != MOVE_RIGHT)
 			sprite->changeAnimation(MOVE_RIGHT);
 		posPlayer.x -= 2;
-		if (map->collisionMoveRight(posPlayer, glm::ivec2(24, 32)) || (posPlayer.x == limit + 16 && dreta))
+		if (map->collisionMoveRight(posPlayer, glm::ivec2(24, 32)) || (posPlayer.x == limit && dreta))
 		{
 			posPlayer.x += 2;
 			sprite->changeAnimation(STAND_RIGHT);

@@ -82,6 +82,8 @@ void Scene::init()
 
 	//std::cout << "Map Size: " << mapsize.x << "x" << mapsize.y << " pixels" << std::endl;
 	//std::cout << "Tile Size: " << tilesize << " pixels" << std::endl;
+	gui = new GUI();
+	gui->init(texProgram);
 }
 
 void Scene::update(int deltaTime)
@@ -142,6 +144,7 @@ void Scene::update(int deltaTime)
 
 	std::cout << "Fase: " << fase << std::endl;
 	std::cout << player->getPosition().x << std::endl;
+	std::cout << player->getPosition().y << std::endl;
 
 }
 
@@ -218,6 +221,10 @@ void Scene::modifcam() {
 
 	projection = glm::ortho(l, r, b, t);
 	texProgram.setUniformMatrix4f("projection", projection);
+
+	//glm::mat4 hudProjection = glm::ortho(0.f, float(camHalfWidth*2), float(camHalfHeight*2), 0.f);
+	//texProgram.setUniformMatrix4f("projection", hudProjection);
+	gui->render(4);
 }
 
 void Scene::initShaders()
