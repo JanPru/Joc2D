@@ -36,12 +36,12 @@ public:
 	bool collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY) const;
 	glm::vec2 getMapSize() const;
 	glm::vec2* getPosPlantes();
+	bool isLava(int x, int y) const;
 	
 private:
 	bool loadLevel(const string &levelFile);
 	void prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program);
 	bool isFloor(int x, int y) const;
-	bool isLava(int x, int y) const;
 	bool isLeaf(int x, int y) const;
 
 private:
@@ -55,6 +55,7 @@ private:
 	glm::vec2 tileTexSize;
 	int *map;
 	glm::vec2* posPlantes;
+	bool lava;
 };
 
 

@@ -95,7 +95,7 @@ void Player::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
 
 	limit = 512;
 	dreta = true;
-	
+	vida = 4;
 }
 
 void Player::update(int deltaTime)
@@ -210,6 +210,18 @@ void Player::update(int deltaTime)
 
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 	spritellances->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x + posllança.x), float(tileMapDispl.y + posPlayer.y + posllança.y)));
+
+	int x0, x1, y;
+	x0 = posPlayer.x / 16;
+	x1 = (posPlayer.x + 24 - 1) / 16;
+	y = (posPlayer.y + 32 - 1) / 16;
+	for (int x = x0; x <= x1; x++)
+	{
+		if (map->isLava(x, y))
+		{
+			std::cout << "creeeeeeeeeammmmmmmmmmmmmm" << std::endl;
+		}
+	}
 }
 
 void Player::render()
@@ -236,6 +248,10 @@ glm::vec2 Player::getPosition() const {
 void Player::canvialimit(int l, bool b) {
 	limit = l;
 	dreta = b;
+}
+
+int Player::getvida() {
+	return vida;
 }
 
 
