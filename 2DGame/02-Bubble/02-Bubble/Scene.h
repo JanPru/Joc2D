@@ -49,7 +49,7 @@ private:
 	glm::vec2 mapsize;
 	float tilesize;
 	Projectil* projectils;
-	Florecita* florecita;
+	std::vector<Florecita*> florecitas;
 	Fase fase;
 	glm::vec2 limitszona[6];
 	GUI* gui;
