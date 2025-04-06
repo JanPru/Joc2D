@@ -64,7 +64,7 @@ void GUI::update(int deltaTime)
     //Funcio que et digui els cors en funcio de la vida del personatge
 }
 
-void GUI::render(int vida)
+void GUI::render(float vidatot)
 {
     if (triar) {
         llança->render();
@@ -73,14 +73,14 @@ void GUI::render(int vida)
         foc->render();
     }
     for (int i = 0; i < 4; ++i) {
-        float lifeSlot = vida - i;
-        lifeSlot = std::max(0.0f, std::min(lifeSlot, 1.0f));
+        float vida = vidatot - i;
+        vida = std::max(0.0f, std::min(vida, 1.0f));
 
         int frame;
-        if (lifeSlot >= 1.0f) frame = 3;
-        else if (lifeSlot >= 0.66f) frame = 2;
-        else if (lifeSlot >= 0.33f) frame = 1;
-        else if (lifeSlot > 0.0f) frame = 0;
+        if (vida >= 1.0f) frame = 3;
+        else if (vida >= 0.66f) frame = 2;
+        else if (vida >= 0.33f) frame = 1;
+        else if (vida > 0.0f) frame = 0;
         else frame = 0;
 
         cor->changeAnimation(frame);

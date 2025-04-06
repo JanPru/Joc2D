@@ -96,6 +96,7 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 	limit = 512;
 	dreta = true;
 
+	vida = 4;
 }
 
 void Player::update(int deltaTime)
@@ -228,6 +229,19 @@ void Player::update(int deltaTime)
 
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 	spritellances->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x + posllança.x), float(tileMapDispl.y + posPlayer.y + posllança.y)));
+
+	if (map->eslava())
+	{
+		timerLava += deltaTime;
+		if (timerLava > 1000) {
+			vida -= 0.33f;
+			if (vida < 0) vida = 0;
+			timerLava = 0;
+		}
+	}
+	else {
+		timerLava = 0;
+	}
 }
 
 int Player::collisionFlorecitas() {
@@ -312,4 +326,8 @@ glm::vec2 Player::getPosition() const {
 void Player::canvialimit(int l, bool b) {
 	limit = l;
 	dreta = b;
+}
+
+float Player::getvida() {
+	return vida;
 }

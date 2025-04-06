@@ -196,6 +196,13 @@ void Scene::render()
 		f->render();
 	}
 	player->render();
+
+	float camHalfWidth = (float(SCREEN_WIDTH) / (2.0f * zoom));
+	float camHalfHeight = (float(SCREEN_HEIGHT) / (2.0f * zoom));
+
+	glm::mat4 hudProjection = glm::ortho(0.f, float(camHalfWidth * 2), float(camHalfHeight * 2), 0.f);
+	texProgram.setUniformMatrix4f("projection", hudProjection);
+	gui->render(player->getvida());
 }
 
 void Scene::modifcam() {
@@ -250,10 +257,6 @@ void Scene::modifcam() {
 
 	projection = glm::ortho(l, r, b, t);
 	texProgram.setUniformMatrix4f("projection", projection);
-
-	//glm::mat4 hudProjection = glm::ortho(0.f, float(camHalfWidth*2), float(camHalfHeight*2), 0.f);
-	//texProgram.setUniformMatrix4f("projection", hudProjection);
-	gui->render(4);
 }
 
 void Scene::initShaders()

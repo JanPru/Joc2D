@@ -15,7 +15,7 @@ public:
 
     void update(int deltaTime);
 
-    void render(int vida);
+    void render(float vida);
 
 private:
     void setSprite(Sprite* sprite, glm::vec2 displacement);

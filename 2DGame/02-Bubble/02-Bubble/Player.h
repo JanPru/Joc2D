@@ -24,6 +24,9 @@ public:
 	void setPosition(const glm::vec2& pos);
 	glm::vec2 getPosition() const;
 	void canvialimit(int l, bool b); //true es que el limit sera dreta i false que limit sera esquerra
+
+	float getvida();
+	
 	void setFlorecitas(std::vector<Florecita*>* flors);
 	void setProjectils(std::vector<Projectil*>* proj);
 
@@ -44,7 +47,8 @@ private:
 	glm::vec2 posllança;
 	int limit;
 	bool dreta;
-
+	float vida;
+	int timerLava;
 };
 
 
