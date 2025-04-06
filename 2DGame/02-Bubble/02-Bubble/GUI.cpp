@@ -64,7 +64,7 @@ void GUI::update(int deltaTime)
     //Funcio que et digui els cors en funcio de la vida del personatge
 }
 
-void GUI::render(int vidatot)
+void GUI::render(float vidatot)
 {
     if (triar) {
         llança->render();

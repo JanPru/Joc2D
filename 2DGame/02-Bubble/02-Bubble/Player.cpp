@@ -211,16 +211,17 @@ void Player::update(int deltaTime)
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 	spritellances->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x + posllança.x), float(tileMapDispl.y + posPlayer.y + posllança.y)));
 
-	int x0, x1, y;
-	x0 = posPlayer.x / 16;
-	x1 = (posPlayer.x + 24 - 1) / 16;
-	y = (posPlayer.y + 32 - 1) / 16;
-	for (int x = x0; x <= x1; x++)
+	if (map->eslava())
 	{
-		if (map->isLava(x, y))
-		{
-			std::cout << "creeeeeeeeeammmmmmmmmmmmmm" << std::endl;
+		timerLava += deltaTime;
+		if (timerLava > 1000) {
+			vida -= 0.33f;
+			if (vida < 0) vida = 0;
+			timerLava = 0;
 		}
+	}
+	else {
+		timerLava = 0;
 	}
 }
 
@@ -250,7 +251,7 @@ void Player::canvialimit(int l, bool b) {
 	dreta = b;
 }
 
-int Player::getvida() {
+float Player::getvida() {
 	return vida;
 }
 

@@ -221,7 +221,7 @@ bool TileMap::isLeaf(int x, int y) const {
 	return (map[y * mapSize.x + x] > 46 && map[y * mapSize.x + x] < 51);
 }
 
-bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY) const
+bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY)
 {
 	int x0, x1, y;
 
@@ -234,9 +234,12 @@ bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, i
 	{
 		if(isFloor(x, y) || isLava(x, y) || isLeaf(x, y))
 		{
+			if (isLava(x, y)) lava = true;
+			else lava = false;
 			if(*posY - tileSize * y + size.y <= 4)
 			{
 				*posY = tileSize * y - size.y;
+				
 				return true;
 			}
 		}
@@ -265,6 +268,10 @@ void TileMap::canviTiles(const glm::vec2& minCoords, ShaderProgram& program) {
 
 glm::vec2* TileMap::getPosPlantes() {
 	return posPlantes;
+}
+
+bool TileMap::eslava() {
+	return lava;
 }
 
 

@@ -142,9 +142,9 @@ void Scene::update(int deltaTime)
 		fase = FASE3;
 	}
 
-	std::cout << "Fase: " << fase << std::endl;
-	std::cout << player->getPosition().x << std::endl;
-	std::cout << player->getPosition().y << std::endl;
+	//std::cout << "Fase: " << fase << std::endl;
+	//std::cout << player->getPosition().x << std::endl;
+	//std::cout << player->getPosition().y << std::endl;
 
 }
 

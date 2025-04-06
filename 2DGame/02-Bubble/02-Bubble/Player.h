@@ -22,7 +22,7 @@ public:
 	void setPosition(const glm::vec2 &pos);
 	glm::vec2 getPosition() const;
 	void canvialimit(int l, bool b); //true es que el limit sera dreta i false que limit sera esquerra
-	int getvida();
+	float getvida();
 	
 private:
 	bool bJumping;
@@ -35,8 +35,8 @@ private:
 	glm::vec2 posllança;
 	int limit;
 	bool dreta;
-	int vida;
-
+	float vida;
+	int timerLava;
 };
 
 
