@@ -24,18 +24,19 @@ Scene::~Scene()
 		delete map;
 	if (player != NULL)
 		delete player;
-	if (projectils != NULL)
-		delete[] projectils;
 }
 
 void Scene::definirProjectils() {
-	projectils = new Projectil[5];
+	projectils.clear();
 	glm::vec2* posPlantes = map->getPosPlantes();
 
 	for (int i = 0; i < 5; ++i) {
-		projectils[i].init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+		Projectil* projectil = new Projectil();
+		projectil->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 		glm::vec2 actPos = posPlantes[i];
-		projectils[i].setPosition(glm::vec2(actPos.x * map->getTileSize(), (actPos.y - 1) * map->getTileSize()));
+		projectil->setPosition(glm::vec2(actPos.x * map->getTileSize(), (actPos.y - 1) * map->getTileSize()));
+		
+		projectils.push_back(projectil);
 	}
 }
 
@@ -84,6 +85,7 @@ void Scene::init()
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 	player->setTileMap(map);
 	player->setFlorecitas(&florecitas);
+	player->setProjectils(&projectils);
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH), float(SCREEN_HEIGHT), 0.f);
 	currentTime = 0.0f;
 
@@ -124,14 +126,14 @@ void Scene::update(int deltaTime)
 	}
 
 	if (currentTime >= segProjectil) {
-		for (int i = 0; i < 5; ++i) {
-			projectils[i].reset();
+		for (auto& p : projectils) {
+			p->reset();
 		}
 		segProjectil += 1000;
 	}
 
 	else {
-		for (int i = 0; i < 5; ++i) projectils[i].update(deltaTime);
+		for (auto& p : projectils) p->update(deltaTime);
 	}
 
 	if (currentTime >= segFlorecita) {
@@ -187,8 +189,8 @@ void Scene::render()
 	texProgram.setUniformMatrix4f("modelview", modelview);
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	map->render();
-	for (int i = 0; i < 5; ++i) {
-		projectils[i].render();
+	for (auto& p : projectils) {
+		p->render();
 	}
 	for (auto& f : florecitas) {
 		f->render();

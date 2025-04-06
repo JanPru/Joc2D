@@ -5,6 +5,7 @@
 #include "Sprite.h"
 #include "TileMap.h"
 #include "Florecita.h"
+#include "Projectil.h"
 
 
 // Player is basically a Sprite that represents the player. As such it has
@@ -24,9 +25,11 @@ public:
 	glm::vec2 getPosition() const;
 	void canvialimit(int l, bool b); //true es que el limit sera dreta i false que limit sera esquerra
 	void setFlorecitas(std::vector<Florecita*>* flors);
+	void setProjectils(std::vector<Projectil*>* proj);
 
 private:
 	int collisionFlorecitas();
+	bool collisionProjectils();
 
 private:
 	bool bJumping;
@@ -36,6 +39,7 @@ private:
 	Sprite* sprite, * spritellances;
 	TileMap* map;
 	std::vector<Florecita*>* florecitas;
+	std::vector<Projectil*>* projectils;
 	int spriteTriat;
 	glm::vec2 posllança;
 	int limit;

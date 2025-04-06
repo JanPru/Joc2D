@@ -9,6 +9,7 @@ public:
 	void render();
 	void reset();
 	void setPosition(const glm::vec2& pos);
+	glm::vec2 getPosition();
 
 private:
 	glm::vec2 pos;

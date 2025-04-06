@@ -255,8 +255,37 @@ int Player::collisionFlorecitas() {
 	return 0;
 }
 
+bool Player::collisionProjectils() {
+	if (projectils == nullptr) return false;
+
+	glm::ivec2 playerSize = glm::ivec2(24, 32);
+
+	const int margen = 4;
+
+	for (auto& p : *projectils) {
+		glm::vec2 posProjectil = p->getPosition();
+		glm::ivec2 sizeProjectil = glm::ivec2(16, 16);
+
+		bool estaHorizontalmente =
+			(posPlayer.x + playerSize.x > posProjectil.x) &&
+			(posPlayer.x < posProjectil.x + sizeProjectil.x);
+
+		bool estaVerticalmente =
+			abs((posPlayer.y + playerSize.y) - posProjectil.y) <= margen;
+
+		if (estaHorizontalmente && estaVerticalmente)
+			return true;
+	}
+
+	return 0;
+}
+
 void Player::setFlorecitas(std::vector<Florecita*>* flors) {
 	florecitas = flors;
+}
+
+void Player::setProjectils(std::vector<Projectil*>* proj) {
+	projectils = proj;
 }
 
 void Player::render()

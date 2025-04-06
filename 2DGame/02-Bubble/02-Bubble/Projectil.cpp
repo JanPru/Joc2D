@@ -21,6 +21,10 @@ void Projectil::setPosition(const glm::vec2& position) {
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
 }
 
+glm::vec2 Projectil::getPosition() {
+	return pos;
+}
+
 void Projectil::update(int deltaTime) {
 	sprite->update(deltaTime);
 	pos -= glm::vec2(0, 3);
