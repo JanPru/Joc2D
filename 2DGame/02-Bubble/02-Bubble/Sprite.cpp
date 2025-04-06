@@ -34,6 +34,9 @@ Sprite::Sprite(const glm::vec2& quadSize, const glm::vec2& sizeInSpritesheet, Te
 	currentAnimation = -1;
 	position = glm::vec2(0.f);
 	flip = false;
+	quadSize1 = quadSize;
+	llanca = false;
+
 }
 
 void Sprite::update(int deltaTime)
@@ -55,11 +58,16 @@ void Sprite::render() const
 {
 	glm::mat4 modelview = glm::mat4(1.0f);
 	modelview = glm::translate(modelview, glm::vec3(position.x, position.y, 0.f));
-	if (flip) {
-		modelview = glm::translate(modelview, glm::vec3(24.f/2, 0.f, 0.f));
+	if (flip && !llanca) {
+		modelview = glm::translate(modelview, glm::vec3(quadSize1.x / 2.f, 0.f, 0.f));
 		modelview = glm::scale(modelview, glm::vec3(-1.0f, 1.0f, 1.0f));
-		modelview = glm::translate(modelview, glm::vec3(-24.f / 2, 0.f, 0.f));
+		modelview = glm::translate(modelview, glm::vec3(-quadSize1.x / 2.f, 0.f, 0.f));
 
+	}
+	else if (flip && llanca) {
+		modelview = glm::translate(modelview, glm::vec3(-quadSize1.x / 2.f, 0.f, 0.f));
+		modelview = glm::scale(modelview, glm::vec3(-1.0f, 1.0f, 1.0f));
+		modelview = glm::translate(modelview, glm::vec3(quadSize1.x / 2.f - 16, 0.f, 0.f));
 	}
 	shaderProgram->setUniformMatrix4f("modelview", modelview);
 	shaderProgram->setUniform2f("texCoordDispl", texCoordDispl.x, texCoordDispl.y);
@@ -118,6 +126,11 @@ int Sprite::keyframe() const
 	return currentKeyframe;
 }
 
+void Sprite::setkeyframe(int x)
+{
+	currentKeyframe = x;
+}
+
 
 void Sprite::setPosition(const glm::vec2 &pos)
 {
@@ -128,6 +141,10 @@ void Sprite::canviaflip(bool a) {
 	flip = a;
 }
 
+bool Sprite::getflip() {
+	return flip;
+}
+
 bool Sprite::animationfinished() {
 
 	if (currentAnimation < 0) return false;
@@ -136,3 +153,6 @@ bool Sprite::animationfinished() {
 	return timeAnimation >= duration;
 }
 
+void Sprite::esllanca() {
+	llanca = true;
+}

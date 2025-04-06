@@ -1,6 +1,7 @@
 #include <cmath>
 #include <iostream>
 #include <GL/glew.h>
+#include <glm/gtc/matrix_transform.hpp>
 #include "Player.h"
 #include "Game.h"
 
@@ -93,6 +94,8 @@ void Player::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
 	spritellances->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 	posllança = glm::vec2(0,0);
 
+	spritellances->esllanca();
+
 	limit = 512;
 	dreta = true;
 	vida = 4;
@@ -132,6 +135,7 @@ void Player::update(int deltaTime)
 			sprite->changeAnimation(STAND_RIGHT);
 		}
 		sprite->canviaflip(true);
+		spritellances->canviaflip(true);
 	}
 	else if(Game::instance().getKey(GLFW_KEY_RIGHT))
 	{
@@ -148,16 +152,23 @@ void Player::update(int deltaTime)
 			sprite->changeAnimation(STAND_RIGHT);
 		}
 		sprite->canviaflip(false);
+		spritellances->canviaflip(false);
 	}
-	else if (Game::instance().getKey(GLFW_KEY_X)) {
-		sprite->changeAnimation(ATTACK_RIGHT);
-		spritellances->changeAnimation(ATTACK);
-		spriteTriat = 1;
-		posllança = glm::vec2(24,10);
+
+	else if (Game::instance().getKey(GLFW_KEY_X) && !activaLlança) {
+			activaLlança = true;
+			timerLlança = 0;
+			frameLlança = 0;
+			capEndavant = !sprite->getflip();
+			spritellances->changeAnimation(ATTACK);
+			spriteTriat = 1;
+			posllança = glm::vec2(24, 9);
+			sprite->changeAnimation(ATTACK_RIGHT);
 	}
+
 	else
 	{
-		if (sprite->animation() == MOVE_RIGHT || sprite->animation() == JUMP_RIGHT || sprite->animation() == STAND || sprite->animation() == CROUCH || sprite->animation() == ATTACK_RIGHT || sprite->animation() == ATTACK_CROUCH || sprite->animation() == JUMP_ATTACK || sprite->animation() == FALL_ATTACK) {
+		if (sprite->animation() == MOVE_RIGHT || sprite->animation() == JUMP_RIGHT || sprite->animation() == STAND || sprite->animation() == CROUCH || sprite->animation() == ATTACK_CROUCH || sprite->animation() == JUMP_ATTACK || sprite->animation() == FALL_ATTACK) {
 			sprite->changeAnimation(STAND_RIGHT);
 			spriteTriat = 0;
 		}
@@ -223,12 +234,43 @@ void Player::update(int deltaTime)
 	else {
 		timerLava = 0;
 	}
+
+	// Animació de la llança
+	if (activaLlança) {
+		timerLlança += deltaTime;
+
+		if (timerLlança >= 100) {
+			timerLlança = 0;
+
+			spritellances->setkeyframe(frameLlança);
+
+			if (frameLlança == 2) {
+				activaLlança = false;
+				spriteTriat = 0;
+				sprite->changeAnimation(STAND_RIGHT);
+			}
+			else frameLlança++;
+		}
+	}
+
 }
 
 void Player::render()
 {
 	sprite->render();
-	if (spriteTriat == 1) spritellances->render();
+	if (spriteTriat == 1) {
+		/*
+		glm::mat4 modelview = glm::mat4(1.0f);
+		if (sprite->getflip()) {
+			modelview = glm::translate(modelview, glm::vec3(-48.f, 0.f, 0.0f));
+			modelview = glm::scale(modelview, glm::vec3(-1.0f, 1.0f, 1.0f));
+			modelview = glm::translate(modelview, glm::vec3(-spritellances->getSize().x, 0.0f, 0.0f));
+		}
+
+		spritellances->setModelView(modelview);
+		*/
+		spritellances->render();
+	}
 }
 
 void Player::setTileMap(TileMap *tileMap)
