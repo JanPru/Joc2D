@@ -33,3 +33,15 @@ void Florecita::reset() {
 	pos = posInit;
 	sprite->setPosition((glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y))));
 }
+
+glm::ivec2 Florecita::getPosition() {
+	return pos;
+}
+
+int Florecita::getDirection() {
+	return direction;
+}
+
+glm::vec4 Florecita::getCollisionBox() {
+	return glm::vec4(pos.x - 12, pos.x + 12, pos.y - 8, pos.y + 8);
+}

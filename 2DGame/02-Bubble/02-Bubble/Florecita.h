@@ -9,6 +9,9 @@ public:
 	void render();
 	void reset();
 	void update(int deltaTime);
+	int getDirection();
+	glm::ivec2 getPosition();
+	glm::vec4 getCollisionBox();
 
 private:
 	glm::vec2 pos;

@@ -4,6 +4,7 @@
 
 #include "Sprite.h"
 #include "TileMap.h"
+#include "Florecita.h"
 
 
 // Player is basically a Sprite that represents the player. As such it has
@@ -14,23 +15,30 @@ class Player
 {
 
 public:
-	void init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram);
+	void init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram);
 	void update(int deltaTime);
 	void render();
-	
-	void setTileMap(TileMap *tileMap);
-	void setPosition(const glm::vec2 &pos);
+
+	void setTileMap(TileMap* tileMap);
+	void setPosition(const glm::vec2& pos);
 	glm::vec2 getPosition() const;
 	void canvialimit(int l, bool b); //true es que el limit sera dreta i false que limit sera esquerra
+
 	float getvida();
 	
+	void setFlorecitas(std::vector<Florecita*>* flors);
+
+private:
+	int collisionFlorecitas();
+
 private:
 	bool bJumping;
 	glm::ivec2 tileMapDispl, posPlayer;
 	int jumpAngle, startY;
 	Texture spritesheet, spritesheetllances;
-	Sprite *sprite, *spritellances;
-	TileMap *map;
+	Sprite* sprite, * spritellances;
+	TileMap* map;
+	std::vector<Florecita*>* florecitas;
 	int spriteTriat;
 	glm::vec2 posllança;
 	int limit;
@@ -41,5 +49,3 @@ private:
 
 
 #endif // _PLAYER_INCLUDE
-
-

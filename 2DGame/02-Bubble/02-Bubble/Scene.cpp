@@ -40,11 +40,37 @@ void Scene::definirProjectils() {
 }
 
 void Scene::definirFlorecitas() {
-	florecita = new Florecita[2];
-	florecita[0].init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 1);
-	florecita[0].setPosition(glm::vec2(40 * map->getTileSize(), 33 * map->getTileSize()));
-	florecita[1].init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 1);
-	florecita[1].setPosition(glm::vec2(40 * map->getTileSize(), 30 * map->getTileSize()));
+	florecitas.clear();
+	
+	Florecita* flor1 = new Florecita();
+	flor1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 1);
+	flor1->setPosition(glm::vec2(0 * map->getTileSize(), 29 * map->getTileSize()));
+
+	florecitas.push_back(flor1);
+
+	Florecita* flor2 = new Florecita();
+	flor2->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, -1);
+	flor2->setPosition(glm::vec2(16 * map->getTileSize(), 27 * map->getTileSize()));
+
+	florecitas.push_back(flor2);
+
+	Florecita* flor3 = new Florecita();
+	flor3->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 1);
+	flor3->setPosition(glm::vec2(0 * map->getTileSize(), 21 * map->getTileSize()));
+
+	florecitas.push_back(flor3);
+
+	Florecita* flor4 = new Florecita();
+	flor4->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, -1);
+	flor4->setPosition(glm::vec2(16 * map->getTileSize(), 16 * map->getTileSize()));
+
+	florecitas.push_back(flor4);
+
+	Florecita* flor5 = new Florecita();
+	flor5->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 1);
+	flor5->setPosition(glm::vec2(0 * map->getTileSize(), 8 * map->getTileSize()));
+
+	florecitas.push_back(flor5);
 }
 
 void Scene::init()
@@ -57,6 +83,7 @@ void Scene::init()
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 	player->setTileMap(map);
+	player->setFlorecitas(&florecitas);
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH), float(SCREEN_HEIGHT), 0.f);
 	currentTime = 0.0f;
 
@@ -68,7 +95,7 @@ void Scene::init()
 	zoom = 2.0f;
 	segCanviTiles = 250;
 	segProjectil = 1000;
-	segFlorecita = 2000;
+	segFlorecita = 4500;
 
 	l = 32;
 	r = camX + (float(SCREEN_WIDTH) / (2.0f * zoom));
@@ -108,15 +135,15 @@ void Scene::update(int deltaTime)
 	}
 
 	if (currentTime >= segFlorecita) {
-		for (int i = 0; i < 2; ++i) {
-			florecita[i].reset();
+		for (auto& f : florecitas) {
+			f->reset();
 		}
-		segFlorecita += 3000;
+		segFlorecita += 4500;
 	}
 
 	else {
-		for (int i = 0; i < 2; ++i) {
-			florecita[i].update(deltaTime);
+		for (auto& f : florecitas) {
+			f->update(deltaTime);
 		}
 	}
 
@@ -163,8 +190,8 @@ void Scene::render()
 	for (int i = 0; i < 5; ++i) {
 		projectils[i].render();
 	}
-	for (int i = 0; i < 2; ++i) {
-		florecita[i].render();
+	for (auto& f : florecitas) {
+		f->render();
 	}
 	player->render();
 
