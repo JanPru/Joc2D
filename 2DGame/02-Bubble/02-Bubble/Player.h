@@ -36,6 +36,8 @@ private:
 
 private:
 	bool bJumping;
+	int lastProjectil;
+	int currentTime;
 	glm::ivec2 tileMapDispl, posPlayer;
 	int jumpAngle, startY;
 	Texture spritesheet, spritesheetllances;

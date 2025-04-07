@@ -95,12 +95,15 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 
 	limit = 512;
 	dreta = true;
+	lastProjectil = 0;
+	currentTime = 0;
 
 	vida = 4;
 }
 
 void Player::update(int deltaTime)
 {
+	currentTime += deltaTime;
 	if (collisionFlorecitas()) {
 		int direction = collisionFlorecitas();
 
@@ -113,6 +116,11 @@ void Player::update(int deltaTime)
 			posPlayer.x -= 1;
 			if (map->collisionMoveLeft(posPlayer, glm::ivec2(24, 32)) || (posPlayer.x == limit + 16 && dreta)) posPlayer.x += 1;
 		}
+	}
+
+	if (collisionProjectils() && (currentTime - 1000 >= lastProjectil)) {
+		vida -= 0.5;
+		lastProjectil = currentTime;
 	}
 
 	sprite->update(deltaTime);
@@ -280,14 +288,13 @@ bool Player::collisionProjectils() {
 		glm::vec2 posProjectil = p->getPosition();
 		glm::ivec2 sizeProjectil = glm::ivec2(16, 16);
 
-		bool estaHorizontalmente =
-			(posPlayer.x + playerSize.x > posProjectil.x) &&
-			(posPlayer.x < posProjectil.x + sizeProjectil.x);
+		bool overlapX = posPlayer.x < posProjectil.x + sizeProjectil.x &&
+			posPlayer.x + playerSize.x > posProjectil.x;
 
-		bool estaVerticalmente =
-			abs((posPlayer.y + playerSize.y) - posProjectil.y) <= margen;
+		bool overlapY = posPlayer.y < posProjectil.y + sizeProjectil.y &&
+			posPlayer.y + playerSize.y > posProjectil.y;
 
-		if (estaHorizontalmente && estaVerticalmente)
+		if (overlapX && overlapY)
 			return true;
 	}
 
