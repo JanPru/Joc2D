@@ -33,6 +33,8 @@ public:
 	void setProjectils(std::vector<Projectil*>* proj);
 	void setPlantes(std::vector<Planta*>* proj);
 
+	void setAnimation(int anim);
+
 private:
 	int collisionFlorecitas();
 	bool collisionProjectils();
@@ -57,13 +59,18 @@ private:
 	float vida;
 	int timerLava;
 	float vidaant = 0;
-	bool damaged;
 	int timerd;
 	int frameLlança = 0;
 	int timerLlança = 0;
 	bool activaLlança = false;
 	bool capEndavant = true;
 	bool plantBelow;
+
+	bool damaged = false;
+	float damageTimer = 0.f;
+	const float damageDuration = 500.f;
+	int lastAnimation = -1;
+	bool overrideAnimation = false;
 };
 
 

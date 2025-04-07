@@ -275,7 +275,7 @@ void Scene::modifcam() {
 		camY = MAP_TOP - camHalfHeight;  // Bloquear verticalmente
 	}
 	if (fase == FASE3) {
-		camX =  camHalfWidth;
+		camX =  camHalfWidth + 32;
 		camY = glm::clamp(camY, MAP_BOTTOM + camHalfHeight, MAP_TOP - camHalfHeight);
 	}
 	if (fase == FASE4) {
