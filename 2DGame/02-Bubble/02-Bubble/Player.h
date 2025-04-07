@@ -6,6 +6,7 @@
 #include "TileMap.h"
 #include "Florecita.h"
 #include "Projectil.h"
+#include "Planta.h"
 
 
 // Player is basically a Sprite that represents the player. As such it has
@@ -29,10 +30,12 @@ public:
 	
 	void setFlorecitas(std::vector<Florecita*>* flors);
 	void setProjectils(std::vector<Projectil*>* proj);
+	void setPlantes(std::vector<Planta*>* proj);
 
 private:
 	int collisionFlorecitas();
 	bool collisionProjectils();
+	bool collisionPlantes();
 
 private:
 	bool bJumping;
@@ -45,12 +48,14 @@ private:
 	TileMap* map;
 	std::vector<Florecita*>* florecitas;
 	std::vector<Projectil*>* projectils;
+	std::vector<Planta*>* plantes;
 	int spriteTriat;
 	glm::vec2 posllança;
 	int limit;
 	bool dreta;
 	float vida;
 	int timerLava;
+	bool plantBelow;
 };
 
 

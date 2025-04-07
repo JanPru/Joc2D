@@ -74,18 +74,30 @@ void Scene::definirFlorecitas() {
 	florecitas.push_back(flor5);
 }
 
+void Scene::definirPlantes() {
+	plantes.clear();
+
+	Planta* p = new Planta();
+	p->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	p->setPosition(glm::vec2(116 * map->getTileSize(), 69 * map->getTileSize()));
+
+	plantes.push_back(p);
+}
+
 void Scene::init()
 {
 	initShaders();
 	map = TileMap::createTileMap("levels/mapa2.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
 	definirProjectils();
 	definirFlorecitas();
+	definirPlantes();
 	player = new Player();
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 	player->setTileMap(map);
 	player->setFlorecitas(&florecitas);
 	player->setProjectils(&projectils);
+	player->setPlantes(&plantes);
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH), float(SCREEN_HEIGHT), 0.f);
 	currentTime = 0.0f;
 
@@ -149,6 +161,10 @@ void Scene::update(int deltaTime)
 		}
 	}
 
+	for (auto& p : plantes) {
+		p->update(deltaTime);
+	}
+
 	// COSES DE LA CAMERA
 	limitszona[0] = glm::vec2(2032, 512);
 	limitszona[1] = glm::vec2(2288, 2032);
@@ -194,6 +210,9 @@ void Scene::render()
 	}
 	for (auto& f : florecitas) {
 		f->render();
+	}
+	for (auto& p : plantes) {
+		p->render();
 	}
 	player->render();
 

@@ -97,6 +97,7 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 	dreta = true;
 	lastProjectil = 0;
 	currentTime = 0;
+	plantBelow = false;
 
 	vida = 4;
 }
@@ -104,6 +105,7 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 void Player::update(int deltaTime)
 {
 	currentTime += deltaTime;
+
 	if (collisionFlorecitas()) {
 		int direction = collisionFlorecitas();
 
@@ -212,17 +214,25 @@ void Player::update(int deltaTime)
 		}
 		else
 		{
-			posPlayer.y = int(startY - 96 * sin(3.14159f * jumpAngle / 180.f));
+			if (plantBelow) posPlayer.y = int(startY - 96 * sin(3.14159f * jumpAngle / 180.f));
+			if (!plantBelow) posPlayer.y = int(startY - 48 * sin(3.14159f * jumpAngle / 180.f));
+
 			if (jumpAngle > 90) {
-				if (map->collisionMoveDown(posPlayer, glm::ivec2(24, 32), &posPlayer.y) || collisionFlorecitas()) bJumping = false;
+				if (map->collisionMoveDown(posPlayer, glm::ivec2(24, 32), &posPlayer.y) || collisionFlorecitas() || collisionPlantes()) {
+					bJumping = false;
+					if (!collisionPlantes()) plantBelow = false;
+					else plantBelow = true;
+				}
 			}
 
 		}
 	}
 	else
 	{
-		if (!collisionFlorecitas()) posPlayer.y += FALL_STEP;
-		if (map->collisionMoveDown(posPlayer, glm::ivec2(24, 32), &posPlayer.y) || collisionFlorecitas())
+		if (!collisionPlantes()) plantBelow = false;
+		else plantBelow = true;
+		if (!collisionFlorecitas() && !collisionPlantes()) posPlayer.y += FALL_STEP;
+		if (map->collisionMoveDown(posPlayer, glm::ivec2(24, 32), &posPlayer.y) || collisionFlorecitas() || collisionPlantes())
 		{
 			if (Game::instance().getKey(GLFW_KEY_Z))
 			{
@@ -277,6 +287,33 @@ int Player::collisionFlorecitas() {
 	return 0;
 }
 
+bool Player::collisionPlantes() {
+	if (plantes == nullptr) return false;
+
+	glm::ivec2 playerSize = glm::ivec2(24, 32);  // el tamaño del sprite
+
+	const int margen = 4; // tolerancia vertical
+
+	for (auto& p : *plantes) {
+		glm::vec2 posPlanta = p->getPosition();  // Asegurate de tener este método
+		glm::ivec2 sizePlanta = glm::ivec2(32, 16); // Tamaño de flor (ajustalo si es distinto)
+
+		bool estaEncimaHorizontalmente =
+			(posPlayer.x + playerSize.x > posPlanta.x) &&
+			(posPlayer.x < posPlanta.x + sizePlanta.x);
+
+		bool estaEncimaVerticalmente =
+			abs((posPlayer.y + playerSize.y) - posPlanta.y) <= margen;
+
+		if (estaEncimaHorizontalmente && estaEncimaVerticalmente) {
+			p->startMoving();
+			return true;
+		}
+	}
+
+	return false;
+}
+
 bool Player::collisionProjectils() {
 	if (projectils == nullptr) return false;
 
@@ -307,6 +344,10 @@ void Player::setFlorecitas(std::vector<Florecita*>* flors) {
 
 void Player::setProjectils(std::vector<Projectil*>* proj) {
 	projectils = proj;
+}
+
+void Player::setPlantes(std::vector<Planta*>* plant) {
+	plantes = plant;
 }
 
 void Player::render()

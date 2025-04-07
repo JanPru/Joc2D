@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "Projectil.h"
 #include "Florecita.h"
+#include "Planta.h"
 #include "GUI.h"
 
 
@@ -33,6 +34,7 @@ private:
 	void modifcam();
 	void definirProjectils();
 	void definirFlorecitas();
+	void definirPlantes();
 
 private:
 	TileMap* map;
@@ -50,6 +52,7 @@ private:
 	float tilesize;
 	std::vector<Projectil*> projectils;
 	std::vector<Florecita*> florecitas;
+	std::vector<Planta*> plantes;
 	Fase fase;
 	glm::vec2 limitszona[6];
 	GUI* gui;
