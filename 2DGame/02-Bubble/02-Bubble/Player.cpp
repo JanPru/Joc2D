@@ -1,6 +1,7 @@
 #include <cmath>
 #include <iostream>
 #include <GL/glew.h>
+#include <glm/gtc/matrix_transform.hpp>
 #include "Player.h"
 #include "Game.h"
 
@@ -12,7 +13,7 @@
 
 enum PlayerAnims
 {
-	STAND_RIGHT, MOVE_RIGHT, JUMP_RIGHT, STAND, CROUCH, ATTACK_RIGHT, ATTACK_MOVE, ATTACK_CROUCH, JUMP_ATTACK, FALL_ATTACK // EL ORDRE IMPORTA, ALHORA DE DEFINIR LES ANIMACIONS SHA
+	STAND_RIGHT, MOVE_RIGHT, JUMP_RIGHT, STAND, CROUCH, ATTACK_RIGHT, ATTACK_MOVE, ATTACK_CROUCH, JUMP_ATTACK, FALL_ATTACK, DAMAGE // EL ORDRE IMPORTA, ALHORA DE DEFINIR LES ANIMACIONS SHA
 };																																			//DE POSAR EL MATEIX PUTO ORDRE
 
 enum LlancesAnims
@@ -27,7 +28,7 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 	float sw = 1 / 6;
 	float sh = 1 / 4;
 	sprite = Sprite::createSprite(glm::ivec2(24, 32), glm::vec2(0.166666666, 0.25), &spritesheet, &shaderProgram);
-	sprite->setNumberAnimations(10);
+	sprite->setNumberAnimations(11);
 
 	sprite->setAnimationSpeed(STAND_RIGHT, 8);
 	sprite->addKeyframe(STAND_RIGHT, glm::vec2(0.33f, 0.f)); //LO PRIMER ES EL ID(ES UN NUMERO REALMENT), LO SEGON EL DESPLAÇAMENT
@@ -64,9 +65,12 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 	sprite->setAnimationSpeed(JUMP_ATTACK, 8);
 	sprite->addKeyframe(JUMP_ATTACK, glm::vec2(0.1666666, 0.75f));
 
-	sprite->setAnimationSpeed(FALL_ATTACK, 8);
-	sprite->addKeyframe(FALL_ATTACK, glm::vec2(0.1666666, 0.5f));
+		sprite->setAnimationSpeed(FALL_ATTACK, 8);
+		sprite->addKeyframe(FALL_ATTACK, glm::vec2(0.1666666, 0.5f));
 
+		sprite->setAnimationSpeed(DAMAGE, 8);
+		sprite->addKeyframe(DAMAGE, glm::vec2(0.1666666*2, 0.5f));
+		
 	sprite->changeAnimation(0);
 
 	spritesheetllances.loadFromFile("images/llances.png", TEXTURE_PIXEL_FORMAT_RGBA);
@@ -92,6 +96,8 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 	spritellances->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 	posllança = glm::vec2(0, 0);
+
+	spritellances->esllanca(1);
 
 	limit = 512;
 	dreta = true;
@@ -143,6 +149,8 @@ void Player::update(int deltaTime)
 	else if (Game::instance().getKey(GLFW_KEY_LEFT))
 	{
 		if (Game::instance().getKey(GLFW_KEY_X)) {
+			spritellances->esllanca(1);
+			activaLlança = true;
 			if (sprite->animation() != ATTACK_MOVE)
 				sprite->changeAnimation(ATTACK_MOVE);
 		}
@@ -156,10 +164,13 @@ void Player::update(int deltaTime)
 			sprite->changeAnimation(STAND_RIGHT);
 		}
 		sprite->canviaflip(true);
+		spritellances->canviaflip(true);
 	}
 	else if (Game::instance().getKey(GLFW_KEY_RIGHT))
 	{
 		if (Game::instance().getKey(GLFW_KEY_X)) {
+			spritellances->esllanca(1);
+			activaLlança = true;
 			if (sprite->animation() != ATTACK_MOVE)
 				sprite->changeAnimation(ATTACK_MOVE);
 		}
@@ -173,16 +184,24 @@ void Player::update(int deltaTime)
 			sprite->changeAnimation(STAND_RIGHT);
 		}
 		sprite->canviaflip(false);
+		spritellances->canviaflip(false);
 	}
-	else if (Game::instance().getKey(GLFW_KEY_X)) {
-		sprite->changeAnimation(ATTACK_RIGHT);
-		spritellances->changeAnimation(ATTACK);
-		spriteTriat = 1;
-		posllança = glm::vec2(24, 10);
+
+	else if (Game::instance().getKey(GLFW_KEY_X) && !activaLlança) {
+			spritellances->esllanca(1);
+			activaLlança = true;
+			timerLlança = 0;
+			frameLlança = 0;
+			capEndavant = !sprite->getflip();
+			spritellances->changeAnimation(ATTACK);
+			spriteTriat = 1;
+			posllança = glm::vec2(24, 9);
+			sprite->changeAnimation(ATTACK_RIGHT);
 	}
+
 	else
 	{
-		if (sprite->animation() == MOVE_RIGHT || sprite->animation() == JUMP_RIGHT || sprite->animation() == STAND || sprite->animation() == CROUCH || sprite->animation() == ATTACK_RIGHT || sprite->animation() == ATTACK_CROUCH || sprite->animation() == JUMP_ATTACK || sprite->animation() == FALL_ATTACK) {
+		if (sprite->animation() == MOVE_RIGHT || sprite->animation() == JUMP_RIGHT || sprite->animation() == STAND || sprite->animation() == CROUCH || sprite->animation() == ATTACK_CROUCH || sprite->animation() == JUMP_ATTACK || sprite->animation() == FALL_ATTACK) {
 			sprite->changeAnimation(STAND_RIGHT);
 			spriteTriat = 0;
 		}
@@ -191,6 +210,7 @@ void Player::update(int deltaTime)
 	if (bJumping)
 	{
 		if (Game::instance().getKey(GLFW_KEY_UP)) {
+			spritellances->esllanca(2);
 			sprite->changeAnimation(JUMP_ATTACK);
 			spritellances->changeAnimation(JUMP_ATTACKL);
 			spriteTriat = 1;
@@ -201,6 +221,7 @@ void Player::update(int deltaTime)
 			spritellances->changeAnimation(FALL_ATTACKL);
 			spriteTriat = 1;
 			posllança = glm::vec2(-4, 32);
+			spritellances->esllanca(2);
 		}
 		else spriteTriat = 0;
 		if (sprite->animation() == MOVE_RIGHT || sprite->animation() == STAND_RIGHT) sprite->changeAnimation(JUMP_RIGHT);
@@ -250,6 +271,29 @@ void Player::update(int deltaTime)
 	else {
 		timerLava = 0;
 	}
+
+	// Animació de la llança
+	if (activaLlança) {
+		timerLlança += deltaTime;
+		if (sprite->animation() == ATTACK_MOVE) {
+			frameLlança = 2;
+			spritellances->setkeyframe(frameLlança);
+			spriteTriat = 1;
+		}
+		else if (timerLlança >= 100) {
+			timerLlança = 0;
+
+			spritellances->setkeyframe(frameLlança);
+				if (frameLlança == 2) {
+					activaLlança = false;
+					spriteTriat = 0;
+					sprite->changeAnimation(STAND_RIGHT);
+				}
+				else frameLlança++;
+		}
+	}
+	else spritellances->esllanca(0);
+
 }
 
 int Player::collisionFlorecitas() {
@@ -312,7 +356,9 @@ void Player::setProjectils(std::vector<Projectil*>* proj) {
 void Player::render()
 {
 	sprite->render();
-	if (spriteTriat == 1) spritellances->render();
+	if (spriteTriat == 1) {
+		spritellances->render();
+	}
 }
 
 void Player::setTileMap(TileMap* tileMap)
