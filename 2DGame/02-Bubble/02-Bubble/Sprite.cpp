@@ -57,7 +57,7 @@ void Sprite::update(int deltaTime)
 void Sprite::render() const
 {
 	glm::mat4 modelview = glm::mat4(1.0f);
-	modelview = glm::translate(modelview, glm::vec3(position.x, position.y, 0.f)) * modelviewmult;
+	modelview = glm::translate(modelview, glm::vec3(position.x, position.y, 0.f));
 	if (flip && llanca == 0) {
 		modelview = glm::translate(modelview, glm::vec3(24/ 2.f, 0.f, 0.f));
 		modelview = glm::scale(modelview, glm::vec3(-1.0f, 1.0f, 1.0f));

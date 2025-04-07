@@ -1,4 +1,5 @@
 #include "GUI.h"
+#include "Game.h"
 
 void GUI::init(ShaderProgram& shaderProgram)
 {
@@ -51,6 +52,10 @@ void GUI::init(ShaderProgram& shaderProgram)
     foc->setPosition(glm::vec2(16, 16));
 
     triar = true;
+    vida = 4;
+    nllanternes = 2;
+    timerpress = 20;
+    vidamax = 4;
 
 }
 
@@ -61,7 +66,11 @@ void GUI::setPlayer(Player* player)
 
 void GUI::update(int deltaTime)
 {
-    //Funcio que et digui els cors en funcio de la vida del personatge
+    timerpress--;
+	if (Game::instance().getKey(GLFW_KEY_T) && timerpress <= 0) {
+		triar = !triar;
+        timerpress = 20;
+	}
 }
 
 void GUI::render(float vidatot)
@@ -72,7 +81,7 @@ void GUI::render(float vidatot)
     else {
         foc->render();
     }
-    for (int i = 0; i < 4; ++i) {
+    for (int i = 0; i < int(vida); ++i) {
         float vida = vidatot - i;
         vida = std::max(0.0f, std::min(vida, 1.0f));
 
@@ -87,4 +96,13 @@ void GUI::render(float vidatot)
         cor->setPosition(glm::vec2(15, 35 + i * 8));
         cor->render();
     }
+
+    for (int i = 0; i < nllanternes; ++i) {
+		llanternes->setPosition(glm::vec2(35 + i * 8, 15));
+		llanternes->render();
+    }
+}
+
+void GUI::setllanternes(int l) {
+    nllanternes = l;
 }

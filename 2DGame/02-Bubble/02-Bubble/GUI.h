@@ -17,8 +17,9 @@ public:
 
     void render(float vida);
 
+    void setllanternes(int l);
+
 private:
-    void setSprite(Sprite* sprite, glm::vec2 displacement);
 
 private:
     Player* player;
@@ -33,6 +34,9 @@ private:
     int ncors;
     int nllanternes;
     bool triar;
+    float vida;
+    int timerpress;
+    int vidamax;
 
 };
 

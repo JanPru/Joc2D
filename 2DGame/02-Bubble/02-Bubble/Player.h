@@ -8,7 +8,6 @@
 #include "Projectil.h"
 #include "Planta.h"
 
-
 // Player is basically a Sprite that represents the player. As such it has
 // all properties it needs to track its movement, jumping, and collisions.
 
@@ -27,6 +26,7 @@ public:
 	void canvialimit(int l, bool b); //true es que el limit sera dreta i false que limit sera esquerra
 
 	float getvida();
+	int getllanternes();
 	void setvida(float v);
 	
 	void setFlorecitas(std::vector<Florecita*>* flors);
@@ -57,6 +57,7 @@ private:
 	int limit;
 	bool dreta;
 	float vida;
+	int llanternes;
 	int timerLava;
 	float vidaant = 0;
 	int timerd;

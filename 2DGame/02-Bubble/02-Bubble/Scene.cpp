@@ -131,6 +131,7 @@ void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
 	player->update(deltaTime);
+	gui->update(deltaTime);
 
 	if (currentTime >= segCanviTiles) {
 		map->canviTiles(glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
@@ -201,7 +202,7 @@ void Scene::update(int deltaTime)
 	//std::cout << "Fase: " << fase << std::endl;
 	//std::cout << player->getPosition().x << std::endl;
 	//std::cout << player->getPosition().y << std::endl;
-
+	gui->setllanternes(player->getllanternes());
 }
 
 void Scene::render()
@@ -230,8 +231,8 @@ void Scene::render()
 	float camHalfWidth = (float(SCREEN_WIDTH) / (2.0f * zoom));
 	float camHalfHeight = (float(SCREEN_HEIGHT) / (2.0f * zoom));
 
-	glm::mat4 hudProjection = glm::ortho(0.f, float(camHalfWidth * 2), float(camHalfHeight * 2), 0.f);
-	texProgram.setUniformMatrix4f("projection", hudProjection);
+	glm::mat4 GUIproj = glm::ortho(0.f, float(camHalfWidth * 2), float(camHalfHeight * 2), 0.f);
+	texProgram.setUniformMatrix4f("projection", GUIproj);
 	gui->render(player->getvida());
 }
 
