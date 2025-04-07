@@ -105,6 +105,8 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 	currentTime = 0;
 
 	vida = 4;
+	damaged = false;
+	timerd = 1000;
 }
 
 void Player::update(int deltaTime)
@@ -115,7 +117,7 @@ void Player::update(int deltaTime)
 
 		if (direction == 1) {
 			posPlayer.x += 1;
-			if (map->collisionMoveRight(posPlayer, glm::ivec2(24, 32)) || (posPlayer.x == limit + 16 && dreta)) posPlayer.x -= 1;
+			if (map->collisionMoveRight(posPlayer, glm::ivec2(24, 32)) || (posPlayer.x == limit && dreta)) posPlayer.x -= 1;
 		}
 
 		else if (direction == -1) {
@@ -125,69 +127,76 @@ void Player::update(int deltaTime)
 	}
 
 	if (collisionProjectils() && (currentTime - 1000 >= lastProjectil)) {
-		vida -= 0.5;
+		setvida(-0.33);
 		lastProjectil = currentTime;
 	}
 
 	sprite->update(deltaTime);
 	spritellances->update(deltaTime);
 
-	if (Game::instance().getKey(GLFW_KEY_UP)) {
-		sprite->changeAnimation(STAND);
-		if (Game::instance().getKey(GLFW_KEY_DOWN))
-			sprite->changeAnimation(STAND_RIGHT);
+	if (damaged) {
+		timerd -= deltaTime;
+		if (sprite->animation() != DAMAGE)
+			sprite->changeAnimation(DAMAGE);
+		if (timerd <= 0) {
+			damaged = false;
+		}
 	}
-	else if (Game::instance().getKey(GLFW_KEY_DOWN)) {
-		sprite->changeAnimation(CROUCH);
-		if (Game::instance().getKey(GLFW_KEY_UP))
+	else {
+		if (Game::instance().getKey(GLFW_KEY_UP)) {
 			sprite->changeAnimation(STAND);
-		else if (Game::instance().getKey(GLFW_KEY_X)) {
-			if (sprite->animation() != ATTACK_CROUCH)
-				sprite->changeAnimation(ATTACK_CROUCH);
+			if (Game::instance().getKey(GLFW_KEY_DOWN))
+				sprite->changeAnimation(STAND_RIGHT);
 		}
-	}
-	else if (Game::instance().getKey(GLFW_KEY_LEFT))
-	{
-		if (Game::instance().getKey(GLFW_KEY_X)) {
-			spritellances->esllanca(1);
-			activaLlança = true;
-			if (sprite->animation() != ATTACK_MOVE)
-				sprite->changeAnimation(ATTACK_MOVE);
+		else if (Game::instance().getKey(GLFW_KEY_DOWN)) {
+			sprite->changeAnimation(CROUCH);
+			if (Game::instance().getKey(GLFW_KEY_UP))
+				sprite->changeAnimation(STAND);
+			else if (Game::instance().getKey(GLFW_KEY_X)) {
+				if (sprite->animation() != ATTACK_CROUCH)
+					sprite->changeAnimation(ATTACK_CROUCH);
+			}
 		}
-		else if (sprite->animation() != MOVE_RIGHT)
-			sprite->changeAnimation(MOVE_RIGHT);
-		posPlayer.x -= 2;
-		//if (map->collisionMoveLeft(posPlayer, glm::ivec2(24, 32)) || (posPlayer.x == limit + 16 && dreta))
-		if (map->collisionMoveLeft(posPlayer, glm::ivec2(24, 32)))
+		else if (Game::instance().getKey(GLFW_KEY_LEFT))
 		{
-			posPlayer.x += 2;
-			sprite->changeAnimation(STAND_RIGHT);
-		}
-		sprite->canviaflip(true);
-		spritellances->canviaflip(true);
-	}
-	else if (Game::instance().getKey(GLFW_KEY_RIGHT))
-	{
-		if (Game::instance().getKey(GLFW_KEY_X)) {
-			spritellances->esllanca(1);
-			activaLlança = true;
-			if (sprite->animation() != ATTACK_MOVE)
-				sprite->changeAnimation(ATTACK_MOVE);
-		}
-		else if (sprite->animation() != MOVE_RIGHT)
-			sprite->changeAnimation(MOVE_RIGHT);
-		posPlayer.x += 2;
-		//if (map->collisionMoveRight(posPlayer, glm::ivec2(24, 32)) || (posPlayer.x == limit + 16 && !dreta))
-		if (map->collisionMoveRight(posPlayer, glm::ivec2(24, 32)))
-		{
+			if (Game::instance().getKey(GLFW_KEY_X)) {
+				spritellances->esllanca(1);
+				activaLlança = true;
+				if (sprite->animation() != ATTACK_MOVE)
+					sprite->changeAnimation(ATTACK_MOVE);
+			}
+			else if (sprite->animation() != MOVE_RIGHT)
+				sprite->changeAnimation(MOVE_RIGHT);
 			posPlayer.x -= 2;
-			sprite->changeAnimation(STAND_RIGHT);
+			if (map->collisionMoveLeft(posPlayer, glm::ivec2(24, 32)) || (posPlayer.x == limit && dreta))
+			{
+				posPlayer.x += 2;
+				sprite->changeAnimation(STAND_RIGHT);
+			}
+			sprite->canviaflip(true);
+			spritellances->canviaflip(true);
 		}
-		sprite->canviaflip(false);
-		spritellances->canviaflip(false);
-	}
+		else if (Game::instance().getKey(GLFW_KEY_RIGHT))
+		{
+			if (Game::instance().getKey(GLFW_KEY_X)) {
+				spritellances->esllanca(1);
+				activaLlança = true;
+				if (sprite->animation() != ATTACK_MOVE)
+					sprite->changeAnimation(ATTACK_MOVE);
+			}
+			else if (sprite->animation() != MOVE_RIGHT)
+				sprite->changeAnimation(MOVE_RIGHT);
+			posPlayer.x += 2;
+			if (map->collisionMoveRight(posPlayer, glm::ivec2(24, 32)) || (posPlayer.x == limit + 16 && !dreta))
+			{
+				posPlayer.x -= 2;
+				sprite->changeAnimation(STAND_RIGHT);
+			}
+			sprite->canviaflip(false);
+			spritellances->canviaflip(false);
+		}
 
-	else if (Game::instance().getKey(GLFW_KEY_X) && !activaLlança) {
+		else if (Game::instance().getKey(GLFW_KEY_X) && !activaLlança) {
 			spritellances->esllanca(1);
 			activaLlança = true;
 			timerLlança = 0;
@@ -197,103 +206,103 @@ void Player::update(int deltaTime)
 			spriteTriat = 1;
 			posllança = glm::vec2(24, 9);
 			sprite->changeAnimation(ATTACK_RIGHT);
-	}
+		}
 
-	else
-	{
-		if (sprite->animation() == MOVE_RIGHT || sprite->animation() == JUMP_RIGHT || sprite->animation() == STAND || sprite->animation() == CROUCH || sprite->animation() == ATTACK_CROUCH || sprite->animation() == JUMP_ATTACK || sprite->animation() == FALL_ATTACK) {
-			sprite->changeAnimation(STAND_RIGHT);
-			spriteTriat = 0;
-		}
-	}
-
-	if (bJumping)
-	{
-		if (Game::instance().getKey(GLFW_KEY_UP)) {
-			spritellances->esllanca(2);
-			sprite->changeAnimation(JUMP_ATTACK);
-			spritellances->changeAnimation(JUMP_ATTACKL);
-			spriteTriat = 1;
-			posllança = glm::vec2(-7, -14);
-		}
-		else if (Game::instance().getKey(GLFW_KEY_DOWN)) {
-			sprite->changeAnimation(FALL_ATTACK);
-			spritellances->changeAnimation(FALL_ATTACKL);
-			spriteTriat = 1;
-			posllança = glm::vec2(-4, 32);
-			spritellances->esllanca(2);
-		}
-		else spriteTriat = 0;
-		if (sprite->animation() == MOVE_RIGHT || sprite->animation() == STAND_RIGHT) sprite->changeAnimation(JUMP_RIGHT);
-		jumpAngle += JUMP_ANGLE_STEP;
-		if (jumpAngle == 180)
-		{
-			bJumping = false;
-			posPlayer.y = startY;
-		}
 		else
 		{
-			posPlayer.y = int(startY - 96 * sin(3.14159f * jumpAngle / 180.f));
-			if (jumpAngle > 90) {
-				if (map->collisionMoveDown(posPlayer, glm::ivec2(24, 32), &posPlayer.y) || collisionFlorecitas()) bJumping = false;
+			if (sprite->animation() == MOVE_RIGHT || sprite->animation() == JUMP_RIGHT || sprite->animation() == STAND || sprite->animation() == CROUCH || sprite->animation() == ATTACK_CROUCH || sprite->animation() == JUMP_ATTACK || sprite->animation() == FALL_ATTACK) {
+				sprite->changeAnimation(STAND_RIGHT);
+				spriteTriat = 0;
 			}
-
 		}
-	}
-	else
-	{
-		if (!collisionFlorecitas()) posPlayer.y += FALL_STEP;
-		if (map->collisionMoveDown(posPlayer, glm::ivec2(24, 32), &posPlayer.y) || collisionFlorecitas())
+
+		if (bJumping)
 		{
-			if (Game::instance().getKey(GLFW_KEY_Z))
+			if (Game::instance().getKey(GLFW_KEY_UP)) {
+				spritellances->esllanca(2);
+				sprite->changeAnimation(JUMP_ATTACK);
+				spritellances->changeAnimation(JUMP_ATTACKL);
+				spriteTriat = 1;
+				posllança = glm::vec2(-7, -14);
+			}
+			else if (Game::instance().getKey(GLFW_KEY_DOWN)) {
+				sprite->changeAnimation(FALL_ATTACK);
+				spritellances->changeAnimation(FALL_ATTACKL);
+				spriteTriat = 1;
+				posllança = glm::vec2(-4, 32);
+				spritellances->esllanca(2);
+			}
+			else spriteTriat = 0;
+			if (sprite->animation() == MOVE_RIGHT || sprite->animation() == STAND_RIGHT) sprite->changeAnimation(JUMP_RIGHT);
+			jumpAngle += JUMP_ANGLE_STEP;
+			if (jumpAngle == 180)
 			{
-				bJumping = true;
-				jumpAngle = 0;
-				startY = posPlayer.y;
+				bJumping = false;
+				posPlayer.y = startY;
+			}
+			else
+			{
+				posPlayer.y = int(startY - 96 * sin(3.14159f * jumpAngle / 180.f));
+				if (jumpAngle > 90) {
+					if (map->collisionMoveDown(posPlayer, glm::ivec2(24, 32), &posPlayer.y) || collisionFlorecitas()) bJumping = false;
+				}
+
 			}
 		}
 		else
-			sprite->changeAnimation(JUMP_RIGHT);
-	}
+		{
+			if (!collisionFlorecitas()) posPlayer.y += FALL_STEP;
+			if (map->collisionMoveDown(posPlayer, glm::ivec2(24, 32), &posPlayer.y) || collisionFlorecitas())
+			{
+				if (Game::instance().getKey(GLFW_KEY_Z))
+				{
+					bJumping = true;
+					jumpAngle = 0;
+					startY = posPlayer.y;
+				}
+			}
+			else
+				sprite->changeAnimation(JUMP_RIGHT);
+		}
 
-	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
-	spritellances->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x + posllança.x), float(tileMapDispl.y + posPlayer.y + posllança.y)));
+		sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
+		spritellances->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x + posllança.x), float(tileMapDispl.y + posPlayer.y + posllança.y)));
 
-	if (map->eslava())
-	{
-		timerLava += deltaTime;
-		if (timerLava > 1000) {
-			vida -= 0.33f;
-			if (vida < 0) vida = 0;
+		if (map->eslava())
+		{
+			timerLava += deltaTime;
+			if (timerLava > 1000) {
+				setvida(-0.33);
+				if (vida < 0) vida = 0;
+				timerLava = 0;
+			}
+		}
+		else {
 			timerLava = 0;
 		}
-	}
-	else {
-		timerLava = 0;
-	}
 
-	// Animació de la llança
-	if (activaLlança) {
-		timerLlança += deltaTime;
-		if (sprite->animation() == ATTACK_MOVE) {
-			frameLlança = 2;
-			spritellances->setkeyframe(frameLlança);
-			spriteTriat = 1;
-		}
-		else if (timerLlança >= 100) {
-			timerLlança = 0;
+		// Animació de la llança
+		if (activaLlança) {
+			timerLlança += deltaTime;
+			if (sprite->animation() == ATTACK_MOVE) {
+				frameLlança = 2;
+				spritellances->setkeyframe(frameLlança);
+				spriteTriat = 1;
+			}
+			else if (timerLlança >= 100) {
+				timerLlança = 0;
 
-			spritellances->setkeyframe(frameLlança);
+				spritellances->setkeyframe(frameLlança);
 				if (frameLlança == 2) {
 					activaLlança = false;
 					spriteTriat = 0;
 					sprite->changeAnimation(STAND_RIGHT);
 				}
 				else frameLlança++;
+			}
 		}
+		else spritellances->esllanca(0);
 	}
-	else spritellances->esllanca(0);
-
 }
 
 int Player::collisionFlorecitas() {
@@ -383,4 +392,12 @@ void Player::canvialimit(int l, bool b) {
 
 float Player::getvida() {
 	return vida;
+}
+
+void Player::setvida(float v) {
+	vidaant = vida;
+	vida = vida + v;
+	if (vida < vidaant) {
+		damaged = true;
+	}
 }

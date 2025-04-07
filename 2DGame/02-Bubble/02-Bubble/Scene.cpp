@@ -153,10 +153,9 @@ void Scene::update(int deltaTime)
 	limitszona[0] = glm::vec2(2032, 512);
 	limitszona[1] = glm::vec2(2288, 2032);
 	limitszona[2] = glm::vec2(256, 2032);
-	limitszona[3] = glm::vec2();
-	/*
-	limitszona[4] = glm::vec2();
-	limitszona[5] = glm::vec2();*/
+	limitszona[3] = glm::vec2(0, 256);
+	limitszona[4] = glm::vec2(256, 752);
+	limitszona[5] = glm::vec2(752, 1108);
 
 	if (fase == FASE0 && player->getPosition().x >= limitszona[0].x) {
 		player->canvialimit(limitszona[0].x, true);
@@ -170,6 +169,18 @@ void Scene::update(int deltaTime)
 		player->canvialimit(limitszona[2].x - 16, false);
 		fase = FASE3;
 	}
+	if (fase == FASE3 && player->getPosition().x >= limitszona[3].y - 16 && player->getPosition().y < 704) {
+		player->canvialimit(limitszona[3].y, true);
+		fase = FASE4;
+	}
+	if (fase == FASE4 && player->getPosition().x > limitszona[4].y && player->getPosition().y < 704) {
+		player->canvialimit(limitszona[4].y, true);
+		fase = FASE5;
+	}
+	//std::cout << "LIMIT:3 " << fase << std::endl;
+	//std::cout << limitszona[2].x << std::endl;
+	//std::cout << "LIMIT:4 " << fase << std::endl;
+	//std::cout << limitszona[3].y << std::endl;
 
 	//std::cout << "Fase: " << fase << std::endl;
 	//std::cout << player->getPosition().x << std::endl;
@@ -233,7 +244,6 @@ void Scene::modifcam() {
 		}
 		*/
 	if (fase == FASE0) {
-
 		camX = glm::clamp(camX, limitszona[0].y + 32 + camHalfWidth, limitszona[0].x + 48 - camHalfWidth);
 		camY = 616;
 	}
@@ -245,7 +255,18 @@ void Scene::modifcam() {
 		camX = glm::clamp(camX, limitszona[2].x + 32 + camHalfWidth, limitszona[2].y + 48 - camHalfWidth);
 		camY = MAP_TOP - camHalfHeight;  // Bloquear verticalmente
 	}
-
+	if (fase == FASE3) {
+		camX =  camHalfWidth;
+		camY = glm::clamp(camY, MAP_BOTTOM + camHalfHeight, MAP_TOP - camHalfHeight);
+	}
+	if (fase == FASE4) {
+		camX = glm::clamp(camX, limitszona[4].x + 32 + camHalfWidth, limitszona[4].y + 48 - camHalfWidth);
+		camY = MAP_BOTTOM + camHalfHeight;
+	}
+	if (fase == FASE5) {
+		camX = 1108 - camHalfWidth;
+		camY = MAP_BOTTOM + camHalfHeight;
+	}
 
 	//camX = glm::clamp(camX, MAP_LEFT + camHalfWidth, MAP_RIGHT - camHalfWidth);
 	//camY = glm::clamp(camY, MAP_BOTTOM + camHalfHeight, MAP_TOP - camHalfHeight);

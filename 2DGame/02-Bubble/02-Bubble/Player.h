@@ -26,6 +26,7 @@ public:
 	void canvialimit(int l, bool b); //true es que el limit sera dreta i false que limit sera esquerra
 
 	float getvida();
+	void setvida(float v);
 	
 	void setFlorecitas(std::vector<Florecita*>* flors);
 	void setProjectils(std::vector<Projectil*>* proj);
@@ -51,6 +52,9 @@ private:
 	bool dreta;
 	float vida;
 	int timerLava;
+	float vidaant = 0;
+	bool damaged;
+	int timerd;
 
 	int frameLlança = 0;
 	int timerLlança = 0;
