@@ -45,6 +45,12 @@ private:
 	bool dreta;
 	float vida;
 	int timerLava;
+
+	int frameLlança = 0;
+	int timerLlança = 0;
+	bool activaLlança = false;
+	bool capEndavant = true;
+
 };
 
 

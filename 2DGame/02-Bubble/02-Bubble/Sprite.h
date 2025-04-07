@@ -37,6 +37,10 @@ public:
 	void setPosition(const glm::vec2 &pos);
 	void canviaflip(bool b);
 	bool animationfinished();
+	bool getflip();
+	void setkeyframe(int x);
+	void esllanca(int n);
+	void posarmodel(const glm::mat4 &modelview);
 
 private:
 	Texture *texture;
@@ -51,6 +55,9 @@ private:
 	vector<AnimKeyframes> animations;
 	bool flip;
 	bool finished;
+	glm::vec2 quadSize1;
+	bool llanca;
+	glm::mat4 modelviewmult;
 };
 
 
