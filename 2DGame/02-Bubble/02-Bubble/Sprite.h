@@ -39,7 +39,8 @@ public:
 	bool animationfinished();
 	bool getflip();
 	void setkeyframe(int x);
-	void esllanca();
+	void esllanca(int n);
+	void posarmodel(const glm::mat4 &modelview);
 
 private:
 	Texture *texture;
@@ -56,6 +57,7 @@ private:
 	bool finished;
 	glm::vec2 quadSize1;
 	bool llanca;
+	glm::mat4 modelviewmult;
 };
 
 

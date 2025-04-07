@@ -35,7 +35,7 @@ Sprite::Sprite(const glm::vec2& quadSize, const glm::vec2& sizeInSpritesheet, Te
 	position = glm::vec2(0.f);
 	flip = false;
 	quadSize1 = quadSize;
-	llanca = false;
+	llanca = 0;
 
 }
 
@@ -57,14 +57,13 @@ void Sprite::update(int deltaTime)
 void Sprite::render() const
 {
 	glm::mat4 modelview = glm::mat4(1.0f);
-	modelview = glm::translate(modelview, glm::vec3(position.x, position.y, 0.f));
-	if (flip && !llanca) {
-		modelview = glm::translate(modelview, glm::vec3(quadSize1.x / 2.f, 0.f, 0.f));
+	modelview = glm::translate(modelview, glm::vec3(position.x, position.y, 0.f)) * modelviewmult;
+	if (flip && llanca == 0) {
+		modelview = glm::translate(modelview, glm::vec3(24/ 2.f, 0.f, 0.f));
 		modelview = glm::scale(modelview, glm::vec3(-1.0f, 1.0f, 1.0f));
-		modelview = glm::translate(modelview, glm::vec3(-quadSize1.x / 2.f, 0.f, 0.f));
-
+		modelview = glm::translate(modelview, glm::vec3(-24/2.f, 0.f, 0.f));
 	}
-	else if (flip && llanca) {
+	else if (flip && llanca == 1) {
 		modelview = glm::translate(modelview, glm::vec3(-quadSize1.x / 2.f, 0.f, 0.f));
 		modelview = glm::scale(modelview, glm::vec3(-1.0f, 1.0f, 1.0f));
 		modelview = glm::translate(modelview, glm::vec3(quadSize1.x / 2.f - 16, 0.f, 0.f));
@@ -153,6 +152,10 @@ bool Sprite::animationfinished() {
 	return timeAnimation >= duration;
 }
 
-void Sprite::esllanca() {
-	llanca = true;
+void Sprite::esllanca(int n) {
+	llanca = n;
+}
+
+void Sprite::posarmodel(const glm::mat4& m){
+	modelviewmult = m;
 }
