@@ -35,6 +35,7 @@ private:
 	void definirProjectils();
 	void definirFlorecitas();
 	void definirPlantes();
+	void crearPlanta(int type, glm::vec2 position);
 
 private:
 	TileMap* map;

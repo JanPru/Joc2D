@@ -235,8 +235,10 @@ void Player::update(int deltaTime)
 				spritellances->esllanca(2);
 			}
 			else spriteTriat = 0;
+
 			if (sprite->animation() == MOVE_RIGHT || sprite->animation() == STAND_RIGHT) sprite->changeAnimation(JUMP_RIGHT);
 			jumpAngle += JUMP_ANGLE_STEP;
+
 			if (jumpAngle == 180)
 			{
 				bJumping = false;
@@ -245,7 +247,12 @@ void Player::update(int deltaTime)
 			else
 			{
 				if (plantBelow) posPlayer.y = int(startY - 96 * sin(3.14159f * jumpAngle / 180.f));
-				if (!plantBelow) posPlayer.y = int(startY - 48 * sin(3.14159f * jumpAngle / 180.f));
+				else posPlayer.y = int(startY - 48 * sin(3.14159f * jumpAngle / 180.f));
+
+				if (map->collisionMoveUp(posPlayer, glm::ivec2(24, 32), &posPlayer.y)) {
+					bJumping = false;
+					jumpAngle = 180;
+				}
 
 				if (jumpAngle > 90) {
 					if (map->collisionMoveDown(posPlayer, glm::ivec2(24, 32), &posPlayer.y) || collisionFlorecitas() || collisionPlantes()) {

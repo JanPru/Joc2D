@@ -69,18 +69,109 @@ void Scene::definirFlorecitas() {
 
 	Florecita* flor5 = new Florecita();
 	flor5->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 1);
-	flor5->setPosition(glm::vec2(0 * map->getTileSize(), 8 * map->getTileSize()));
+	flor5->setPosition(glm::vec2(0 * map->getTileSize(), 14 * map->getTileSize()));
 
 	florecitas.push_back(flor5);
+
+	Florecita* flor6 = new Florecita();
+	flor6->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 1);
+	flor6->setPosition(glm::vec2(0 * map->getTileSize(), 8 * map->getTileSize()));
+
+	florecitas.push_back(flor6);
 }
 
 void Scene::definirPlantes() {
 	plantes.clear();
 
 	Planta* p = new Planta();
-	p->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	p->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 0);
 	p->setPosition(glm::vec2(116 * map->getTileSize(), 69 * map->getTileSize()));
+	plantes.push_back(p);
 
+	p = new Planta();
+	p->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 1);
+	p->setPosition(glm::vec2(112 * map->getTileSize(), 64 * map->getTileSize()));
+	plantes.push_back(p);
+
+	p = new Planta();
+	p->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 0);
+	p->setPosition(glm::vec2(108 * map->getTileSize(), 69 * map->getTileSize()));
+	plantes.push_back(p);
+
+	p = new Planta();
+	p->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 1);
+	p->setPosition(glm::vec2(104 * map->getTileSize(), 65 * map->getTileSize()));
+	plantes.push_back(p);
+
+	p = new Planta();
+	p->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 0);
+	p->setPosition(glm::vec2(99 * map->getTileSize(), 68 * map->getTileSize()));
+	plantes.push_back(p);
+
+	p = new Planta();
+	p->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 1);
+	p->setPosition(glm::vec2(95 * map->getTileSize(), 68 * map->getTileSize()));
+	plantes.push_back(p);
+
+	p = new Planta();
+	p->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 0);
+	p->setPosition(glm::vec2(92 * map->getTileSize(), 64 * map->getTileSize()));
+	plantes.push_back(p);
+
+	p = new Planta();
+	p->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 1);
+	p->setPosition(glm::vec2(88 * map->getTileSize(), 70 * map->getTileSize()));
+	plantes.push_back(p);
+
+	p = new Planta();
+	p->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 1);
+	p->setPosition(glm::vec2(84 * map->getTileSize(), 66 * map->getTileSize()));
+	plantes.push_back(p);
+
+	p = new Planta();
+	p->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 0);
+	p->setPosition(glm::vec2(77 * map->getTileSize(), 66 * map->getTileSize()));
+	plantes.push_back(p);
+
+	p = new Planta();
+	p->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 0);
+	p->setPosition(glm::vec2(72 * map->getTileSize(), 65 * map->getTileSize()));
+	plantes.push_back(p);
+
+	p = new Planta();
+	p->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 1);
+	p->setPosition(glm::vec2(68 * map->getTileSize(), 70 * map->getTileSize()));
+	plantes.push_back(p);
+	
+	crearPlanta(0, glm::vec2(12, 65));
+	crearPlanta(0, glm::vec2(12, 53));
+	crearPlanta(0, glm::vec2(12, 49));
+	crearPlanta(0, glm::vec2(12, 42));
+	crearPlanta(0, glm::vec2(12, 18));
+
+	crearPlanta(1, glm::vec2(8, 66));
+	crearPlanta(1, glm::vec2(8, 62));
+	crearPlanta(1, glm::vec2(8, 45));
+	crearPlanta(1, glm::vec2(8, 34));
+	crearPlanta(1, glm::vec2(8, 11));
+
+	crearPlanta(0, glm::vec2(6, 57));
+	crearPlanta(0, glm::vec2(6, 53));
+	crearPlanta(0, glm::vec2(6, 43));
+	crearPlanta(0, glm::vec2(6, 39));
+	crearPlanta(0, glm::vec2(6, 25));
+
+	crearPlanta(1, glm::vec2(2, 62));
+	crearPlanta(1, glm::vec2(2, 58));
+	crearPlanta(1, glm::vec2(2, 46));
+	crearPlanta(1, glm::vec2(2, 18));
+	crearPlanta(1, glm::vec2(2, 11));
+}
+
+void Scene::crearPlanta(int type, glm::vec2 position) {
+	Planta* p = new Planta();
+	p->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, type);
+	p->setPosition(glm::vec2(position.x * map->getTileSize(), position.y * map->getTileSize()));
 	plantes.push_back(p);
 }
 
