@@ -125,6 +125,7 @@ void Scene::init()
 	//std::cout << "Tile Size: " << tilesize << " pixels" << std::endl;
 	gui = new GUI();
 	gui->init(texProgram);
+	gui->setPlayer(player);
 }
 
 void Scene::update(int deltaTime)

@@ -123,6 +123,13 @@ void Player::update(int deltaTime)
 	}
 	godmode = Game::instance().isgodmode();
 
+	timerpress--;
+	if (Game::instance().getKey(GLFW_KEY_T) && timerpress <= 0) {
+		triar = !triar;
+		timerpress = 20;
+	}
+
+
 	if (collisionFlorecitas()) {
 		int direction = collisionFlorecitas();
 
@@ -448,6 +455,10 @@ int Player::getllanternes() {
 	return llanternes;
 }
 
+bool Player::gettriar() {
+	return triar;
+}
+
 void Player::setvida(float v) {
 	if (!godmode) {
 		vidaant = vida;
@@ -467,7 +478,6 @@ void Player::setvida(float v) {
 		}
 	}
 }
-
 
 void Player::setAnimation(int anim) {
 	if (!overrideAnimation && sprite->animation() != anim) {

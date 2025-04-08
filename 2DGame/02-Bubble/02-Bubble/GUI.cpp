@@ -66,16 +66,11 @@ void GUI::setPlayer(Player* player)
 
 void GUI::update(int deltaTime)
 {
-    timerpress--;
-	if (Game::instance().getKey(GLFW_KEY_T) && timerpress <= 0) {
-		triar = !triar;
-        timerpress = 20;
-	}
 }
 
 void GUI::render(float vidatot, float vidamax)
 {
-    if (triar) {
+    if (player->gettriar()) {
         llança->render();
     }
     else {

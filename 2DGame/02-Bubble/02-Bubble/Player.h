@@ -36,6 +36,8 @@ public:
 
 	void setAnimation(int anim);
 
+	bool gettriar();
+
 private:
 	int collisionFlorecitas();
 	bool collisionProjectils();
@@ -75,6 +77,9 @@ private:
 	bool overrideAnimation = false;
 
 	bool godmode;
+
+	bool triar = true;
+	int timerpress = 20;
 };
 
 
