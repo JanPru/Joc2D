@@ -4,7 +4,7 @@
 
 enum estats
 {
-	INICI, JOC, FI
+	INICI, JOC, FI, INST
 };
 
 void Game::init()
@@ -14,11 +14,13 @@ void Game::init()
 	start.init();
 	estat = INICI;
 	timer = 20;
+	timeri = 20;
 }
 
 bool Game::update(int deltaTime)
 {
 	timer--;
+	timeri--;
 	if(estat == INICI)
 	{
 		start.update(deltaTime);
@@ -37,6 +39,12 @@ bool Game::update(int deltaTime)
 			estat = FI;
 			fin.init();
 		}
+		if (Game::instance().getKey(GLFW_KEY_I) && timeri <= 0) {
+			estat = INST;
+			instruccions.init();
+			timeri = 20;
+		}
+
 	}
 	else if (estat == FI)
 	{
@@ -45,6 +53,15 @@ bool Game::update(int deltaTime)
 			timer = 20;
 			estat = INICI;
 			start.init();
+		}
+	}
+	else if (estat == INST)
+	{
+		instruccions.update(deltaTime);
+		if (Game::instance().getKey(GLFW_KEY_I) && timeri <= 0)
+		{
+			estat = JOC;
+			timeri = 20;
 		}
 	}
 
@@ -57,6 +74,7 @@ void Game::render()
 	if(estat == INICI) start.render();
 	else if(estat == JOC) scene.render();
 	else if (estat == FI) fin.render();
+	else if (estat == INST) instruccions.render();
 }
 
 void Game::keyPressed(int key)

@@ -17,6 +17,7 @@
     <ClInclude Include="Florecita.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GUI.h" />
+    <ClInclude Include="Instruccions.h" />
     <ClInclude Include="Planta.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Projectil.h" />
@@ -34,6 +35,7 @@
     <ClCompile Include="Florecita.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GUI.cpp" />
+    <ClCompile Include="Instruccions.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Planta.cpp" />
     <ClCompile Include="Player.cpp" />

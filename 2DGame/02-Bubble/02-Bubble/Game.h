@@ -6,6 +6,7 @@
 #include "Scene.h"
 #include "Start.h"
 #include "Fin.h"
+#include "Instruccions.h"
 
 
 #define SCREEN_WIDTH 640
@@ -53,11 +54,14 @@ private:
 	Scene scene;
 	Start start;
 	Fin fin;
+	Instruccions instruccions;
 
 	bool startbool;
+	bool inst;
 	int estat;
 
 	int timer;
+	int timeri;
 
 	bool godmode;
 
