@@ -5,6 +5,7 @@
 #include <GLFW/glfw3.h>
 #include "Scene.h"
 #include "Start.h"
+#include "Fin.h"
 
 
 #define SCREEN_WIDTH 640
@@ -50,8 +51,12 @@ private:
 							    // we can have access at any time
 	Scene scene;
 	Start start;
+	Fin fin;
 
 	bool startbool;
+	int estat;
+
+	int timer;
 
 };
 

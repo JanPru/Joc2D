@@ -2,32 +2,50 @@
 #include <GLFW/glfw3.h>
 #include "Game.h"
 
+enum estats
+{
+	INICI, JOC, FI
+};
 
 void Game::init()
 {
 	bPlay = true;
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 	start.init();
-	scene.init();
-	startbool = true;
+	estat = INICI;
+	timer = 200;
 }
 
 bool Game::update(int deltaTime)
 {
-	if(startbool)
+	timer--;
+	if(estat == INICI)
 	{
 		start.update(deltaTime);
-		if (Game::instance().getKey(GLFW_KEY_ENTER))
+		if (Game::instance().getKey(GLFW_KEY_ENTER) && timer <= 0)
 		{
-			startbool = false;
+			estat = JOC;
 			scene.init();
 		}
 	}
-	else
+	else if(estat == JOC)
 	{
 		scene.update(deltaTime);
+		if (scene.getvidaPlayer() < 0.33f && estat != FI)
+		{
+			estat = FI;
+			fin.init();
+		}
 	}
-	start.update(deltaTime);
+	else if (estat == FI)
+	{
+		if (Game::instance().getKey(GLFW_KEY_ENTER))
+		{
+			timer = 20;
+			estat = INICI;
+			start.init();
+		}
+	}
 
 	return bPlay;
 }
@@ -35,8 +53,9 @@ bool Game::update(int deltaTime)
 void Game::render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	if(startbool) start.render();
-	else scene.render();
+	if(estat == INICI) start.render();
+	else if(estat == JOC) scene.render();
+	else if (estat == FI) fin.render();
 }
 
 void Game::keyPressed(int key)

@@ -105,8 +105,8 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 	currentTime = 0;
 	plantBelow = false;
 
-	vida = 4;
-	llanternes = 2;
+	vida = 1;
+	llanternes = 0;
 	damaged = false;
 	timerd = 1000;
 }
@@ -446,7 +446,7 @@ void Player::setvida(float v) {
 		overrideAnimation = true;
 		sprite->changeAnimation(DAMAGE);
 	}
-	if (vida <= 0) {
+	if (vida < 0.33f) {
 		if (llanternes > 0) {
 			llanternes--;
 			vida = 4;

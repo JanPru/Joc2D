@@ -350,3 +350,7 @@ void Scene::resize(int width, int height) {
 
 	modifcam();
 }
+
+float Scene::getvidaPlayer() {
+	return player->getvida();
+}

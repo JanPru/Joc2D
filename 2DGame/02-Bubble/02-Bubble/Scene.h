@@ -28,6 +28,7 @@ public:
 	void update(int deltaTime);
 	void render();
 	void resize(int width, int height);
+	float getvidaPlayer();
 
 private:
 	void initShaders();
