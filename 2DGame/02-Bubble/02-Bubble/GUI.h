@@ -15,7 +15,7 @@ public:
 
     void update(int deltaTime);
 
-    void render(float vida);
+    void render(float vida, float vidamax);
 
     void setllanternes(int l);
 
