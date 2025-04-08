@@ -50,6 +50,9 @@ void Sprite::update(int deltaTime)
 			timeAnimation -= animations[currentAnimation].millisecsPerKeyframe;
 			currentKeyframe = (currentKeyframe + 1) % animations[currentAnimation].keyframeDispl.size();
 		}
+		if (currentKeyframe >= animations[currentAnimation].keyframeDispl.size()) {
+			currentKeyframe = 0;
+		}
 		texCoordDispl = animations[currentAnimation].keyframeDispl[currentKeyframe];
 	}
 }

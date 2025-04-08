@@ -233,6 +233,7 @@ void Player::update(int deltaTime)
 
 		if (bJumping)
 		{
+			lava = false;
 			if (Game::instance().getKey(GLFW_KEY_UP)) {
 				spritellances->esllanca(2);
 				setAnimation(JUMP_ATTACK);
@@ -280,7 +281,9 @@ void Player::update(int deltaTime)
 		else
 		{
 			if (!collisionPlantes()) plantBelow = false;
-			else plantBelow = true;
+			else {
+				plantBelow = true;
+			}
 			if (!collisionFlorecitas() && !collisionPlantes()) posPlayer.y += FALL_STEP;
 			if (map->collisionMoveDown(posPlayer, glm::ivec2(24, 32), &posPlayer.y) || collisionFlorecitas() || collisionPlantes())
 			{
@@ -297,10 +300,15 @@ void Player::update(int deltaTime)
 
 		sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 		spritellances->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x + posllança.x), float(tileMapDispl.y + posPlayer.y + posllança.y)));
-
-		if (map->eslava())
+		if (posPlayer.y == 1120) lava = true;
+		//std::cout << "PosPlayer: " << posPlayer.x << " " << posPlayer.y << std::endl;
+		if (eslavap())
 		{
 			timerLava += deltaTime;
+			if (primer) {
+				setvida(-0.33);
+				primer = false;
+			}
 			if (timerLava > 1000) {
 				setvida(-0.33);
 				if (vida < 0) vida = 0;
@@ -308,10 +316,10 @@ void Player::update(int deltaTime)
 			}
 		}
 		else {
+			primer = true;
 			timerLava = 0;
 		}
 
-		// Animació de la llança
 		if (activaLlança) {
 			timerLlança += deltaTime;
 			if (sprite->animation() == ATTACK_MOVE) {
@@ -337,13 +345,13 @@ void Player::update(int deltaTime)
 int Player::collisionFlorecitas() {
 	if (florecitas == nullptr) return false;
 
-	glm::ivec2 playerSize = glm::ivec2(24, 32);  // el tamaño del sprite
+	glm::ivec2 playerSize = glm::ivec2(24, 32);
 
-	const int margen = 4; // tolerancia vertical
+	const int margen = 4;
 
 	for (auto& flor : *florecitas) {
-		glm::vec2 posFlor = flor->getPosition();  // Asegurate de tener este método
-		glm::ivec2 sizeFlor = glm::ivec2(24, 16); // Tamaño de flor (ajustalo si es distinto)
+		glm::vec2 posFlor = flor->getPosition();  
+		glm::ivec2 sizeFlor = glm::ivec2(24, 16); 
 
 		bool estaEncimaHorizontalmente =
 			(posPlayer.x + playerSize.x > posFlor.x) &&
@@ -362,13 +370,13 @@ int Player::collisionFlorecitas() {
 bool Player::collisionPlantes() {
 	if (plantes == nullptr) return false;
 
-	glm::ivec2 playerSize = glm::ivec2(24, 32);  // el tamaño del sprite
+	glm::ivec2 playerSize = glm::ivec2(24, 32);  
 
-	const int margen = 4; // tolerancia vertical
+	const int margen = 4; 
 
 	for (auto& p : *plantes) {
-		glm::vec2 posPlanta = p->getPosition();  // Asegurate de tener este método
-		glm::ivec2 sizePlanta = glm::ivec2(32, 16); // Tamaño de flor (ajustalo si es distinto)
+		glm::vec2 posPlanta = p->getPosition();  
+		glm::ivec2 sizePlanta = glm::ivec2(32, 16); 
 
 		bool estaEncimaHorizontalmente =
 			(posPlayer.x + playerSize.x > posPlanta.x) &&
@@ -492,3 +500,6 @@ void Player::setAnimation(int anim) {
 	}
 }
 
+bool Player::eslavap() {
+	return lava && map->eslava();
+}

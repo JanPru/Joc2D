@@ -37,6 +37,7 @@ public:
 	void setAnimation(int anim);
 
 	bool gettriar();
+	bool eslavap();
 
 private:
 	int collisionFlorecitas();
@@ -63,6 +64,7 @@ private:
 	float vidamax;
 	int llanternes;
 	int timerLava;
+	bool lava = false;
 	float vidaant = 0;
 	int frameLlança = 0;
 	int timerLlança = 0;
@@ -80,6 +82,9 @@ private:
 
 	bool triar = true;
 	int timerpress = 20;
+
+	bool primer = true;
+	bool plantatocada = false;
 };
 
 
