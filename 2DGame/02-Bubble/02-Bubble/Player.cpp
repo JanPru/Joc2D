@@ -105,8 +105,8 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 	currentTime = 0;
 	plantBelow = false;
 
-	vida = 1;
-	llanternes = 0;
+	vida = 4;
+	llanternes = 2;
 	damaged = false;
 	timerd = 1000;
 }
