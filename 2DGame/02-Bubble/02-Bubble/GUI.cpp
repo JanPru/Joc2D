@@ -66,22 +66,17 @@ void GUI::setPlayer(Player* player)
 
 void GUI::update(int deltaTime)
 {
-    timerpress--;
-	if (Game::instance().getKey(GLFW_KEY_T) && timerpress <= 0) {
-		triar = !triar;
-        timerpress = 20;
-	}
 }
 
-void GUI::render(float vidatot)
+void GUI::render(float vidatot, float vidamax)
 {
-    if (triar) {
+    if (player->gettriar()) {
         llança->render();
     }
     else {
         foc->render();
     }
-    for (int i = 0; i < int(vida); ++i) {
+    for (int i = 0; i < int(vidamax); ++i) {
         float vida = vidatot - i;
         vida = std::max(0.0f, std::min(vida, 1.0f));
 

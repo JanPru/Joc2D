@@ -44,6 +44,7 @@ public:
 	bool getKey(int key) const;
 
 	void startturn();
+	bool isgodmode();
 
 private:
 	bool bPlay; // Continue to play game?
@@ -57,6 +58,8 @@ private:
 	int estat;
 
 	int timer;
+
+	bool godmode;
 
 };
 

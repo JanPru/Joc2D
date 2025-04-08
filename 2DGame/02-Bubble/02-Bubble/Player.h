@@ -26,6 +26,7 @@ public:
 	void canvialimit(int l, bool b); //true es que el limit sera dreta i false que limit sera esquerra
 
 	float getvida();
+	float getvidamax();
 	int getllanternes();
 	void setvida(float v);
 	
@@ -34,6 +35,8 @@ public:
 	void setPlantes(std::vector<Planta*>* proj);
 
 	void setAnimation(int anim);
+
+	bool gettriar();
 
 private:
 	int collisionFlorecitas();
@@ -57,10 +60,10 @@ private:
 	int limit;
 	bool dreta;
 	float vida;
+	float vidamax;
 	int llanternes;
 	int timerLava;
 	float vidaant = 0;
-	int timerd;
 	int frameLlança = 0;
 	int timerLlança = 0;
 	bool activaLlança = false;
@@ -72,6 +75,11 @@ private:
 	const float damageDuration = 500.f;
 	int lastAnimation = -1;
 	bool overrideAnimation = false;
+
+	bool godmode;
+
+	bool triar = true;
+	int timerpress = 20;
 };
 
 

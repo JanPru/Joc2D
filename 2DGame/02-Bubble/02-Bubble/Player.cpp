@@ -106,14 +106,29 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 	plantBelow = false;
 
 	vida = 4;
+	vidamax = 4;
 	llanternes = 2;
 	damaged = false;
-	timerd = 1000;
+
+	godmode = false;
 }
 
 void Player::update(int deltaTime)
 {
 	currentTime += deltaTime;
+
+	if (Game::instance().getKey(GLFW_KEY_H)) {
+		vida = vidamax;
+		llanternes = 2;
+	}
+	godmode = Game::instance().isgodmode();
+
+	timerpress--;
+	if (Game::instance().getKey(GLFW_KEY_T) && timerpress <= 0) {
+		triar = !triar;
+		timerpress = 20;
+	}
+
 
 	if (collisionFlorecitas()) {
 		int direction = collisionFlorecitas();
@@ -439,28 +454,37 @@ float Player::getvida() {
 	return vida;
 }
 
+float Player::getvidamax() {
+	return vidamax;
+}
+
 int Player::getllanternes() {
 	return llanternes;
 }
 
+bool Player::gettriar() {
+	return triar;
+}
+
 void Player::setvida(float v) {
-	vidaant = vida;
-	vida = vida + v;
-	if (vida < vidaant && !damaged) {
-		damaged = true;
-		damageTimer = damageDuration;
-		lastAnimation = sprite->animation();
-		overrideAnimation = true;
-		sprite->changeAnimation(DAMAGE);
-	}
-	if (vida < 0.33f) {
-		if (llanternes > 0) {
-			llanternes--;
-			vida = 4;
+	if (!godmode) {
+		vidaant = vida;
+		vida = vida + v;
+		if (vida < vidaant && !damaged) {
+			damaged = true;
+			damageTimer = damageDuration;
+			lastAnimation = sprite->animation();
+			overrideAnimation = true;
+			sprite->changeAnimation(DAMAGE);
+		}
+		if (vida < 0.33f) {
+			if (llanternes > 0) {
+				llanternes--;
+				vida = 4;
+			}
 		}
 	}
 }
-
 
 void Player::setAnimation(int anim) {
 	if (!overrideAnimation && sprite->animation() != anim) {

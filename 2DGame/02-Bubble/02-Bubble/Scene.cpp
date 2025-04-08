@@ -216,6 +216,7 @@ void Scene::init()
 	//std::cout << "Tile Size: " << tilesize << " pixels" << std::endl;
 	gui = new GUI();
 	gui->init(texProgram);
+	gui->setPlayer(player);
 }
 
 void Scene::update(int deltaTime)
@@ -324,7 +325,7 @@ void Scene::render()
 
 	glm::mat4 GUIproj = glm::ortho(0.f, float(camHalfWidth * 2), float(camHalfHeight * 2), 0.f);
 	texProgram.setUniformMatrix4f("projection", GUIproj);
-	gui->render(player->getvida());
+	gui->render(player->getvida(), player->getvidamax());
 }
 
 void Scene::modifcam() {

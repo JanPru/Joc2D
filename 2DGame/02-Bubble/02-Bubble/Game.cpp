@@ -13,7 +13,7 @@ void Game::init()
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 	start.init();
 	estat = INICI;
-	timer = 200;
+	timer = 20;
 }
 
 bool Game::update(int deltaTime)
@@ -30,6 +30,7 @@ bool Game::update(int deltaTime)
 	}
 	else if(estat == JOC)
 	{
+		if (Game::instance().getKey(GLFW_KEY_G)) godmode = !godmode;
 		scene.update(deltaTime);
 		if (scene.getvidaPlayer() < 0.33f && estat != FI)
 		{
@@ -89,4 +90,9 @@ bool Game::getKey(int key) const
 
 void Game::resize(int width, int height) {
 	scene.resize(width, height);
+}
+
+bool Game::isgodmode()
+{
+	return godmode;
 }
