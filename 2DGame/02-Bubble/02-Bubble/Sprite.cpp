@@ -35,7 +35,10 @@ Sprite::Sprite(const glm::vec2& quadSize, const glm::vec2& sizeInSpritesheet, Te
 	position = glm::vec2(0.f);
 	flip = false;
 	quadSize1 = quadSize;
-	llanca = 0;
+	llanca1 = false;
+	llanca2 = false;
+	llanca3 = false;
+	llanca4 = false;
 
 }
 
@@ -59,17 +62,29 @@ void Sprite::update(int deltaTime)
 
 void Sprite::render() const
 {
+	//if (llanca1) std::cout << "llanca1 (spritellances)" << this << std::endl;
+	//if (llanca3) std::cout << "llanca3 (spritefoc)" << this << std::endl;
 	glm::mat4 modelview = glm::mat4(1.0f);
 	modelview = glm::translate(modelview, glm::vec3(position.x, position.y, 0.f));
-	if (flip && llanca == 0) {
+	if (flip && llanca2) { // aixo es pel jugador
 		modelview = glm::translate(modelview, glm::vec3(24/ 2.f, 0.f, 0.f));
 		modelview = glm::scale(modelview, glm::vec3(-1.0f, 1.0f, 1.0f));
 		modelview = glm::translate(modelview, glm::vec3(-24/2.f, 0.f, 0.f));
 	}
-	else if (flip && llanca == 1) {
+	else if (flip && llanca1) { // aixo es per la llança normal
 		modelview = glm::translate(modelview, glm::vec3(-quadSize1.x / 2.f, 0.f, 0.f));
 		modelview = glm::scale(modelview, glm::vec3(-1.0f, 1.0f, 1.0f));
 		modelview = glm::translate(modelview, glm::vec3(quadSize1.x / 2.f - 16, 0.f, 0.f));
+	}
+	else if (flip && llanca3) { // aixo es pel foc
+		modelview = glm::translate(modelview, glm::vec3(-60 / 2.f, 0.f, 0.f));
+		modelview = glm::scale(modelview, glm::vec3(-1.0f, 1.0f, 1.0f));
+		modelview = glm::translate(modelview, glm::vec3(60 / 2.f - 16, 0.f, 0.f));
+	}
+	else if (flip && llanca4) { // aixo es per la llança cap amunt i cap avall
+		modelview = glm::translate(modelview, glm::vec3(-60 / 2.f, 0.f, 0.f));
+		modelview = glm::scale(modelview, glm::vec3(-1.0f, 1.0f, 1.0f));
+		modelview = glm::translate(modelview, glm::vec3(60 / 2.f - 16, 0.f, 0.f));
 	}
 	shaderProgram->setUniformMatrix4f("modelview", modelview);
 	shaderProgram->setUniform2f("texCoordDispl", texCoordDispl.x, texCoordDispl.y);
@@ -155,10 +170,16 @@ bool Sprite::animationfinished() {
 	return timeAnimation >= duration;
 }
 
-void Sprite::esllanca(int n) {
-	llanca = n;
+void Sprite::esllanca1() {
+	llanca1 = true;
+}
+void Sprite::esllanca2() {
+	llanca2 = true;
+}
+void Sprite::esllanca3() {
+	llanca3 = true;
 }
 
-void Sprite::posarmodel(const glm::mat4& m){
-	modelviewmult = m;
+void Sprite::esllanca4() {
+	llanca4 = true;
 }

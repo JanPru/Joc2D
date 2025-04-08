@@ -50,8 +50,11 @@ private:
 	int currentTime;
 	glm::ivec2 tileMapDispl, posPlayer;
 	int jumpAngle, startY;
-	Texture spritesheet, spritesheetllances;
-	Sprite* sprite, * spritellances;
+	Texture spritesheet, spritesheetllances, spritesheetfoc;
+	Sprite* sprite;
+	Sprite* spritellances;
+	Sprite* spritefoc;
+	Sprite* spritellancesvert;
 	TileMap* map;
 	std::vector<Florecita*>* florecitas;
 	std::vector<Projectil*>* projectils;

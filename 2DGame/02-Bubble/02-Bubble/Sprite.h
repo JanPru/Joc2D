@@ -39,7 +39,10 @@ public:
 	bool animationfinished();
 	bool getflip();
 	void setkeyframe(int x);
-	void esllanca(int n);
+	void esllanca1();
+	void esllanca2();
+	void esllanca3();
+	void esllanca4();
 	void posarmodel(const glm::mat4 &modelview);
 
 private:
@@ -56,7 +59,7 @@ private:
 	bool flip;
 	bool finished;
 	glm::vec2 quadSize1;
-	bool llanca;
+	bool llanca1, llanca2, llanca3, llanca4;;
 	glm::mat4 modelviewmult;
 };
 
