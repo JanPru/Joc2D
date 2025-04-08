@@ -1,7 +1,8 @@
 #include "Planta.h"
 
-void Planta::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram) {
-	texture.loadFromFile("images/planta.png", TEXTURE_PIXEL_FORMAT_RGBA);
+void Planta::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, int type) {
+	if (type == 0) texture.loadFromFile("images/planta0.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	else if (type == 1) texture.loadFromFile("images/planta1.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	sprite = Sprite::createSprite(glm::ivec2(32, 16), glm::vec2(1.f, 0.33f), &texture, &shaderProgram);
 	sprite->setNumberAnimations(3);
 

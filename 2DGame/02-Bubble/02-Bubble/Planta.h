@@ -4,7 +4,7 @@
 class Planta
 {
 public:
-	void init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram);
+	void init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, int type);
 	void setPosition(const glm::vec2& pos);
 	void render();
 	void reset();
