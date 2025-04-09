@@ -116,7 +116,7 @@ void Scene::definirPowerups() {
 	Powerups* pow5 = new Powerups();
 	pow5->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 5);
 	pow5->setPosition(glm::vec2(50 * map->getTileSize(), 39 * map->getTileSize()));
-	//pow5->setinactiu();
+	pow5->setinactiu();
 
 	powerups.push_back(pow5);
 
@@ -419,7 +419,7 @@ void Scene::render()
 
 	glm::mat4 GUIproj = glm::ortho(0.f, float(camHalfWidth * 2), float(camHalfHeight * 2), 0.f);
 	texProgram.setUniformMatrix4f("projection", GUIproj);
-	gui->render(player->getvida(), player->getvidamax());
+	gui->render(player->getvida(), player->getvidamax(), boss->getVida(), boss->getalive());
 }
 
 void Scene::modifcam() {
@@ -539,4 +539,8 @@ void Scene::resize(int width, int height) {
 
 float Scene::getvidaPlayer() {
 	return player->getvida();
+}
+
+float Scene::getfinalbool() {
+	return player->getfinalbool();
 }

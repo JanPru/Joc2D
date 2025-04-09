@@ -18,6 +18,7 @@ public:
 	Powerups* getPowerup();
 	float getVida();
 	void die();
+	bool getalive();
 	bool isDead();
 
 private:

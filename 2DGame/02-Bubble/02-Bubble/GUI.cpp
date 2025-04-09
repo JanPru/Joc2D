@@ -51,6 +51,25 @@ void GUI::init(ShaderProgram& shaderProgram)
 
     foc->setPosition(glm::vec2(16, 16));
 
+    spritesheet2.loadFromFile("images/videsboss.png", TEXTURE_PIXEL_FORMAT_RGBA);
+
+    corb = Sprite::createSprite(glm::ivec2(8, 8), glm::vec2(0.25f, 1.f), &spritesheet2, &shaderProgram);
+    corb->setNumberAnimations(4);
+
+    corb->setAnimationSpeed(3, 0);
+    corb->addKeyframe(3, glm::vec2(0.0f, 0.f));
+
+    corb->setAnimationSpeed(2, 0);
+    corb->addKeyframe(2, glm::vec2(0.25f, 0.f));
+
+    corb->setAnimationSpeed(1, 0);
+    corb->addKeyframe(1, glm::vec2(0.50f, 0.f));
+
+    corb->setAnimationSpeed(0, 0);
+    corb->addKeyframe(0, glm::vec2(0.75f, 0.f));
+
+    corb->changeAnimation(0);
+
     triar = true;
     vida = 4;
     nllanternes = 2;
@@ -68,7 +87,7 @@ void GUI::update(int deltaTime)
 {
 }
 
-void GUI::render(float vidatot, float vidamax)
+void GUI::render(float vidatot, float vidamax, float vidaboss, bool alive)
 {
     if (player->gettriar()) {
         llança->render();
@@ -95,6 +114,23 @@ void GUI::render(float vidatot, float vidamax)
     for (int i = 0; i < nllanternes; ++i) {
 		llanternes->setPosition(glm::vec2(35 + i * 8, 15));
 		llanternes->render();
+    }
+    if (alive) {
+        for (int i = 0; i < int(vidaboss); ++i) {
+            float vida2 = vidaboss - i;
+            vida2 = std::max(0.0f, std::min(vida, 1.0f));
+
+            int frame2;
+            if (vida2 >= 1.0f) frame2 = 3;
+            else if (vida2 >= 0.66f) frame2 = 2;
+            else if (vida2 >= 0.33f) frame2 = 1;
+            else if (vida2 > 0.0f) frame2 = 0;
+            else frame2 = 0;
+
+            corb->changeAnimation(frame2);
+            corb->setPosition(glm::vec2(50, 35 + i * 8));
+            corb->render();
+        }
     }
 }
 

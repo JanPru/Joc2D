@@ -171,6 +171,10 @@ float Boss::getVida() {
 	return vida;
 }
 
+bool Boss::getalive() {
+	return alive;
+}
+
 void Boss::die() {
 	alive = false;
 	explosion->setPositon(pos);

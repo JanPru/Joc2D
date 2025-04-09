@@ -646,6 +646,9 @@ void Player::collisionPowerups() {
 						comença_timer = true;
 						godmode = true;
 					}
+					else if (tipus == 6) {
+						final_bool = true;
+					}
 
 				}
 				p->setinactiu();
@@ -826,4 +829,8 @@ void Player::setAnimation(int anim) {
 
 bool Player::eslavap() {
 	return lava && map->eslava();
+}
+
+bool Player::getfinalbool() {
+	return final_bool;
 }
