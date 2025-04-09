@@ -17,6 +17,7 @@ private:
 	void shoot();
 	void definirProjectils(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram);
 	void deactivateProjectils();
+	void startMoving();
 
 private:
 	glm::vec2 pos;
@@ -29,6 +30,13 @@ private:
 	int nextShot;
 	int lastShot;
 	std::vector<ProjBoss*> projectils;
+	glm::vec2 positions[4];
+	glm::vec2 nextPosition;
+	glm::vec2 lastPosition;
+	glm::vec2 direction;
+	int lastMoved;
+	int distance;
+	bool moving;
 	bool alive;
 };
 

@@ -44,11 +44,21 @@ void Boss::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram) {
 	sprite->changeAnimation(FLYING1);
 
 	definirProjectils(tileMapPos, shaderProgram);
+	std::srand(std::time(nullptr));
 	tileMapDispl = tileMapPos;
 	nextChange = 250;
 	nextShot = 1500;
 	alive = false;
 	currentTime = 0;
+	lastMoved = 0;
+	moving = false;
+	distance = 0;
+
+	positions[0] = glm::vec2(16 * 57, 16 * 5);
+	positions[1] = glm::vec2(16 * 52, 16 * 4);
+	positions[2] = glm::vec2(16 * 50, 16 * 9);
+	positions[3] = glm::vec2(16 * 59, 16 * 9);
+
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
 }
 
@@ -62,6 +72,22 @@ void Boss::update(int deltaTime) {
 	if (alive) {
 		currentTime += deltaTime;
 		sprite->update(deltaTime);
+
+		if (moving) {
+			cout << distance << ", " << glm::distance(lastPosition, pos) << endl;
+			if (glm::distance(lastPosition,pos) >= distance) {
+				cout << "SIUUUUU" << endl;
+				moving = false;
+				lastMoved = currentTime;
+			}
+
+			else {
+				pos += glm::vec2(direction.x*2, direction.y*2);
+			}
+		}
+
+		else if (currentTime - lastMoved >= 3000) startMoving();
+
 		if (currentTime >= nextChange && currentTime - lastShot >= 250) {
 			if (sprite->animation() == FLYING1) sprite->changeAnimation(FLYING2);
 			else sprite->changeAnimation(FLYING1);
@@ -114,4 +140,13 @@ glm::vec2 Boss::getPosition() {
 
 void Boss::startFight() {
 	alive = true;
+}
+
+void Boss::startMoving() {
+	int n = std::rand() % 4;
+	nextPosition = positions[n];
+	direction = glm::normalize(nextPosition - pos);
+	distance = glm::distance(nextPosition, pos);
+	lastPosition = pos;
+	moving = true;
 }
