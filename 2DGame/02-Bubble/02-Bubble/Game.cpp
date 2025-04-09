@@ -4,7 +4,7 @@
 
 enum estats
 {
-	INICI, JOC, FI, INST
+	INICI, JOC, FI, INST, WIN
 };
 
 void Game::init()
@@ -65,6 +65,8 @@ bool Game::update(int deltaTime)
 			timer = 20;
 			estat = JOC;
 			scene.init();
+			primerfi = true;
+			primerjoc = true;
 		}
 	}
 	else if (estat == INST)
@@ -74,6 +76,21 @@ bool Game::update(int deltaTime)
 		{
 			estat = JOC;
 			timeri = 20;
+		}
+	}
+	else if (estat == WIN) {
+		if (primerfi) {
+			SoundEngine::getInstance()->stopAllSounds();
+			SoundEngine::getInstance()->playending();
+			primerfi = false;
+		}
+		if (Game::instance().getKey(GLFW_KEY_ENTER))
+		{
+			timer = 20;
+			estat = JOC;
+			scene.init();
+			primerfi = true;
+			primerjoc = true;
 		}
 	}
 

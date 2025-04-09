@@ -315,7 +315,33 @@ void Player::update(int deltaTime)
 		{
 			primerb = true;
 			lava = false;
-			if (Game::instance().getKey(GLFW_KEY_UP)) {
+			if (activaLlança) {
+				timerLlança += deltaTime;
+				if (sprite->animation() == ATTACK_MOVE) {
+					frameLlança = 2;
+					spritellances->setkeyframe(frameLlança);
+					spriteTriat = 1;
+				}
+				else if (timerLlança >= 100) {
+					timerLlança = 0;
+
+					spritellances->setkeyframe(frameLlança);
+					if (frameLlança == 2) {
+						activaLlança = false;
+						spriteTriat = 0;
+						if (Game::instance().getKey(GLFW_KEY_DOWN)) setAnimation(CROUCH);
+						else setAnimation(STAND_RIGHT);
+					}
+					else frameLlança++;
+					if (frameLlança == 1) {
+						spritefoc->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x + posllança.x + 16), float(tileMapDispl.y + posPlayer.y + posllança.y + 6)));
+					}
+					else {
+						spritefoc->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x + posllança.x + 8), float(tileMapDispl.y + posPlayer.y + posllança.y + 6)));
+					}
+				}
+			}
+			else if (Game::instance().getKey(GLFW_KEY_UP)) {
 				setAnimation(JUMP_ATTACK);
 				spritellancesvert->changeAnimation(0);
 				spriteTriat = 2;

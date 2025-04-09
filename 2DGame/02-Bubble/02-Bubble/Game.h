@@ -9,6 +9,7 @@
 #include "Instruccions.h"
 #include <string>
 #include "SoundEngine.h"	
+#include "Win.h"
 
 
 #define SCREEN_WIDTH 640
@@ -58,6 +59,7 @@ private:
 	Start start;
 	Fin fin;
 	Instruccions instruccions;
+	Win win;
 
 	bool startbool;
 	bool inst;
