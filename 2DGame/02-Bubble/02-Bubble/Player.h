@@ -23,7 +23,7 @@ public:
 	void init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram);
 	void update(int deltaTime);
 	void render();
-
+	 
 	void setTileMap(TileMap* tileMap);
 	void setPosition(const glm::vec2& pos);
 	glm::vec2 getPosition() const;
@@ -45,6 +45,7 @@ public:
 
 	bool gettriar();
 	bool eslavap();
+	bool getfinalbool();
 
 private:
 	int collisionFlorecitas();
@@ -111,6 +112,8 @@ private:
 	int timers = 20;
 	bool primers = true;
 	bool primerb = true;
+
+	bool final_bool = false;
 };
 
 

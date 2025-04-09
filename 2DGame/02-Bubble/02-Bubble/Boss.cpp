@@ -165,6 +165,10 @@ float Boss::getVida() {
 	return vida;
 }
 
+bool Boss::getalive() {
+	return alive;
+}
+
 void Boss::die() {
 	alive = false;
 	totem->setPosition(glm::vec2(16 * 56, 16 * 8));

@@ -15,7 +15,7 @@ public:
 
     void update(int deltaTime);
 
-    void render(float vida, float vidamax);
+    void render(float vida, float vidamax, float vidaboss, bool alive);
 
     void setllanternes(int l);
 
@@ -25,11 +25,13 @@ private:
     Player* player;
     ShaderProgram shaderProgram;
     Texture spritesheet;
+    Texture spritesheet2;
 
     Sprite* cor;
     Sprite* llanternes;
     Sprite* llança;
     Sprite* foc;
+    Sprite* corb;
 
     int ncors;
     int nllanternes;

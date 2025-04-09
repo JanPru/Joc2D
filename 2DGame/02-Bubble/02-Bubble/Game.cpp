@@ -46,6 +46,11 @@ bool Game::update(int deltaTime)
 			estat = FI;
 			fin.init();
 		}
+		if (scene.getfinalbool() && estat != WIN)
+		{
+			estat = WIN;
+			win.init();
+		}
 		if (Game::instance().getKey(GLFW_KEY_I) && timeri <= 0) {
 			estat = INST;
 			instruccions.init();
@@ -104,6 +109,7 @@ void Game::render()
 	else if(estat == JOC) scene.render();
 	else if (estat == FI) fin.render();
 	else if (estat == INST) instruccions.render();
+	else if (estat == WIN) win.render();
 }
 
 void Game::keyPressed(int key)

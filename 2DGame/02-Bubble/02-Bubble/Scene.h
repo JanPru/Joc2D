@@ -32,6 +32,7 @@ public:
 	void render();
 	void resize(int width, int height);
 	float getvidaPlayer();
+	float getfinalbool();
 
 private:
 	void initShaders();
