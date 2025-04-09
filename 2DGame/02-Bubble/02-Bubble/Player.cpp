@@ -464,6 +464,30 @@ bool Player::collisionProjectils() {
 	return 0;
 }
 
+bool Player::collisionPowerups() {
+	if (powerups == nullptr) return false;
+
+	glm::ivec2 playerSize = glm::ivec2(24, 32);
+
+	const int margen = 4;
+
+	for (auto& p : *powerups) {
+		glm::vec2 posProjectil = p->getPosition();
+		glm::ivec2 sizeProjectil = glm::ivec2(16, 16);
+
+		bool overlapX = posPlayer.x < posProjectil.x + sizeProjectil.x &&
+			posPlayer.x + playerSize.x > posProjectil.x;
+
+		bool overlapY = posPlayer.y < posProjectil.y + sizeProjectil.y &&
+			posPlayer.y + playerSize.y > posProjectil.y;
+
+		if (overlapX && overlapY)
+			return true;
+	}
+
+	return 0;
+}
+
 void Player::setFlorecitas(std::vector<Florecita*>* flors) {
 	florecitas = flors;
 }

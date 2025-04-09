@@ -7,6 +7,7 @@
 #include "Florecita.h"
 #include "Projectil.h"
 #include "Planta.h"
+#include "Powerups.h"
 
 // Player is basically a Sprite that represents the player. As such it has
 // all properties it needs to track its movement, jumping, and collisions.
@@ -43,6 +44,8 @@ private:
 	int collisionFlorecitas();
 	bool collisionProjectils();
 	bool collisionPlantes();
+	bool collisionPowerups();
+
 
 private:
 	bool bJumping;
@@ -58,6 +61,7 @@ private:
 	TileMap* map;
 	std::vector<Florecita*>* florecitas;
 	std::vector<Projectil*>* projectils;
+	std::vector<Powerups*>* powerups;
 	std::vector<Planta*>* plantes;
 	int spriteTriat;
 	glm::vec2 posllança;

@@ -1,10 +1,10 @@
-#ifndef _PROJECTIL_INCLUDE
-#define _PROJECTIL_INCLUDE
+#ifndef _POWERUPS_INCLUDE
+#define _POWERUPS_INCLUDE
 
 #pragma once
 
 #include "Sprite.h"
-class Projectil
+class Powerups
 {
 public:
 	void init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram);
@@ -20,9 +20,11 @@ private:
 	glm::vec2 tileMapDispl;
 	float velocity;
 	Texture texture;
-	Sprite *sprite;
+	Sprite* cor;
+	Sprite* corgran;
+	Sprite* carbassa;
 	bool active;
 };
 
-#endif // _PROJECTIL_INCLUDE
+#endif // _POWERUPS_INCLUDE
 

@@ -80,6 +80,17 @@ void Scene::definirFlorecitas() {
 	florecitas.push_back(flor6);
 }
 
+void Scene::definirPowerups() {
+	powerups.clear();
+
+	Powerups* pow1 = new Powerups();
+	pow1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	pow1->setPosition(glm::vec2(35 * map->getTileSize(), 33 * map->getTileSize()));
+
+	powerups.push_back(pow1);
+
+}
+
 void Scene::definirPlantes() {
 	plantes.clear();
 
@@ -182,6 +193,7 @@ void Scene::init()
 	definirProjectils();
 	definirFlorecitas();
 	definirPlantes();
+	definirPowerups();
 	player = new Player();
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
@@ -217,6 +229,10 @@ void Scene::init()
 	gui = new GUI();
 	gui->init(texProgram);
 	gui->setPlayer(player);
+
+	//powerup = new Powerups();
+	//powerup->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	//powerup->setPosition(glm::vec2((INIT_PLAYER_X_TILES +5) * map->getTileSize(), (INIT_PLAYER_Y_TILES + 3)* map->getTileSize()));
 }
 
 void Scene::update(int deltaTime)
@@ -316,6 +332,9 @@ void Scene::render()
 		f->render();
 	}
 	for (auto& p : plantes) {
+		p->render();
+	}
+	for (auto& p : powerups) {
 		p->render();
 	}
 	player->render();
