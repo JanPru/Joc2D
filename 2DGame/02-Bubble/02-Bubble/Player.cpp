@@ -4,6 +4,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "Player.h"
 #include "Game.h"
+#include "SoundEngine.h"
 
 
 #define JUMP_ANGLE_STEP 4
@@ -142,6 +143,14 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 	spritellancesvert->esllanca4();
 }
 
+void Player::sons() {
+	timers--;
+	if (damaged && timers <= 0) {
+		SoundEngine::getInstance()->playhit();
+		timers = 40;
+	}
+}
+
 void Player::update(int deltaTime)
 {
 	currentTime += deltaTime;
@@ -149,6 +158,8 @@ void Player::update(int deltaTime)
 	timergod--;
 
 	collisionPowerups();
+
+	sons();
 
 	if (Game::instance().getKey(GLFW_KEY_H)) {
 		vida = vidamax;
@@ -228,6 +239,7 @@ void Player::update(int deltaTime)
 			spriteTriat = 1;
 			posllança = glm::vec2(22, 17);
 			setAnimation(ATTACK_CROUCH);
+			SoundEngine::getInstance()->playpunch();
 		}
 	}
 	else if (Game::instance().getKey(GLFW_KEY_LEFT))
@@ -239,9 +251,15 @@ void Player::update(int deltaTime)
 				frameLlança = 0;
 				posllança = glm::vec2(24, 9);
 				setAnimation(ATTACK_MOVE);
+				if (primers) {
+					SoundEngine::getInstance()->playpunch();
+					primers = false;
+				}
 			}
-			else if (sprite->animation() != MOVE_RIGHT)
+			else if (sprite->animation() != MOVE_RIGHT) {
 				setAnimation(MOVE_RIGHT);
+				primers = true;
+			}
 			posPlayer.x -= 2;
 			if (map->collisionMoveLeft(posPlayer, glm::ivec2(24, 32)) || (posPlayer.x == limit && dreta))
 			{
@@ -259,11 +277,17 @@ void Player::update(int deltaTime)
 				timerLlança = 0;
 				frameLlança = 0;
 				posllança = glm::vec2(24, 9);
+				if (primers) {
+					SoundEngine::getInstance()->playpunch();
+					primers = false;
+				}
 				if (sprite->animation() != ATTACK_MOVE)
 					setAnimation(ATTACK_MOVE);
 			}
-			else if (sprite->animation() != MOVE_RIGHT)
+			else if (sprite->animation() != MOVE_RIGHT) {
 				setAnimation(MOVE_RIGHT);
+				primers = true;
+			}
 			posPlayer.x += 2;
 			if (map->collisionMoveRight(posPlayer, glm::ivec2(24, 32)) || (posPlayer.x == limit + 16 && !dreta))
 			{
@@ -282,6 +306,7 @@ void Player::update(int deltaTime)
 			spriteTriat = 1;
 			posllança = glm::vec2(24, 9);
 			setAnimation(ATTACK_RIGHT);
+			SoundEngine::getInstance()->playpunch();
 		}
 
 		else
@@ -294,8 +319,35 @@ void Player::update(int deltaTime)
 
 		if (bJumping)
 		{
+			primerb = true;
 			lava = false;
-			if (Game::instance().getKey(GLFW_KEY_UP)) {
+			if (activaLlança) {
+				timerLlança += deltaTime;
+				if (sprite->animation() == ATTACK_MOVE) {
+					frameLlança = 2;
+					spritellances->setkeyframe(frameLlança);
+					spriteTriat = 1;
+				}
+				else if (timerLlança >= 100) {
+					timerLlança = 0;
+
+					spritellances->setkeyframe(frameLlança);
+					if (frameLlança == 2) {
+						activaLlança = false;
+						spriteTriat = 0;
+						if (Game::instance().getKey(GLFW_KEY_DOWN)) setAnimation(CROUCH);
+						else setAnimation(STAND_RIGHT);
+					}
+					else frameLlança++;
+					if (frameLlança == 1) {
+						spritefoc->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x + posllança.x + 16), float(tileMapDispl.y + posPlayer.y + posllança.y + 6)));
+					}
+					else {
+						spritefoc->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x + posllança.x + 8), float(tileMapDispl.y + posPlayer.y + posllança.y + 6)));
+					}
+				}
+			}
+			else if (Game::instance().getKey(GLFW_KEY_UP)) {
 				setAnimation(JUMP_ATTACK);
 				spritellancesvert->changeAnimation(0);
 				spriteTriat = 2;
@@ -348,6 +400,10 @@ void Player::update(int deltaTime)
 			{
 				if (Game::instance().getKey(GLFW_KEY_Z))
 				{
+					if (primerb) {
+						SoundEngine::getInstance()->playjump();
+						primerb = false;
+					}
 					bJumping = true;
 					jumpAngle = 0;
 					startY = posPlayer.y;
