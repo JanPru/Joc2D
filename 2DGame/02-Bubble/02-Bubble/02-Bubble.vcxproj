@@ -14,6 +14,7 @@
     <ClInclude Include="AnimKeyframes.h" />
     <ClInclude Include="Boles.h" />
     <ClInclude Include="Bolet.h" />
+    <ClInclude Include="Explosion.h" />
     <ClInclude Include="Fin.h" />
     <ClInclude Include="Boss.h" />
     <ClInclude Include="Florecita.h" />
@@ -38,6 +39,7 @@
   <ItemGroup>
     <ClCompile Include="Boles.cpp" />
     <ClCompile Include="Bolet.cpp" />
+    <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="Fin.cpp" />
     <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Florecita.cpp" />

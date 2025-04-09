@@ -160,6 +160,7 @@ void Player::update(int deltaTime)
 	collisionPowerups();
 
 	sons();
+	if (boss->isDead()) powerups->push_back(boss->getPowerup());
 
 	if (Game::instance().getKey(GLFW_KEY_H)) {
 		vida = vidamax;
@@ -571,7 +572,6 @@ bool Player::collisionBoss() {
 				else boss->setVida(-0.66);
 				if (boss->getVida() < 0.33) {
 					boss->die();
-					powerups->push_back(boss->getPowerup());
 				}
 			}
 		}
@@ -590,7 +590,6 @@ bool Player::collisionBoss() {
 				else boss->setVida(-0.66);
 				if (boss->getVida() < 0.33) {
 					boss->die();
-					powerups->push_back(boss->getPowerup());
 				}
 			}
 		}
@@ -602,7 +601,7 @@ bool Player::collisionBoss() {
 	bool overlapY = posPlayer.y < bossPosition.y + sizeBoss.y &&
 		posPlayer.y + sizeBoss.y > bossPosition.y;
 
-	if (overlapX && overlapY)
+	if (overlapX && overlapY && !boss->isDead())
 		return true;
 
 	else return false;

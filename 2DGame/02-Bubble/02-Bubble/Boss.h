@@ -3,6 +3,7 @@
 #include "Sprite.h"
 #include "ProjBoss.h"
 #include "Powerups.h"
+#include "Explosion.h"
 class Boss
 {
 public:
@@ -17,6 +18,7 @@ public:
 	Powerups* getPowerup();
 	float getVida();
 	void die();
+	bool isDead();
 
 private:
 	void shoot();
@@ -37,6 +39,7 @@ private:
 	int lastDamaged;
 	float vida;
 	Powerups* totem;
+	Explosion* explosion;
 	std::vector<ProjBoss*> projectils;
 	glm::vec2 positions[4];
 	glm::vec2 nextPosition;
@@ -46,5 +49,6 @@ private:
 	int distance;
 	bool moving;
 	bool alive;
+	bool dead;
 };
 
