@@ -8,6 +8,7 @@
 #include "Projectil.h"
 #include "Planta.h"
 #include "ProjBoss.h"
+#include "Bolet.h"
 #include "Boss.h"
 
 // Player is basically a Sprite that represents the player. As such it has
@@ -36,6 +37,7 @@ public:
 	void setProjectils(std::vector<Projectil*>* proj);
 	void setPlantes(std::vector<Planta*>* proj);
 	void setBoss(Boss* b);
+	void setBolets(std::vector<Bolet*>* bol);
 
 	void setAnimation(int anim);
 
@@ -47,6 +49,7 @@ private:
 	bool collisionProjectils();
 	bool collisionPlantes();
 	bool collisionBoss();
+	bool collisionBolets();
 
 private:
 	bool bJumping;
@@ -64,6 +67,7 @@ private:
 	std::vector<Projectil*>* projectils;
 	std::vector<Planta*>* plantes;
 	std::vector<ProjBoss*>* projectilsBoss;
+	std::vector<Bolet*>* bolets;
 	Boss* boss;
 	int spriteTriat;
 	glm::vec2 posllança;
@@ -95,6 +99,7 @@ private:
 	bool primer = true;
 	bool plantatocada = false;
 	int lastBossDamage;
+	int lastBoletDamage;
 };
 
 
