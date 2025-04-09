@@ -218,6 +218,17 @@ void Scene::crearPlanta(int type, glm::vec2 position) {
 	plantes.push_back(p);
 }
 
+void Scene::definirBolets() {
+	bolets.clear();
+
+	Bolet* b = new Bolet();
+	b->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 1);
+	b->setPosition(glm::vec2(40 * map->getTileSize(), 33  * map->getTileSize()));
+	b->setTileMap(map);
+
+	bolets.push_back(b);
+}
+
 void Scene::init()
 {
 	initShaders();
@@ -225,6 +236,7 @@ void Scene::init()
 	definirProjectils();
 	definirFlorecitas();
 	definirPlantes();
+	definirBolets();
 
 	boss = new Boss();
 	boss->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
@@ -239,6 +251,7 @@ void Scene::init()
 	player->setProjectils(&projectils);
 	player->setPlantes(&plantes);
 	player->setBoss(boss);
+	player->setBolets(&bolets);
 
 	player->setPowerups(&powerups);
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH), float(SCREEN_HEIGHT), 0.f);
@@ -315,6 +328,10 @@ void Scene::update(int deltaTime)
 		p->update(deltaTime);
 	}
 
+	for (auto& b : bolets) {
+		b->update(deltaTime);
+	}
+
 	// COSES DE LA CAMERA
 	limitszona[0] = glm::vec2(2032, 512);
 	limitszona[1] = glm::vec2(2288, 2032);
@@ -375,6 +392,9 @@ void Scene::render()
 	}
 	for (auto& p : plantes) {
 		p->render();
+	}
+	for (auto& b : bolets) {
+		b->render();
 	}
 	boss->render();
 	for (auto& p : powerups) {

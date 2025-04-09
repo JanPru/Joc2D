@@ -1,22 +1,31 @@
 #pragma once
 
 #include "Sprite.h"
+#include "TileMap.h"
 class Bolet
 {
 public:
 	void init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, int dir);
 	void setPosition(const glm::vec2& pos);
 	void render();
-	void reset();
+	void setTileMap(TileMap* tileMap);
+	void die();
 	void update(int deltaTime);
-	int getDirection();
+	bool isAlive();
 	glm::ivec2 getPosition();
 
 private:
-	glm::vec2 pos;
+	glm::ivec2 pos;
+	int startY, jumpAngle;
 	glm::vec2 tileMapDispl;
 	Texture texture;
 	Sprite* sprite;
+	TileMap* map;
 	int direction;
+	bool alive;
+	bool jumping;
+	int currentTime;
+	int nextJump;
+	int nextChangeDirection;
 };
 

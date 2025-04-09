@@ -12,6 +12,7 @@
 #include "GUI.h"
 #include "Powerups.h"
 #include "Boss.h"
+#include "Bolet.h"
 
 
 // Scene contains all the entities of our game.
@@ -40,6 +41,7 @@ private:
 	void definirPlantes();
 	void definirPowerups();
 	void crearPlanta(int type, glm::vec2 position);
+	void definirBolets();
 
 private:
 	TileMap* map;
@@ -60,6 +62,7 @@ private:
 	std::vector<Florecita*> florecitas;
 	std::vector<Planta*> plantes;
 	std::vector<Powerups*> powerups;
+	std::vector<Bolet*> bolets;
 	Fase fase;
 	glm::vec2 limitszona[6];
 	GUI* gui;

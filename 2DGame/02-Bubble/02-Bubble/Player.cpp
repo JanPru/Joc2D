@@ -125,6 +125,7 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 	dreta = true;
 	lastProjectil = 0;
 	lastBossDamage = 0;
+	lastBoletDamage = 0;
 	currentTime = 0;
 	plantBelow = false;
 
@@ -188,6 +189,11 @@ void Player::update(int deltaTime)
 	if (collisionBoss() && (currentTime - 1000 >= lastBossDamage)) {
 		setvida(-0.33);
 		lastBossDamage = currentTime;
+	}
+
+	if (collisionBolets() && (currentTime - 1000 >= lastBoletDamage)) {
+		setvida(-0.33);
+		lastBoletDamage = currentTime;
 	}
 
 	sprite->update(deltaTime);
@@ -557,7 +563,59 @@ void Player::collisionPowerups() {
 			timervida = 463;
 		}
 	}
+}
 
+bool Player::collisionBolets() {
+	glm::ivec2 playerSize = glm::ivec2(24, 32);
+
+	for (auto& b : *bolets) {
+		glm::vec2 posBolet = b->getPosition();
+		glm::ivec2 sizeBolet = glm::ivec2(16, 16);
+
+		if (activaLlança) {
+			glm::ivec2 playerSize = glm::ivec2(32, 32);
+
+			if (!sprite->getflip()) {
+				glm::vec2 posAux = glm::vec2(posPlayer.x + 16, posPlayer.y);
+
+				bool overlapX = posAux.x < posBolet.x + sizeBolet.x &&
+					posAux.x + playerSize.x > posBolet.x;
+
+				bool overlapY = posAux.y < posBolet.y + sizeBolet.y &&
+					posAux.y + playerSize.y > posBolet.y;
+
+				if (overlapX && overlapY)
+					b->die();
+			}
+
+			else {
+				glm::vec2 posAux = glm::vec2(posPlayer.x - 16, posPlayer.y);
+
+				bool overlapX = posAux.x < posBolet.x + sizeBolet.x &&
+					posAux.x + playerSize.x > posBolet.x;
+
+				bool overlapY = posAux.y < posBolet.y + sizeBolet.y &&
+					posAux.y + playerSize.y > posBolet.y;
+
+				if (overlapX && overlapY)
+					b->die();
+			}
+		}
+
+		if (b->isAlive()) {
+			glm::ivec2 playerSize = glm::ivec2(24, 32);
+
+			bool overlapX = posPlayer.x < posBolet.x + sizeBolet.x &&
+				posPlayer.x + playerSize.x > posBolet.x;
+
+			bool overlapY = posPlayer.y < posBolet.y + sizeBolet.y &&
+				posPlayer.y + playerSize.y > posBolet.y;
+
+			if (overlapX && overlapY) return true;
+		}
+	}
+
+	return false;
 }
 
 void Player::setFlorecitas(std::vector<Florecita*>* flors) {
@@ -579,6 +637,10 @@ void Player::setPowerups(std::vector<Powerups*>* prow) {
 void Player::setBoss(Boss* b) {
 	boss = b;
 	projectilsBoss = &b->getProjectils();
+}
+
+void Player::setBolets(std::vector<Bolet*>* bol) {
+	bolets = bol;
 }
 
 void Player::render()
