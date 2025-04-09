@@ -26,11 +26,13 @@ private:
 	glm::vec2 tileMapDispl;
 	float velocity;
 	Texture texture;
+	Texture texture2;
 	Sprite* cor;
 	Sprite* corgran;
 	Sprite* carbassa;
 	Sprite* llanterna;
 	Sprite* pechera;
+	Sprite* webTotem;
 	bool actiu;
 	int type; //1 cor 2 corgran 3 carbassa 4 llanterna 5 pechera
 	bool tocat;

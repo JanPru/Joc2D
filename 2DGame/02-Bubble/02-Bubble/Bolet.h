@@ -2,6 +2,7 @@
 
 #include "Sprite.h"
 #include "TileMap.h"
+#include "Powerups.h"
 class Bolet
 {
 public:
@@ -12,6 +13,8 @@ public:
 	void die();
 	void update(int deltaTime);
 	bool isAlive();
+	void activate();
+	Powerups* getPowerup();
 	glm::ivec2 getPosition();
 
 private:
@@ -21,6 +24,7 @@ private:
 	Texture texture;
 	Sprite* sprite;
 	TileMap* map;
+	Powerups* powerup;
 	int direction;
 	bool alive;
 	bool jumping;

@@ -19,10 +19,10 @@ void ProjBoss::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, 
 
 	sprite->changeAnimation(type);
 
-	if (type == 0) direction = glm::vec2(2, -2);
-	else if(type == 1) direction = glm::vec2(2, 2);
-	else if (type == 2) direction = glm::vec2(-2, 2);
-	else if (type == 3) direction = glm::vec2(-2, -2);
+	if (type == 0) direction = glm::vec2(3, -3);
+	else if(type == 1) direction = glm::vec2(3, 3);
+	else if (type == 2) direction = glm::vec2(-3, 3);
+	else if (type == 3) direction = glm::vec2(-3, -3);
 	active = false;
 	this->type = type;
 

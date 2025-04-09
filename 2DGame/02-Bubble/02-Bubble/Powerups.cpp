@@ -1,4 +1,4 @@
-#include "Powerups.h"
+	#include "Powerups.h"
 #include <iostream>
 
 using namespace std;
@@ -45,6 +45,15 @@ void Powerups::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, 
 
 		pechera->changeAnimation(0);
 
+	texture2.loadFromFile("images/webTotem.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	webTotem = Sprite::createSprite(glm::ivec2(16, 16), glm::vec2(1.f, 1.f), &texture2, &shaderProgram);
+		webTotem->setNumberAnimations(1);
+
+		webTotem->setAnimationSpeed(0, 8);
+		webTotem->addKeyframe(0, glm::vec2(0.f, 0.f));
+
+		webTotem->changeAnimation(0);
+
 	tileMapDispl = tileMapPos;
 	//cor->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
 	tocat = false;
@@ -59,6 +68,7 @@ void Powerups::setPosition(const glm::vec2& position) {
 	else if (type == 3) carbassa->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
 	else if (type == 4) llanterna->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
 	else if (type == 5) pechera->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
+	else if (type == 6) webTotem->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
 }
 
 glm::vec2 Powerups::getPosition() {
@@ -76,6 +86,7 @@ void Powerups::render() {
 	else if (!tocat && actiu && type == 3) carbassa->render();
 	else if (!tocat && actiu && type == 4) llanterna->render();
 	else if (!tocat && actiu && type == 5) pechera->render();
+	else if (!tocat && actiu && type == 6) webTotem->render();
 }
 
 void Powerups::reset() {

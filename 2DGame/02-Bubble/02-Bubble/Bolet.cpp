@@ -25,10 +25,14 @@ void Bolet::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, int
 	sprite->addKeyframe(STAND_RIGHT, glm::vec2(0.75f, 0.f));
 	sprite->changeAnimation(0);
 
+	powerup = new Powerups();
+	int type = (std::rand() % 5) + 1;
+	powerup->init(tileMapPos, shaderProgram, type);
+
 	std::srand(std::time(nullptr));
 	tileMapDispl = tileMapPos;
 	direction = dir;
-	alive = true;
+	alive = false;
 	jumping = false;
 	currentTime = 0;
 	nextJump = (std::rand() % 500) + 1000;
@@ -122,7 +126,11 @@ void Bolet::render() {
 
 void Bolet::die() {
 	alive = false;
+	powerup->setPosition(pos);
+}
 
+void Bolet::activate() {
+	alive = true;
 }
 
 glm::ivec2 Bolet::getPosition() {
@@ -131,4 +139,8 @@ glm::ivec2 Bolet::getPosition() {
 
 bool Bolet::isAlive() {
 	return alive;
+}
+
+Powerups* Bolet::getPowerup() {
+	return powerup;
 }

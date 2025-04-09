@@ -2,6 +2,7 @@
 
 #include "Sprite.h"
 #include "ProjBoss.h"
+#include "Powerups.h"
 class Boss
 {
 public:
@@ -12,6 +13,10 @@ public:
 	std::vector<ProjBoss*>& getProjectils();
 	glm::vec2 getPosition();
 	void startFight();
+	void setVida(float v);
+	Powerups* getPowerup();
+	float getVida();
+	void die();
 
 private:
 	void shoot();
@@ -29,6 +34,9 @@ private:
 	int currentTime;
 	int nextShot;
 	int lastShot;
+	int lastDamaged;
+	float vida;
+	Powerups* totem;
 	std::vector<ProjBoss*> projectils;
 	glm::vec2 positions[4];
 	glm::vec2 nextPosition;

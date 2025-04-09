@@ -44,15 +44,20 @@ void Boss::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram) {
 	sprite->changeAnimation(FLYING1);
 
 	definirProjectils(tileMapPos, shaderProgram);
+	totem = new Powerups();
+	totem->init(tileMapPos, shaderProgram, 6);
+
 	std::srand(std::time(nullptr));
 	tileMapDispl = tileMapPos;
 	nextChange = 250;
-	nextShot = 1500;
+	nextShot = 1000;
 	alive = false;
 	currentTime = 0;
 	lastMoved = 0;
 	moving = false;
 	distance = 0;
+	vida = 6;
+	lastDamaged = 0;
 
 	positions[0] = glm::vec2(16 * 57, 16 * 5);
 	positions[1] = glm::vec2(16 * 52, 16 * 4);
@@ -74,19 +79,17 @@ void Boss::update(int deltaTime) {
 		sprite->update(deltaTime);
 
 		if (moving) {
-			cout << distance << ", " << glm::distance(lastPosition, pos) << endl;
 			if (glm::distance(lastPosition,pos) >= distance) {
-				cout << "SIUUUUU" << endl;
 				moving = false;
 				lastMoved = currentTime;
 			}
 
 			else {
-				pos += glm::vec2(direction.x*2, direction.y*2);
+				pos += glm::vec2(direction.x*3, direction.y*3);
 			}
 		}
 
-		else if (currentTime - lastMoved >= 3000) startMoving();
+		else if (currentTime - lastMoved >= 1500) startMoving();
 
 		if (currentTime >= nextChange && currentTime - lastShot >= 250) {
 			if (sprite->animation() == FLYING1) sprite->changeAnimation(FLYING2);
@@ -100,7 +103,7 @@ void Boss::update(int deltaTime) {
 			lastShot = currentTime;
 			sprite->changeAnimation(ATTACKING);
 			shoot();
-			nextShot += 1500;
+			nextShot += 1000;
 		}
 
 		for (auto p : projectils) p->update(deltaTime);
@@ -149,4 +152,24 @@ void Boss::startMoving() {
 	distance = glm::distance(nextPosition, pos);
 	lastPosition = pos;
 	moving = true;
+}
+
+void Boss::setVida(float v) {
+	if (currentTime - lastDamaged >= 300) {
+		lastDamaged = currentTime;
+		vida = vida + v;
+	}
+}
+
+float Boss::getVida() {
+	return vida;
+}
+
+void Boss::die() {
+	alive = false;
+	totem->setPosition(glm::vec2(16 * 56, 16 * 8));
+}
+
+Powerups* Boss::getPowerup() {
+	return totem;
 }

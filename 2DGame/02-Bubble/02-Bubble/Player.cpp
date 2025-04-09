@@ -498,12 +498,57 @@ bool Player::collisionProjectils() {
 bool Player::collisionBoss() {
 	glm::vec2 bossPosition = boss->getPosition();
 	glm::ivec2 sizeBoss = glm::ivec2(32, 48);
+	if (activaLlança) {
+		glm::ivec2 playerSize = glm::ivec2(32, 32);
+
+		if (!sprite->getflip()) {
+			glm::vec2 posAux = glm::vec2(posPlayer.x + 16, posPlayer.y);
+
+			bool overlapX = posAux.x < bossPosition.x + sizeBoss.x &&
+				posAux.x + playerSize.x > bossPosition.x;
+
+			bool overlapY = posAux.y < bossPosition.y + sizeBoss.y &&
+				posAux.y + playerSize.y > bossPosition.y;
+
+			if (overlapX && overlapY) {
+				if (triar) boss->setVida(-0.33);
+				else boss->setVida(-0.66);
+				if (boss->getVida() < 0.33) {
+					boss->die();
+					powerups->push_back(boss->getPowerup());
+				}
+			}
+		}
+
+		else {
+			glm::vec2 posAux = glm::vec2(posPlayer.x - 16, posPlayer.y);
+
+			bool overlapX = posAux.x < bossPosition.x + sizeBoss.x &&
+				posAux.x + playerSize.x > bossPosition.x;
+
+			bool overlapY = posAux.y < bossPosition.y + sizeBoss.y &&
+				posAux.y + playerSize.y > bossPosition.y;
+
+			if (overlapX && overlapY) {
+				if (triar) boss->setVida(-0.33);
+				else boss->setVida(-0.66);
+				if (boss->getVida() < 0.33) {
+					boss->die();
+					powerups->push_back(boss->getPowerup());
+				}
+			}
+		}
+	}
+
 	bool overlapX = posPlayer.x < bossPosition.x + sizeBoss.x &&
 		posPlayer.x + sizeBoss.x > bossPosition.x;
+
 	bool overlapY = posPlayer.y < bossPosition.y + sizeBoss.y &&
 		posPlayer.y + sizeBoss.y > bossPosition.y;
+
 	if (overlapX && overlapY)
 		return true;
+
 	else return false;
 }
 
@@ -584,8 +629,11 @@ bool Player::collisionBolets() {
 				bool overlapY = posAux.y < posBolet.y + sizeBolet.y &&
 					posAux.y + playerSize.y > posBolet.y;
 
-				if (overlapX && overlapY)
+				if (overlapX && overlapY) {
 					b->die();
+					Powerups* p = b->getPowerup();
+					powerups->push_back(p);
+				}
 			}
 
 			else {
@@ -599,6 +647,8 @@ bool Player::collisionBolets() {
 
 				if (overlapX && overlapY)
 					b->die();
+					Powerups* p = b->getPowerup();
+					powerups->push_back(p);
 			}
 		}
 

@@ -222,8 +222,15 @@ void Scene::definirBolets() {
 	bolets.clear();
 
 	Bolet* b = new Bolet();
-	b->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 1);
-	b->setPosition(glm::vec2(40 * map->getTileSize(), 33  * map->getTileSize()));
+	b->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, -1);
+	b->setPosition(glm::vec2(37 * map->getTileSize(), 7  * map->getTileSize()));
+	b->setTileMap(map);
+
+	bolets.push_back(b);
+
+	b = new Bolet();
+	b->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, -1);
+	b->setPosition(glm::vec2(40 * map->getTileSize(), 5 * map->getTileSize()));
 	b->setTileMap(map);
 
 	bolets.push_back(b);
@@ -355,6 +362,9 @@ void Scene::update(int deltaTime)
 	if (fase == FASE3 && player->getPosition().x >= limitszona[3].y - 16 && player->getPosition().y < 704) {
 		player->canvialimit(limitszona[3].y, true);
 		fase = FASE4;
+		for (auto& b : bolets) {
+			b->activate();
+		}
 	}
 	if (fase == FASE4 && player->getPosition().x > limitszona[4].y && player->getPosition().y < 704) {
 		player->canvialimit(limitszona[4].y, true);
