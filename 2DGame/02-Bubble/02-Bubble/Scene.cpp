@@ -11,6 +11,9 @@
 #define INIT_PLAYER_X_TILES 35
 #define INIT_PLAYER_Y_TILES 33
 
+#define INIT_BOSS_X_TILES 57
+#define INIT_BOSS_Y_TILES 5
+
 
 Scene::Scene()
 {
@@ -182,6 +185,11 @@ void Scene::init()
 	definirProjectils();
 	definirFlorecitas();
 	definirPlantes();
+
+	boss = new Boss();
+	boss->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	boss->setPosition(glm::vec2(INIT_BOSS_X_TILES * map->getTileSize(), INIT_BOSS_Y_TILES * map->getTileSize()));
+
 	player = new Player();
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
@@ -189,6 +197,8 @@ void Scene::init()
 	player->setFlorecitas(&florecitas);
 	player->setProjectils(&projectils);
 	player->setPlantes(&plantes);
+	player->setBoss(boss);
+
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH), float(SCREEN_HEIGHT), 0.f);
 	currentTime = 0.0f;
 
@@ -224,6 +234,7 @@ void Scene::update(int deltaTime)
 	currentTime += deltaTime;
 	player->update(deltaTime);
 	gui->update(deltaTime);
+	boss->update(deltaTime);
 
 	if (currentTime >= segCanviTiles) {
 		map->canviTiles(glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
@@ -285,6 +296,7 @@ void Scene::update(int deltaTime)
 	if (fase == FASE4 && player->getPosition().x > limitszona[4].y && player->getPosition().y < 704) {
 		player->canvialimit(limitszona[4].y, true);
 		fase = FASE5;
+		boss->startFight();
 	}
 	//std::cout << "LIMIT:3 " << fase << std::endl;
 	//std::cout << limitszona[2].x << std::endl;
@@ -318,6 +330,7 @@ void Scene::render()
 	for (auto& p : plantes) {
 		p->render();
 	}
+	boss->render();
 	player->render();
 
 	float camHalfWidth = (float(SCREEN_WIDTH) / (2.0f * zoom));

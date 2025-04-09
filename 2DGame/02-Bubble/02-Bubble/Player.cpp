@@ -124,6 +124,7 @@ void Player::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
 	limit = 512;
 	dreta = true;
 	lastProjectil = 0;
+	lastBossDamage = 0;
 	currentTime = 0;
 	plantBelow = false;
 
@@ -174,6 +175,11 @@ void Player::update(int deltaTime)
 	if (collisionProjectils() && (currentTime - 1000 >= lastProjectil)) {
 		setvida(-0.33);
 		lastProjectil = currentTime;
+	}
+
+	if (collisionBoss() && (currentTime - 1000 >= lastBossDamage)) {
+		setvida(-0.33);
+		lastBossDamage = currentTime;
 	}
 
 	sprite->update(deltaTime);
@@ -461,7 +467,29 @@ bool Player::collisionProjectils() {
 			return true;
 	}
 
-	return 0;
+	for (auto& p : *projectilsBoss) {
+		glm::vec2 posProjectil = p->getPosition();
+		glm::ivec2 sizeProjectil = glm::ivec2(16, 16);
+		bool overlapX = posPlayer.x < posProjectil.x + sizeProjectil.x &&
+			posPlayer.x + playerSize.x > posProjectil.x;
+		bool overlapY = posPlayer.y < posProjectil.y + sizeProjectil.y &&
+			posPlayer.y + playerSize.y > posProjectil.y;
+		if (overlapX && overlapY)
+			return true;
+	}
+	return false;
+}
+
+bool Player::collisionBoss() {
+	glm::vec2 bossPosition = boss->getPosition();
+	glm::ivec2 sizeBoss = glm::ivec2(32, 48);
+	bool overlapX = posPlayer.x < bossPosition.x + sizeBoss.x &&
+		posPlayer.x + sizeBoss.x > bossPosition.x;
+	bool overlapY = posPlayer.y < bossPosition.y + sizeBoss.y &&
+		posPlayer.y + sizeBoss.y > bossPosition.y;
+	if (overlapX && overlapY)
+		return true;
+	else return false;
 }
 
 void Player::setFlorecitas(std::vector<Florecita*>* flors) {
@@ -474,6 +502,11 @@ void Player::setProjectils(std::vector<Projectil*>* proj) {
 
 void Player::setPlantes(std::vector<Planta*>* plant) {
 	plantes = plant;
+}
+
+void Player::setBoss(Boss* b) {
+	boss = b;
+	projectilsBoss = &b->getProjectils();
 }
 
 void Player::render()

@@ -7,6 +7,8 @@
 #include "Florecita.h"
 #include "Projectil.h"
 #include "Planta.h"
+#include "ProjBoss.h"
+#include "Boss.h"
 
 // Player is basically a Sprite that represents the player. As such it has
 // all properties it needs to track its movement, jumping, and collisions.
@@ -33,6 +35,7 @@ public:
 	void setFlorecitas(std::vector<Florecita*>* flors);
 	void setProjectils(std::vector<Projectil*>* proj);
 	void setPlantes(std::vector<Planta*>* proj);
+	void setBoss(Boss* b);
 
 	void setAnimation(int anim);
 
@@ -43,6 +46,7 @@ private:
 	int collisionFlorecitas();
 	bool collisionProjectils();
 	bool collisionPlantes();
+	bool collisionBoss();
 
 private:
 	bool bJumping;
@@ -59,6 +63,8 @@ private:
 	std::vector<Florecita*>* florecitas;
 	std::vector<Projectil*>* projectils;
 	std::vector<Planta*>* plantes;
+	std::vector<ProjBoss*>* projectilsBoss;
+	Boss* boss;
 	int spriteTriat;
 	glm::vec2 posllança;
 	int limit;
@@ -88,6 +94,7 @@ private:
 
 	bool primer = true;
 	bool plantatocada = false;
+	int lastBossDamage;
 };
 
 
