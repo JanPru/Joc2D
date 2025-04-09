@@ -10,6 +10,7 @@
 #include "Florecita.h"
 #include "Planta.h"
 #include "GUI.h"
+#include "Boss.h"
 
 
 // Scene contains all the entities of our game.
@@ -40,6 +41,7 @@ private:
 private:
 	TileMap* map;
 	Player* player;
+	Boss* boss;
 	ShaderProgram texProgram;
 	float currentTime;
 	glm::mat4 projection;

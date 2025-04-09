@@ -13,11 +13,13 @@
   <ItemGroup>
     <ClInclude Include="AnimKeyframes.h" />
     <ClInclude Include="Boles.h" />
+    <ClInclude Include="Boss.h" />
     <ClInclude Include="Florecita.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GUI.h" />
     <ClInclude Include="Planta.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="ProjBoss.h" />
     <ClInclude Include="Projectil.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
@@ -29,12 +31,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Boles.cpp" />
+    <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Florecita.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Planta.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="ProjBoss.cpp" />
     <ClCompile Include="Projectil.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />

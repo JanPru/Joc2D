@@ -32,7 +32,6 @@ void Projectil::update(int deltaTime) {
 }
 
 void Projectil::render() {
-	//cout << "Pintant projectil" << endl;
 	sprite->render();
 }
 

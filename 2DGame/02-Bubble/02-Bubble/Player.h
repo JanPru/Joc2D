@@ -7,6 +7,8 @@
 #include "Florecita.h"
 #include "Projectil.h"
 #include "Planta.h"
+#include "ProjBoss.h"
+#include "Boss.h"
 
 
 // Player is basically a Sprite that represents the player. As such it has
@@ -32,11 +34,13 @@ public:
 	void setFlorecitas(std::vector<Florecita*>* flors);
 	void setProjectils(std::vector<Projectil*>* proj);
 	void setPlantes(std::vector<Planta*>* proj);
+	void setBoss(Boss* b);
 
 private:
 	int collisionFlorecitas();
 	bool collisionProjectils();
 	bool collisionPlantes();
+	bool collisionBoss();
 
 private:
 	bool bJumping;
@@ -50,6 +54,8 @@ private:
 	std::vector<Florecita*>* florecitas;
 	std::vector<Projectil*>* projectils;
 	std::vector<Planta*>* plantes;
+	std::vector<ProjBoss*>* projectilsBoss;
+	Boss* boss;
 	int spriteTriat;
 	glm::vec2 posllança;
 	int limit;
@@ -64,6 +70,7 @@ private:
 	bool activaLlança = false;
 	bool capEndavant = true;
 	bool plantBelow;
+	int lastBossDamage;
 };
 
 
