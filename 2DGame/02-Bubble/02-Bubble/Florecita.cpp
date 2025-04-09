@@ -41,7 +41,3 @@ glm::ivec2 Florecita::getPosition() {
 int Florecita::getDirection() {
 	return direction;
 }
-
-glm::vec4 Florecita::getCollisionBox() {
-	return glm::vec4(pos.x - 12, pos.x + 12, pos.y - 8, pos.y + 8);
-}
