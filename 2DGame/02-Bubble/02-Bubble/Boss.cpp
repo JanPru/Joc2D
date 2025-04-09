@@ -47,6 +47,9 @@ void Boss::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram) {
 	totem = new Powerups();
 	totem->init(tileMapPos, shaderProgram, 6);
 
+	explosion = new Explosion();
+	explosion->init(tileMapPos, shaderProgram);
+
 	std::srand(std::time(nullptr));
 	tileMapDispl = tileMapPos;
 	nextChange = 250;
@@ -74,6 +77,7 @@ void Boss::setPosition(const glm::vec2& position) {
 }
 
 void Boss::update(int deltaTime) {
+	if (explosion->isFinished()) dead = true;
 	if (alive) {
 		currentTime += deltaTime;
 		sprite->update(deltaTime);
@@ -109,6 +113,7 @@ void Boss::update(int deltaTime) {
 		for (auto p : projectils) p->update(deltaTime);
 		sprite->setPosition(glm::vec2(float(tileMapDispl.x + pos.x), float(tileMapDispl.y + pos.y)));
 	}
+	explosion->update(deltaTime);
 }
 
 void Boss::render() {
@@ -116,6 +121,7 @@ void Boss::render() {
 		sprite->render();
 		for (auto p : projectils) p->render();
 	}
+	explosion->render();
 }
 
 void Boss::shoot() {
@@ -167,9 +173,15 @@ float Boss::getVida() {
 
 void Boss::die() {
 	alive = false;
+	explosion->setPositon(pos);
+	explosion->activate();
 	totem->setPosition(glm::vec2(16 * 56, 16 * 8));
 }
 
 Powerups* Boss::getPowerup() {
 	return totem;
+}
+
+bool Boss::isDead() {
+	return dead;
 }
