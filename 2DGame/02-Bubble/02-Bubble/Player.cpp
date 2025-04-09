@@ -144,13 +144,19 @@ void Player::update(int deltaTime)
 {
 	currentTime += deltaTime;
 
+	timergod--;
+
 	collisionPowerups();
 
 	if (Game::instance().getKey(GLFW_KEY_H)) {
 		vida = vidamax;
 		llanternes = 2;
 	}
-	godmode = Game::instance().isgodmode();
+
+	if (Game::instance().getKey(GLFW_KEY_G) && timergod < 0) {
+		godmode = !godmode;
+		timergod = 100;
+	}
 
 	timerpress--;
 	if (Game::instance().getKey(GLFW_KEY_T) && timerpress <= 0) {
@@ -471,6 +477,7 @@ void Player::collisionPowerups() {
 		glm::ivec2 playerSize = glm::ivec2(24, 32);
 
 		const int margen = 4;
+		timervida--;
 
 		for (auto& p : *powerups) {
 			glm::vec2 posProjectil = p->getPosition();
@@ -482,12 +489,44 @@ void Player::collisionPowerups() {
 			bool overlapY = posPlayer.y < posProjectil.y + sizeProjectil.y &&
 				posPlayer.y + playerSize.y > posProjectil.y;
 
-			if (overlapX && overlapY) {
+			if (overlapX && overlapY && p->getactiu()) {
 				p->poweruptocat();
+				if (p->getactiu()) {
+					int tipus = p->getType();
+					if (tipus == 1) {
+						setvida(1);
+					}
+					else if (tipus == 2) {
+						setvida(vidamax);
+					}
+					else if (tipus == 4) {
+						if (llanternes < 4) {
+							llanternes++;
+						}
+					}
+					else if (tipus == 3) {
+						vidamax++;
+					}
+					else if (tipus == 5) {
+						comença_timer = true;
+						godmode = true;
+					}
+
+				}
+				p->setinactiu();
 			}
 
 		}
 
+	}
+	if (comença_timer) {
+		timervida--;
+		cout << "timervida: " << timervida << endl;
+		if (timervida <= 0) {
+			godmode = false;
+			comença_timer = false;
+			timervida = 463;
+		}
 	}
 
 }

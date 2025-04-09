@@ -14,6 +14,11 @@ public:
 	void setPosition(const glm::vec2& pos);
 	glm::vec2 getPosition();
 	void poweruptocat();
+	int getType();
+
+	void setactiu();
+	void setinactiu();
+	bool getactiu();
 
 private:
 	glm::vec2 pos;
@@ -24,8 +29,10 @@ private:
 	Sprite* cor;
 	Sprite* corgran;
 	Sprite* carbassa;
-	bool active;
-	int type;
+	Sprite* llanterna;
+	Sprite* pechera;
+	bool actiu;
+	int type; //1 cor 2 corgran 3 carbassa 4 llanterna 5 pechera
 	bool tocat;
 };
 

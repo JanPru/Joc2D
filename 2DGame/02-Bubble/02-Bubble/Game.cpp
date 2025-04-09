@@ -32,7 +32,6 @@ bool Game::update(int deltaTime)
 	}
 	else if(estat == JOC)
 	{
-		if (Game::instance().getKey(GLFW_KEY_G)) godmode = !godmode;
 		scene.update(deltaTime);
 		if (scene.getvidaPlayer() < 0.33f && estat != FI)
 		{

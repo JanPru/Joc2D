@@ -93,6 +93,11 @@ private:
 
 	bool primer = true;
 	bool plantatocada = false;
+
+	int timervida = 463;
+	bool comença_timer = false;
+
+	int timergod = 100;
 };
 
 

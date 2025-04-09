@@ -85,9 +85,38 @@ void Scene::definirPowerups() {
 
 	Powerups* pow1 = new Powerups();
 	pow1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 1);
-	pow1->setPosition(glm::vec2(38 * map->getTileSize(), 38 * map->getTileSize()));
-
+	pow1->setPosition(glm::vec2(50 * map->getTileSize(), 39 * map->getTileSize()));
+	pow1->setinactiu();
 	powerups.push_back(pow1);
+
+	Powerups* pow2 = new Powerups();
+	pow2->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 2);
+	pow2->setPosition(glm::vec2(50 * map->getTileSize(), 39 * map->getTileSize()));
+	pow2->setinactiu();
+
+	powerups.push_back(pow2);
+
+	Powerups* pow3 = new Powerups();
+	pow3->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 3);
+	pow3->setPosition(glm::vec2(50 * map->getTileSize(), 39 * map->getTileSize()));
+	pow3->setinactiu();
+
+	powerups.push_back(pow3);
+
+	Powerups* pow4 = new Powerups();
+	pow4->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 4);
+	pow4->setPosition(glm::vec2(50 * map->getTileSize(), 39 * map->getTileSize()));
+	pow4->setinactiu();
+
+	powerups.push_back(pow4);
+
+	Powerups* pow5 = new Powerups();
+	pow5->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 5);
+	pow5->setPosition(glm::vec2(50 * map->getTileSize(), 39 * map->getTileSize()));
+	//pow5->setinactiu();
+
+	powerups.push_back(pow5);
+
 
 }
 
