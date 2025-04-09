@@ -10,6 +10,7 @@
 #include "Florecita.h"
 #include "Planta.h"
 #include "GUI.h"
+#include "Powerups.h"
 #include "Boss.h"
 
 
@@ -37,6 +38,7 @@ private:
 	void definirProjectils();
 	void definirFlorecitas();
 	void definirPlantes();
+	void definirPowerups();
 	void crearPlanta(int type, glm::vec2 position);
 
 private:
@@ -57,6 +59,7 @@ private:
 	std::vector<Projectil*> projectils;
 	std::vector<Florecita*> florecitas;
 	std::vector<Planta*> plantes;
+	std::vector<Powerups*> powerups;
 	Fase fase;
 	glm::vec2 limitszona[6];
 	GUI* gui;

@@ -1,3 +1,6 @@
+#ifndef _PROJECTIL_INCLUDE
+#define _PROJECTIL_INCLUDE
+
 #pragma once
 
 #include "Sprite.h"
@@ -19,4 +22,6 @@ private:
 	Texture texture;
 	Sprite *sprite;
 };
+
+#endif // _PROJECTIL_INCLUDE
 

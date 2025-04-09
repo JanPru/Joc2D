@@ -7,6 +7,7 @@
 #include "Florecita.h"
 #include "Projectil.h"
 #include "Planta.h"
+#include "Powerups.h"
 #include "ProjBoss.h"
 #include "Boss.h"
 
@@ -36,6 +37,7 @@ public:
 	void setProjectils(std::vector<Projectil*>* proj);
 	void setPlantes(std::vector<Planta*>* proj);
 	void setBoss(Boss* b);
+	void setPowerups(std::vector<Powerups*>* proj);
 
 	void setAnimation(int anim);
 
@@ -47,6 +49,8 @@ private:
 	bool collisionProjectils();
 	bool collisionPlantes();
 	bool collisionBoss();
+	void collisionPowerups();
+
 
 private:
 	bool bJumping;
@@ -62,6 +66,7 @@ private:
 	TileMap* map;
 	std::vector<Florecita*>* florecitas;
 	std::vector<Projectil*>* projectils;
+	std::vector<Powerups*>* powerups;
 	std::vector<Planta*>* plantes;
 	std::vector<ProjBoss*>* projectilsBoss;
 	Boss* boss;
@@ -95,6 +100,11 @@ private:
 	bool primer = true;
 	bool plantatocada = false;
 	int lastBossDamage;
+
+	int timervida = 463;
+	bool comença_timer = false;
+
+	int timergod = 100;
 };
 
 

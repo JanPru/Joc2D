@@ -145,11 +145,19 @@ void Player::update(int deltaTime)
 {
 	currentTime += deltaTime;
 
+	timergod--;
+
+	collisionPowerups();
+
 	if (Game::instance().getKey(GLFW_KEY_H)) {
 		vida = vidamax;
 		llanternes = 2;
 	}
-	godmode = Game::instance().isgodmode();
+
+	if (Game::instance().getKey(GLFW_KEY_G) && timergod < 0) {
+		godmode = !godmode;
+		timergod = 100;
+	}
 
 	timerpress--;
 	if (Game::instance().getKey(GLFW_KEY_T) && timerpress <= 0) {
@@ -187,6 +195,7 @@ void Player::update(int deltaTime)
 	spritefoc->update(deltaTime);
 
 	if (damaged) {
+		spriteTriat = 0;
 		damageTimer -= deltaTime;
 		if (damageTimer <= 0.f) {
 			damaged = false;
@@ -492,6 +501,65 @@ bool Player::collisionBoss() {
 	else return false;
 }
 
+void Player::collisionPowerups() {
+	if (powerups != nullptr) {
+		glm::ivec2 playerSize = glm::ivec2(24, 32);
+
+		const int margen = 4;
+		timervida--;
+
+		for (auto& p : *powerups) {
+			glm::vec2 posProjectil = p->getPosition();
+			glm::ivec2 sizeProjectil = glm::ivec2(16, 16);
+
+			bool overlapX = posPlayer.x < posProjectil.x + sizeProjectil.x &&
+				posPlayer.x + playerSize.x > posProjectil.x;
+
+			bool overlapY = posPlayer.y < posProjectil.y + sizeProjectil.y &&
+				posPlayer.y + playerSize.y > posProjectil.y;
+
+			if (overlapX && overlapY && p->getactiu()) {
+				p->poweruptocat();
+				if (p->getactiu()) {
+					int tipus = p->getType();
+					if (tipus == 1) {
+						setvida(1);
+					}
+					else if (tipus == 2) {
+						setvida(vidamax);
+					}
+					else if (tipus == 4) {
+						if (llanternes < 4) {
+							llanternes++;
+						}
+					}
+					else if (tipus == 3) {
+						vidamax++;
+					}
+					else if (tipus == 5) {
+						comença_timer = true;
+						godmode = true;
+					}
+
+				}
+				p->setinactiu();
+			}
+
+		}
+
+	}
+	if (comença_timer) {
+		timervida--;
+		//cout << "timervida: " << timervida << endl;
+		if (timervida <= 0) {
+			godmode = false;
+			comença_timer = false;
+			timervida = 463;
+		}
+	}
+
+}
+
 void Player::setFlorecitas(std::vector<Florecita*>* flors) {
 	florecitas = flors;
 }
@@ -502,6 +570,10 @@ void Player::setProjectils(std::vector<Projectil*>* proj) {
 
 void Player::setPlantes(std::vector<Planta*>* plant) {
 	plantes = plant;
+}
+
+void Player::setPowerups(std::vector<Powerups*>* prow) {
+	powerups = prow;
 }
 
 void Player::setBoss(Boss* b) {

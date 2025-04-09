@@ -83,6 +83,46 @@ void Scene::definirFlorecitas() {
 	florecitas.push_back(flor6);
 }
 
+void Scene::definirPowerups() {
+	powerups.clear();
+
+	Powerups* pow1 = new Powerups();
+	pow1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 1);
+	pow1->setPosition(glm::vec2(50 * map->getTileSize(), 39 * map->getTileSize()));
+	pow1->setinactiu();
+	powerups.push_back(pow1);
+
+	Powerups* pow2 = new Powerups();
+	pow2->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 2);
+	pow2->setPosition(glm::vec2(50 * map->getTileSize(), 39 * map->getTileSize()));
+	pow2->setinactiu();
+
+	powerups.push_back(pow2);
+
+	Powerups* pow3 = new Powerups();
+	pow3->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 3);
+	pow3->setPosition(glm::vec2(50 * map->getTileSize(), 39 * map->getTileSize()));
+	pow3->setinactiu();
+
+	powerups.push_back(pow3);
+
+	Powerups* pow4 = new Powerups();
+	pow4->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 4);
+	pow4->setPosition(glm::vec2(50 * map->getTileSize(), 39 * map->getTileSize()));
+	pow4->setinactiu();
+
+	powerups.push_back(pow4);
+
+	Powerups* pow5 = new Powerups();
+	pow5->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 5);
+	pow5->setPosition(glm::vec2(50 * map->getTileSize(), 39 * map->getTileSize()));
+	//pow5->setinactiu();
+
+	powerups.push_back(pow5);
+
+
+}
+
 void Scene::definirPlantes() {
 	plantes.clear();
 
@@ -190,6 +230,7 @@ void Scene::init()
 	boss->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	boss->setPosition(glm::vec2(INIT_BOSS_X_TILES * map->getTileSize(), INIT_BOSS_Y_TILES * map->getTileSize()));
 
+	definirPowerups();
 	player = new Player();
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
@@ -199,6 +240,7 @@ void Scene::init()
 	player->setPlantes(&plantes);
 	player->setBoss(boss);
 
+	player->setPowerups(&powerups);
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH), float(SCREEN_HEIGHT), 0.f);
 	currentTime = 0.0f;
 
@@ -227,6 +269,10 @@ void Scene::init()
 	gui = new GUI();
 	gui->init(texProgram);
 	gui->setPlayer(player);
+
+	//powerup = new Powerups();
+	//powerup->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	//powerup->setPosition(glm::vec2((INIT_PLAYER_X_TILES +5) * map->getTileSize(), (INIT_PLAYER_Y_TILES + 3)* map->getTileSize()));
 }
 
 void Scene::update(int deltaTime)
@@ -331,6 +377,9 @@ void Scene::render()
 		p->render();
 	}
 	boss->render();
+	for (auto& p : powerups) {
+		p->render();
+	}
 	player->render();
 
 	float camHalfWidth = (float(SCREEN_WIDTH) / (2.0f * zoom));
