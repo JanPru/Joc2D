@@ -7,12 +7,13 @@
 class Powerups
 {
 public:
-	void init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram);
+	void init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram, int i);
 	void update(int deltaTime);
 	void render();
 	void reset();
 	void setPosition(const glm::vec2& pos);
 	glm::vec2 getPosition();
+	void poweruptocat();
 
 private:
 	glm::vec2 pos;
@@ -24,6 +25,8 @@ private:
 	Sprite* corgran;
 	Sprite* carbassa;
 	bool active;
+	int type;
+	bool tocat;
 };
 
 #endif // _POWERUPS_INCLUDE

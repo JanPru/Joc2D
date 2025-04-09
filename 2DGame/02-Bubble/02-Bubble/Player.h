@@ -34,6 +34,7 @@ public:
 	void setFlorecitas(std::vector<Florecita*>* flors);
 	void setProjectils(std::vector<Projectil*>* proj);
 	void setPlantes(std::vector<Planta*>* proj);
+	void setPowerups(std::vector<Powerups*>* proj);
 
 	void setAnimation(int anim);
 
@@ -44,7 +45,7 @@ private:
 	int collisionFlorecitas();
 	bool collisionProjectils();
 	bool collisionPlantes();
-	bool collisionPowerups();
+	void collisionPowerups();
 
 
 private:

@@ -144,6 +144,8 @@ void Player::update(int deltaTime)
 {
 	currentTime += deltaTime;
 
+	collisionPowerups();
+
 	if (Game::instance().getKey(GLFW_KEY_H)) {
 		vida = vidamax;
 		llanternes = 2;
@@ -464,28 +466,30 @@ bool Player::collisionProjectils() {
 	return 0;
 }
 
-bool Player::collisionPowerups() {
-	if (powerups == nullptr) return false;
+void Player::collisionPowerups() {
+	if (powerups != nullptr) {
+		glm::ivec2 playerSize = glm::ivec2(24, 32);
 
-	glm::ivec2 playerSize = glm::ivec2(24, 32);
+		const int margen = 4;
 
-	const int margen = 4;
+		for (auto& p : *powerups) {
+			glm::vec2 posProjectil = p->getPosition();
+			glm::ivec2 sizeProjectil = glm::ivec2(16, 16);
 
-	for (auto& p : *powerups) {
-		glm::vec2 posProjectil = p->getPosition();
-		glm::ivec2 sizeProjectil = glm::ivec2(16, 16);
+			bool overlapX = posPlayer.x < posProjectil.x + sizeProjectil.x &&
+				posPlayer.x + playerSize.x > posProjectil.x;
 
-		bool overlapX = posPlayer.x < posProjectil.x + sizeProjectil.x &&
-			posPlayer.x + playerSize.x > posProjectil.x;
+			bool overlapY = posPlayer.y < posProjectil.y + sizeProjectil.y &&
+				posPlayer.y + playerSize.y > posProjectil.y;
 
-		bool overlapY = posPlayer.y < posProjectil.y + sizeProjectil.y &&
-			posPlayer.y + playerSize.y > posProjectil.y;
+			if (overlapX && overlapY) {
+				p->poweruptocat();
+			}
 
-		if (overlapX && overlapY)
-			return true;
+		}
+
 	}
 
-	return 0;
 }
 
 void Player::setFlorecitas(std::vector<Florecita*>* flors) {
@@ -498,6 +502,10 @@ void Player::setProjectils(std::vector<Projectil*>* proj) {
 
 void Player::setPlantes(std::vector<Planta*>* plant) {
 	plantes = plant;
+}
+
+void Player::setPowerups(std::vector<Powerups*>* prow) {
+	powerups = prow;
 }
 
 void Player::render()

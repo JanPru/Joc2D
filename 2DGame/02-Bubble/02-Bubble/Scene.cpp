@@ -84,8 +84,8 @@ void Scene::definirPowerups() {
 	powerups.clear();
 
 	Powerups* pow1 = new Powerups();
-	pow1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
-	pow1->setPosition(glm::vec2(35 * map->getTileSize(), 33 * map->getTileSize()));
+	pow1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, 1);
+	pow1->setPosition(glm::vec2(38 * map->getTileSize(), 38 * map->getTileSize()));
 
 	powerups.push_back(pow1);
 
@@ -201,6 +201,7 @@ void Scene::init()
 	player->setFlorecitas(&florecitas);
 	player->setProjectils(&projectils);
 	player->setPlantes(&plantes);
+	player->setPowerups(&powerups);
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH), float(SCREEN_HEIGHT), 0.f);
 	currentTime = 0.0f;
 
