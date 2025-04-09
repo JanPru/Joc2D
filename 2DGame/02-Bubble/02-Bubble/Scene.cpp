@@ -343,6 +343,8 @@ void Scene::update(int deltaTime)
 		player->canvialimit(limitszona[4].y, true);
 		fase = FASE5;
 		boss->startFight();
+		SoundEngine::getInstance()->stopAllSounds();
+		SoundEngine::getInstance()->playboss();
 	}
 	//std::cout << "LIMIT:3 " << fase << std::endl;
 	//std::cout << limitszona[2].x << std::endl;

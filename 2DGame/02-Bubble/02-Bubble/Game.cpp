@@ -15,6 +15,9 @@ void Game::init()
 	estat = INICI;
 	timer = 20;
 	timeri = 20;
+	primerjoc = true;
+	primerfi = true;
+	SoundEngine::getInstance()->stopAllSounds();
 }
 
 bool Game::update(int deltaTime)
@@ -32,6 +35,11 @@ bool Game::update(int deltaTime)
 	}
 	else if(estat == JOC)
 	{
+		if (primerjoc) {
+			SoundEngine::getInstance()->stopAllSounds();
+			SoundEngine::getInstance()->playMainTheme();
+			primerjoc = false;
+		}
 		scene.update(deltaTime);
 		if (scene.getvidaPlayer() < 0.33f && estat != FI)
 		{
@@ -47,11 +55,16 @@ bool Game::update(int deltaTime)
 	}
 	else if (estat == FI)
 	{
+		if (primerfi) {
+			SoundEngine::getInstance()->stopAllSounds();
+			SoundEngine::getInstance()->playending();
+			primerfi = false;
+		}
 		if (Game::instance().getKey(GLFW_KEY_ENTER))
 		{
 			timer = 20;
-			estat = INICI;
-			start.init();
+			estat = JOC;
+			scene.init();
 		}
 	}
 	else if (estat == INST)

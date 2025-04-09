@@ -3,6 +3,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "Start.h"
 #include "Game.h"
+#include "SoundEngine.h"
 
 
 #define SCREEN_X 32
@@ -80,6 +81,7 @@ void Start::update(int deltaTime)
 	}
 	else if (counter2 <= 0 && enable2)
 	{
+		SoundEngine::getInstance()->playstart();
 		spritestart->changeAnimation(2);
 		enable2 = false;
 	}

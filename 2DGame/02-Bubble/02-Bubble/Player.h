@@ -50,6 +50,7 @@ private:
 	bool collisionPlantes();
 	bool collisionBoss();
 	void collisionPowerups();
+	void sons();
 
 
 private:
@@ -105,6 +106,9 @@ private:
 	bool comença_timer = false;
 
 	int timergod = 100;
+	int timers = 20;
+	bool primers = true;
+	bool primerb = true;
 };
 
 

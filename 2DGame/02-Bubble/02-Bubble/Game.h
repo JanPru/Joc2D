@@ -7,6 +7,8 @@
 #include "Start.h"
 #include "Fin.h"
 #include "Instruccions.h"
+#include <string>
+#include "SoundEngine.h"	
 
 
 #define SCREEN_WIDTH 640
@@ -46,6 +48,7 @@ public:
 
 	void startturn();
 	bool isgodmode();
+	void playsound(std::string sound);
 
 private:
 	bool bPlay; // Continue to play game?
@@ -64,6 +67,9 @@ private:
 	int timeri;
 
 	bool godmode;
+
+	bool primerjoc = true;
+	bool primerfi = true;
 
 };
 
